@@ -1,0 +1,48 @@
+package basedatos;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class WriteLoad {
+	
+
+
+    public static void WriteLoad(String[] args) {
+        // Paso 3: Establecer la conexión con la base de datos
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:mi_base_de_datos.db");
+
+            // Paso 4: Crear una tabla (si no existe)
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, correo TEXT)";
+            try (PreparedStatement statement = connection.prepareStatement(createTableSQL)) {
+                statement.executeUpdate();
+            }
+
+            // Paso 5: Insertar datos en la tabla
+            String insertDataSQL = "INSERT INTO usuarios (nombre, correo) VALUES (?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(insertDataSQL)) {
+                statement.setString(1, "EjemploUsuario");
+                statement.setString(2, "usuario@example.com");
+                statement.executeUpdate();
+            }
+
+            System.out.println("Datos insertados correctamente en la base de datos.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Paso 6: Cerrar la conexión
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+        }
+      
+    }
+}
+
+
