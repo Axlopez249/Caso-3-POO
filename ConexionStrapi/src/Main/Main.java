@@ -1,91 +1,79 @@
 package Main;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class Main {
-	
 
     public static void main(String[] args) {
-	
-    	Observar("http://localhost:1337/api/casos");
-    	Agregar(1234, "tsolano@gmail.com");
-    	Observar("http://localhost:1337/api/casos");
+        // URL de la API de Strapi
+        String apiUrl = "http://localhost:1337/api/pruebas";
+        /*
+        // Realizar una solicitud GET para obtener datos
+        String getResponse = enviarGET(apiUrl);
+        System.out.println("Datos obtenidos de Strapi (GET):");
+        System.out.println(getResponse);
+*/
+        // Realizar una solicitud POST para agregar una nueva entrada
+        
+        
+        //A la hora de formar el json tambien lo podemos hacer dentro de la funcion para solo 
+        //llamar a la funcion con los datos a guardar
+        
+        String jsonData = "{\"data\":{\"Name\":\"nuevoNombre2\",\"Code\":67863}}";
+        String postResponse = enviarPOST(apiUrl, jsonData);
+        System.out.println("Respuesta del servidor (POST):");
+        System.out.println(postResponse);
+        
     }
-    
-    public static void Observar(String url) {
-        OkHttpClient cliente = new OkHttpClient();
 
-        Request solicitud = new Request.Builder()
-            .url(url)
-            .get()
-            .build();
-
+    public static String enviarGET(String apiUrl) {
+        StringBuilder response = new StringBuilder();
         try {
-            Response respuesta = cliente.newCall(solicitud).execute();
-            
-            if (respuesta.isSuccessful()) {
-                ResponseBody cuerpo = respuesta.body();
-                String datos = cuerpo.string();
-                System.out.println("Datos obtenidos de Strapi: ");
-                System.out.println(datos);
-            } else {
-                System.out.println("La solicitud a Strapi falló");
-            }
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
-            respuesta.close();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return response.toString();
     }
-    
-    public static void Agregar(int SecretCode, String Email) {
-    	OkHttpClient cliente = new OkHttpClient();
 
-        // URL de la colección "Casos" en Strapi
-        String url = "http://localhost:1337/casos/auth/local/register"; // Asegúrate de que esta sea la URL correcta de tu colección
-
-        // Datos para la nueva entrada
-        String jsonBody = "{\"secretCode\": \"eosa\", \"Email\": \"correo@ejemplo.com\"}";
-
-        // Establecer el tipo de contenido JSON
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        RequestBody cuerpo = RequestBody.create(jsonBody, JSON);
-
-        // Token de acceso
-        String token = "cb104ff5c93e2ae92c2d17acf48f6a4653c19844a20871d8f0f74e6a57616aa10089362f92de8b1cdc5e29ff136cbe0973ec37daa700dcec17c79d4acd82d6ccb4d6ce8cb1b4c89399af66246ea8a2fb2f97df6b3cce59efa211edf07df3f6978e1122be37c7f1d707217a577bc4e4a237af9c477044cf5be7cc6ead1233617a";
-
-        // Crear la solicitud POST con el encabezado de autorización
-        Request solicitud = new Request.Builder()
-            .url(url)
-            .post(cuerpo)
-            .header("Authorization", "Bearer " + token)
-            .build();
-
+    public static String enviarPOST(String apiUrl, String postData) {
+        StringBuilder response = new StringBuilder();
         try {
-            Response respuesta = cliente.newCall(solicitud).execute();
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
 
-            if (respuesta.isSuccessful()) {
-                System.out.println("Nueva entrada creada exitosamente.");
-            } else {
-                System.out.println("La solicitud para crear una nueva entrada en Strapi ha fallado.");
-                System.out.println("Código de respuesta: " + respuesta.code());
-                System.out.println("Mensaje de error: " + respuesta.message());
-                System.out.println("Cuerpo de respuesta: " + respuesta.body().string());
+            OutputStream os = connection.getOutputStream();
+            os.write(postData.getBytes());
+            os.flush();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
             }
+            reader.close();
 
-            // Cierra la respuesta
-            respuesta.close();
+            connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return response.toString();
     }
 }

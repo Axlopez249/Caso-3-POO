@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Axel/Documents/annotations-13.0.jar">
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="lib" path="jar_files/okhttp-4.11.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Axel/Documents/kotlin-stdlib-1.6.20.jar">
+	<classpathentry kind="lib" path="jar_files/kotlin-stdlib-1.6.20.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Axel/Documents/kotlin-stdlib-common-1.6.20.jar">
+	<classpathentry kind="lib" path="jar_files/kotlin-stdlib-jdk7-1.6.20.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Axel/Documents/kotlin-stdlib-jdk7-1.6.20.jar">
+	<classpathentry kind="lib" path="jar_files/kotlin-stdlib-jdk8-1.6.20.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Axel/Documents/kotlin-stdlib-jdk8-1.6.20.jar">
+	<classpathentry kind="lib" path="jar_files/kotlin-stdlib-common-1.6.20.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Axel/Documents/okhttp-4.11.0.jar">
+	<classpathentry kind="lib" path="jar_files/okio-3.2.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Axel/Documents/okio-3.2.0.jar">
+	<classpathentry kind="lib" path="jar_files/okio-jvm-3.2.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Axel/Documents/okio-jvm-3.2.0.jar">
+	<classpathentry kind="lib" path="jar_files/annotations-13.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path=""/>
 </classpath>
