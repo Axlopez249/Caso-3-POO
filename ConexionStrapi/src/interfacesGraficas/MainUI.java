@@ -57,6 +57,7 @@ public class MainUI extends JFrame {
 		}
 	}
  */
+				verAsesores();
 			}
         });
         
@@ -79,7 +80,7 @@ public class MainUI extends JFrame {
         botonPlanes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				verFallas();
+				verPlan();
 			}
         });
         
@@ -95,6 +96,17 @@ public class MainUI extends JFrame {
 	private void generarCasos() {
 		CasoUI.main(null);
 	}
+	
+	private void verAsesores() {
+		this.dispose();
+		AsesorUI.main(null);
+	}
+
+	private void verPlan() {
+		this.dispose();
+		PlanEconomicoUI.main(null);
+	}
+	
 	
 	private void verHistorial() {
 		try {
