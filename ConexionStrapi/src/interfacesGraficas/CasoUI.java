@@ -11,13 +11,16 @@ import java.awt.event.ActionListener;
 
 
 public class CasoUI extends JFrame {
+	JTable table;
+	DefaultTableModel model;
+	public static CasoUI instance;
     public CasoUI() {
 		setTitle("Asesores en Agricultura");
 		setSize(1350, 725);
         
         getContentPane().setLayout(null);
         
-        DefaultTableModel model = new DefaultTableModel();
+        model = new DefaultTableModel();
         model.addColumn("Agricultor");
         model.addColumn("Teléfono agricultor");
         model.addColumn("Terreno disponible");
@@ -39,7 +42,7 @@ public class CasoUI extends JFrame {
 */
         model.addColumn("Estado");
         
-        JTable table = new JTable(model);
+        table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
 
         table.setBounds(10, 10, 200, 200);
@@ -113,11 +116,27 @@ public class CasoUI extends JFrame {
     	AgregarCasoUI.main(null);
     }
     
+    public JTable getTable() {
+    	return table;
+    }
+    
+    public void rellenarJTable(String pName, int pTelefono, String pTerreno, int pTerrenoDisponible, String pProvincia, boolean pProductosSembrados, int pCantidadSembrada, int pDeuda, int pDineroDisponible, int pIngresosActuales, int pGananciaAnoPasado, String pOrganizacion) {
+		model.addRow(new Object[]{pName, pTelefono, pTerreno, pTerrenoDisponible, pProvincia, pProductosSembrados, pCantidadSembrada, pDeuda, pDineroDisponible, pIngresosActuales, pGananciaAnoPasado, pOrganizacion});
+        table = new JTable(model);
+    }
+    
+    public static CasoUI getInstanceCasoUI() {
+    	if(instance == null) {
+    		instance = new CasoUI();
+    	}
+		return instance;
+    }
+    
 	public static void main(String args[]) {
 		
 		SwingUtilities.invokeLater(() -> {
 			//Crea una instancia de la clase UI que será usada para mostrar los elementos
-			CasoUI frame = new CasoUI();
+			CasoUI frame = CasoUI.getInstanceCasoUI();
 			//Establece que cuando se corra el java application se va a mostrar la ventana recién creada, si no se agregara 
 	        frame.setVisible(true);
 	    });
