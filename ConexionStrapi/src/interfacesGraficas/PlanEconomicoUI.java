@@ -50,7 +50,7 @@ public class PlanEconomicoUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				MainUI.main(null);
+				//MainUI.main(null);
 			}
         });
         
@@ -58,8 +58,9 @@ public class PlanEconomicoUI extends JFrame{
         agregarPaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				AgregarPasoUI.main(null);
+				//dispose();
+				AgregarPasoUI agregarPaso = new AgregarPasoUI();
+				agregarPaso.setVisible(true);
 			}
         });
         

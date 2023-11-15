@@ -46,22 +46,13 @@ public class MainUI extends JFrame {
         botonAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				verFallas();
-//				visitarFinca(objeto);	; Aquí  debería ir la llamada de un método
-/*
-	private void verHistorial() {
-		try {
-			HistorialUI.main(null);
-		} catch (Exception e) {
-	        JOptionPane.showMessageDialog(this, "Todavía no existe historial por mostrar.");
-		}
-	}
- */
+				AsesorUI ventanaAsesor = new AsesorUI();
+				ventanaAsesor.setVisible(true);
 			}
         });
         
         
-        JButton botonCaso = new JButton("Consultar casos");
+        JButton botonCaso = new JButton("Generar casos");
         
         botonCaso.setBounds(70, 240, 180, 75);
         
@@ -72,14 +63,15 @@ public class MainUI extends JFrame {
 			}
         });
         
-        JButton botonPlanes = new JButton("Consultar planes");
+        JButton botonPlanes = new JButton("Generar planes");
         
         botonPlanes.setBounds(270, 190, 180, 75);
         
         botonPlanes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				verFallas();
+				PlanEconomicoUI generadorPlan = new PlanEconomicoUI();
+				generadorPlan.setVisible(true);
 			}
         });
         

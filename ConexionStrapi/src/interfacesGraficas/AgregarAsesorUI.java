@@ -94,7 +94,7 @@ public class AgregarAsesorUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				AsesorUI.main(null);
+				//AsesorUI.main(null);
 			}
         });
 

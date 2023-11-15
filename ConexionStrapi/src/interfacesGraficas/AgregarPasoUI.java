@@ -85,7 +85,7 @@ public class AgregarPasoUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				PlanEconomicoUI.main(null);
+				//PlanEconomicoUI.main(null);
 			}
         });
 

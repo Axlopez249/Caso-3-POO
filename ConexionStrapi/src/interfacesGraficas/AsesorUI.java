@@ -48,15 +48,15 @@ public class AsesorUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				MainUI.main(null);
 			}
         });
 
         agregarAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				AgregarAsesorUI.main(null);
+				//dispose();
+				AgregarAsesorUI agregarAsesor = new AgregarAsesorUI();
+				agregarAsesor.setVisible(true);
 			}
         });
         

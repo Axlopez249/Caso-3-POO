@@ -53,7 +53,7 @@ public class FurtherInformation extends JFrame {
 			}
         });
         
-        botonSalir.setBounds(475, 550, 400, 100);
+        botonSalir.setBounds(475, 550, 300, 100);
         
         getContentPane().setLayout(new BorderLayout());
         JScrollPane panelDesplazamiento = new JScrollPane(table);
@@ -76,6 +76,8 @@ public class FurtherInformation extends JFrame {
                 }
             }
         });
+        //seleccionarButton.setBounds(510, 550, 300, 100);
+        //getContentPane().add(seleccionarButton);
 
     }
     
