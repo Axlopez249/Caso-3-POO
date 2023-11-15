@@ -74,8 +74,8 @@ public class ApiClientCaso {
         return response.toString();
     }
 	
-	public void getObject(int codigo) {
-		Caso terreno = null;
+	public Caso getObject(int codigo) {
+		Caso caso = null;
 	    try {
 	        // Construye la URL con el nombre buscado como parámetro de consulta
 	        String apiUrl = "http://localhost:1337/api/casos?idCaso" + URLEncoder.encode(String.valueOf(codigo), "UTF-8");
@@ -113,14 +113,18 @@ public class ApiClientCaso {
 	                int teleAgri = Integer.parseInt(attributesObject.getString("telefonoAgricultor"));
 	                String agricultor = attributesObject.getString("agricultor");
 	                String asesor = attributesObject.getString("Asesor");
-
+	                int idCaso = Integer.parseInt(attributesObject.getString("idCaso"));
+	                
 	                // Crea un nuevo objeto Agricultor con los datos obtenidos
 	                ApiClientAgricultor instanceAgricultor = ApiClientAgricultor.getInstance();
-	                instanceAgricultor.getObject(agricultor);
+	                Agricultor agricultorObject = instanceAgricultor.getObject(agricultor);
 	                
 	                ApiClientAsesor instanceAsesor = ApiClientAsesor.getInstance();
-	                instanceAsesor.getObject(asesor);
+	                Asesor asesorObject = instanceAsesor.getObject(asesor);
 	                
+	                caso = new Caso(idCaso, agricultorObject, teleAgri, asesorObject, provincia,
+	                teleAsesor, orga, fechaIngreso, estado);
+	          
 	            } else {
 	                System.out.println("No se encontraron datos para el codigo buscado: " + codigo);
 	            }
@@ -128,7 +132,7 @@ public class ApiClientCaso {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    //return terreno;
+	    return caso;
 	}
 	
 	
