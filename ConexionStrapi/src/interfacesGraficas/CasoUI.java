@@ -14,13 +14,13 @@ public class CasoUI extends JFrame {
 	JTable table;
 	DefaultTableModel model;
 	public static CasoUI instance;
-    public CasoUI() {
+	public CasoUI() {
 		setTitle("Asesores en Agricultura");
 		setSize(1350, 725);
         
         getContentPane().setLayout(null);
         
-        model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Agricultor");
         model.addColumn("Teléfono agricultor");
         model.addColumn("Terreno disponible");
@@ -42,12 +42,20 @@ public class CasoUI extends JFrame {
 */
         model.addColumn("Estado");
         
-        table = new JTable(model);
+        JTable table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
 
         table.setBounds(10, 10, 200, 200);
         
         JButton verInformacion = new JButton("Ver más");
+        
+        verInformacion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FurtherInformation();
+			}
+        });
+        
         JButton agregarCaso = new JButton("Agregar caso");
         
         agregarCaso.addActionListener(new ActionListener() {
@@ -74,7 +82,6 @@ public class CasoUI extends JFrame {
 				dispose();
 			}
         });
-        
         agregarCaso.setBounds(200, 550, 200, 100);
         verInformacion.setBounds(425, 550, 200, 100);
         planesXCaso.setBounds(650, 550, 200, 100);
@@ -123,6 +130,10 @@ public class CasoUI extends JFrame {
     public void rellenarJTable(String pName, int pTelefono, String pTerreno, int pTerrenoDisponible, String pProvincia, boolean pProductosSembrados, int pCantidadSembrada, int pDeuda, int pDineroDisponible, int pIngresosActuales, int pGananciaAnoPasado, String pOrganizacion) {
 		model.addRow(new Object[]{pName, pTelefono, pTerreno, pTerrenoDisponible, pProvincia, pProductosSembrados, pCantidadSembrada, pDeuda, pDineroDisponible, pIngresosActuales, pGananciaAnoPasado, pOrganizacion});
         table = new JTable(model);
+    }
+    
+    public void FurtherInformation() {
+    	FurtherInformation.main(null);
     }
     
     public static CasoUI getInstanceCasoUI() {
