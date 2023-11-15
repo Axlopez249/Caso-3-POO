@@ -12,7 +12,12 @@ import java.util.TimerTask;
 import java.util.ArrayList;
 
 public class MainUI extends JFrame {
+	private AsesorUI asesorui;
+	
 	public MainUI() {
+		
+		asesorui = new AsesorUI();
+        asesorui.setVisible(false);
 		
 		//Establecer título de la ventana
 		setTitle("Asesores en Agricultura");
@@ -46,8 +51,7 @@ public class MainUI extends JFrame {
         botonAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AsesorUI ventanaAsesor = new AsesorUI();
-				ventanaAsesor.setVisible(true);
+				asesorui.setVisible(true);
 			}
         });
         
@@ -81,11 +85,13 @@ public class MainUI extends JFrame {
         getContentPane().add(botonAsesor);
         getContentPane().add(botonCaso);
         getContentPane().add(botonPlanes);
+        
 
 	}
 	
 	private void generarCasos() {
-		CasoUI.main(null);
+		CasoUI generarCaso = new CasoUI();
+		generarCaso.setVisible(true);
 	}
 	
 	private void verHistorial() {

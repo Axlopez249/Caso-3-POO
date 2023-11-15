@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 public class AsesorUI extends JFrame{
+	private JTable table;
 	
 	public AsesorUI() {
 		
@@ -36,7 +38,7 @@ public class AsesorUI extends JFrame{
 	    model.addColumn("Casos completados");
 	    model.addColumn("Fecha de ingreso");
 	    
-	    JTable table = new JTable(model);
+	    table = new JTable(model);
 	    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
 
         table.setBounds(10, 10, 600, 600);
@@ -55,7 +57,7 @@ public class AsesorUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//dispose();
-				AgregarAsesorUI agregarAsesor = new AgregarAsesorUI();
+				AgregarAsesorUI agregarAsesor = new AgregarAsesorUI(AsesorUI.this);
 				agregarAsesor.setVisible(true);
 			}
         });
@@ -73,13 +75,24 @@ public class AsesorUI extends JFrame{
         setLocationRelativeTo(null);
 	}
 	
+	public void pintarTable(String nombre,double rating,  int id, String lugar, String correo, int experiencia, int cantidadCasos, Date fechaIngreso) {
+		// Obtener el modelo de la tabla
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+	    // Agregar una nueva fila con la información proporcionada
+	    model.addRow(new Object[]{nombre, id, lugar, correo, experiencia, rating, cantidadCasos, fechaIngreso});
+
+	    // Refrescar la tabla
+	    table.repaint();
+	}
 	
 	
+	/*
 	public static void main(String args[]) {
 
 		SwingUtilities.invokeLater(() -> {
 			AsesorUI frame = new AsesorUI();
 			frame.setVisible(true);
 	    });
-	}
+	}*/
 }
