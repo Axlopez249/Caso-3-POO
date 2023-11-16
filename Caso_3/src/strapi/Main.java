@@ -17,19 +17,19 @@ import interfacesGraficas.VentanaInicialUI;
 
 public class Main {
 	
-	public static AgregarAsesorUI AAsesorUI = new AgregarAsesorUI();
 	public static AgregarCasoUI ACasoUI = new AgregarCasoUI();
 	public static AgregarPasoUI APasoUI = new AgregarPasoUI();
 	public static RevisarPlanesUI RevisarPlanesUI = new RevisarPlanesUI();
 	public static VentanaInicialUI Ventana = new VentanaInicialUI();
 	public static AsesorUI AsesorUI = new AsesorUI();
+	public static AgregarAsesorUI AAsesorUI = new AgregarAsesorUI(AsesorUI);
 	public static CasoUI CasoUI = new CasoUI();
 	public static PlanEconomicoUI PlanEconomicoUI = new PlanEconomicoUI();
 	public static FurtherInformationUI VerMasUI = new FurtherInformationUI();
 
     public static void main(String[] args) {
 
-    	Date fecha = new Date("12/10/2023");
+    	/*Date fecha = new Date("12/10/2023");
         
         Terreno terreno = new Terreno("Arido", false, true, false, 10.675, "Pedro Morales");
         Producto producto = new Producto("Papa", true, fecha, 12, "Pedro Morales");
@@ -55,7 +55,7 @@ public class Main {
         
         verCaso(casoResultado);
         verAgricultor(casoResultado.getAgricultor());
-        verAsesor(casoResultado.getAsesor());
+        verAsesor(casoResultado.getAsesor());*/
 
         Ventana.setVisible(true);
     }

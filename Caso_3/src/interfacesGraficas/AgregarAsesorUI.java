@@ -3,18 +3,21 @@ package interfacesGraficas;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import ControllersGUI.ControllerAsesor;
 import strapi.Main;
 
 public class AgregarAsesorUI extends JFrame {
-	public AgregarAsesorUI() {
+	public AgregarAsesorUI(AsesorUI tablaAsesores) {
 		
 		setTitle("Agregar Asesor");
         setSize(380, 560); // Set the desired size
@@ -100,6 +103,43 @@ public class AgregarAsesorUI extends JFrame {
         });
 
         btnAgregarAsesor.setBounds(30, 440, 130, 50);
+        
+        btnAgregarAsesor.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Tienene que haber un tipo de seguridad a la hora de tomar los datos
+				//puede ser en el mismo controller de esta clase
+
+				//Primero saco la info de cata jtxt
+				try {
+					String nombre = txtNombre.getText();
+					int id = Integer.parseInt(txtId.getText());
+					String lugar = txtLugar.getText();
+					String correo = txtCorreo.getText();
+					int experiencia = Integer.parseInt(txtExperiencia.getText());
+					int cantidadCasos = Integer.parseInt(txtCasos.getText());
+					Date fechaIngreso = new Date(txtFecha.getText());
+					double rating = Double.parseDouble(txtRating.getText());
+					ControllerAsesor controller = new ControllerAsesor(nombre,rating, id, lugar, correo, experiencia, cantidadCasos, fechaIngreso, tablaAsesores);
+					controller.actualizarTablaAsesores();
+				} catch (Exception e1) {
+				    // Captura la excepción si hay un error al convertir a int o double
+				    JOptionPane.showMessageDialog(null, "Uno de los contenidos no corresponde");
+				}
+				txtNombre.setText("");
+				txtId.setText("");
+				txtLugar.setText("");
+				txtCorreo.setText("");
+				txtExperiencia.setText("");
+				txtCasos.setText("");
+				txtFecha.setText("");
+				txtRating.setText("");
+
+				Main.AsesorUI.setVisible(true);
+				dispose();
+			}
+        });
+        
         btnCancelar.setBounds(180, 440, 130, 50);
         
         getContentPane().add(btnAgregarAsesor);

@@ -76,6 +76,9 @@ public class AsesorUI extends JFrame{
         setLocationRelativeTo(null);
 	}
 
+	public JTable getTable() {
+		return table;
+	}
 	
 	public void pintarTable(String nombre,double rating,  int id, String lugar, String correo, int experiencia, int cantidadCasos, Date fechaIngreso) {
 		// Obtener el modelo de la tabla
