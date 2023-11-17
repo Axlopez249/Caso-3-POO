@@ -17,13 +17,14 @@ import interfacesGraficas.VentanaInicialUI;
 
 public class Main {
 	
-	public static AgregarCasoUI ACasoUI = new AgregarCasoUI();
+	
 	public static AgregarPasoUI APasoUI = new AgregarPasoUI();
 	public static RevisarPlanesUI RevisarPlanesUI = new RevisarPlanesUI();
 	public static VentanaInicialUI Ventana = new VentanaInicialUI();
 	public static AsesorUI AsesorUI = new AsesorUI();
 	public static AgregarAsesorUI AAsesorUI = new AgregarAsesorUI(AsesorUI);
 	public static CasoUI CasoUI = new CasoUI();
+	public static AgregarCasoUI ACasoUI = new AgregarCasoUI(CasoUI);
 	public static PlanEconomicoUI PlanEconomicoUI = new PlanEconomicoUI();
 	public static FurtherInformationUI VerMasUI = new FurtherInformationUI();
 

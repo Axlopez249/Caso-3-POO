@@ -1,11 +1,11 @@
 package interfacesGraficas;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import strapi.Main;
+import strapi.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 
 
 public class CasoUI extends JFrame {
+	private JTable table;
     public CasoUI() {
 		setTitle("Asesores en Agricultura");
 		setSize(1350, 725);
@@ -32,7 +33,7 @@ public class CasoUI extends JFrame {
 //        model.addColumn("Ingresos actuales");
 //        model.addColumn("Ganancia (año pasado)");
         model.addColumn("Organización representante");
-        model.addColumn("Fecha de ingreso de caso");
+//        model.addColumn("Fecha de ingreso de caso");
 /*
         model.addColumn("Asesor");
         model.addColumn("Provincia");
@@ -41,7 +42,7 @@ public class CasoUI extends JFrame {
 */
         model.addColumn("Estado");
         
-        JTable table = new JTable(model);
+        table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
 
         table.setBounds(10, 10, 200, 200);
@@ -60,7 +61,7 @@ public class CasoUI extends JFrame {
         agregarCaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.ACasoUI.setVisible(true);
+			Main.ACasoUI.setVisible(true);
 				dispose();
 			}
         });
@@ -117,5 +118,21 @@ public class CasoUI extends JFrame {
 
         setLocationRelativeTo(null);
     }
+    
+	public JTable getTable() {
+		return table;
+	}
+	
+	public void pintarTable(String nombre, int numero, int terrenoDisponible, String tipoDeTerreno, String provincia, int deuda, int dineroDisponible, String organizacion) {
+//		JTable tabla2 = getTable();
+		// Obtener el modelo de la tabla
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+	    // Agregar una nueva fila con la información proporcionada
+	    model.addRow(new Object[]{nombre, terrenoDisponible, tipoDeTerreno, provincia, deuda, dineroDisponible, organizacion});
+
+	    // Refrescar la tabla
+	    table.repaint();
+	}
 
 }
