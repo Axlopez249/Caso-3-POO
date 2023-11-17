@@ -8,6 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="javax.json-1.1.4.jar"/>
 	<classpathentry kind="lib" path="javax.json-api-1.1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Axel/Downloads/gson-2.8.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Axel/Documents/Rodrigo/Caso3POO/Caso-3-POO/Caso_3/gson-2.8.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
