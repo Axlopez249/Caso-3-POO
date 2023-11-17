@@ -13,11 +13,15 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
 
+import com.google.gson.Gson;
+
 import clasesLogicas.*;
 
 public class ApiClientAgricultor {
 	private static ApiClientAgricultor instanceAgricultor = new ApiClientAgricultor();
 	private static String apiUrl;
+	private ArrayList<Agricultor> agricultores = new ArrayList<>();
+	
 	
 	private ApiClientAgricultor() {
 		apiUrl = "http://localhost:1337/api/agricultors";
@@ -28,55 +32,45 @@ public class ApiClientAgricultor {
 	}
 	
 
-	public String enviarPOST(Agricultor agricultor) {
+	public void enviarPOST(Agricultor agricultor) {
+		ObjetoTempoAgri temp = new ObjetoTempoAgri(agricultor.getNombre(),agricultor.getId(), agricultor.getDinero(), agricultor.getDeuda());
 		
-		//Aqui se estaria guardando el registro correspondiente en la coleccion de agricultores
-		String postData = "{\"data\":{\"nombre\":\"" + agricultor.getNombre() + "\",\"idAgricultor\":" + 
-		agricultor.getId() + ",\"deuda\":" + agricultor.getDeuda() + ",\"dinero\":" + agricultor.getDinero() +"}}";
+		String postData = null;
+		try {
+		    Gson gson = new Gson();
+		    DataWrapper<ObjetoTempoAgri> terrenoWrapper = new DataWrapper<>(temp);
+		    String jsonData = gson.toJson(terrenoWrapper);
 
-		//Como esa clase tiene mas informacion a guardar lo hacemos en otras colecciones utilizando otras instancias
-		//unicas para realizar el almacenamiento
-		ApiClientProducto instanceProduct = ApiClientProducto.getInstance();
-		instanceProduct.enviarPOST(agricultor.getProducto());
+		    // Si deseas imprimir el JSON resultante
+		    System.out.println("JSON resultante: " + jsonData);
 
-		ApiClientTerreno instanceTerreno = ApiClientTerreno.getInstance();
-		instanceTerreno.enviarPOST(agricultor.getTerreno());
-
-		
-		
+		    postData = jsonData;
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 
         StringBuilder response = new StringBuilder();
-        try {
-        	
-            URL url = new URL(apiUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-
-            OutputStream os = connection.getOutputStream();
-            os.write(postData.getBytes());
-            os.flush();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-
-            connection.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.toString();
+        CuerpoPost cuerpo = new CuerpoPost(response, postData, apiUrl);
+        
+        ApiClientTerreno terre = ApiClientTerreno.getInstance();
+        ApiClientProducto pro = ApiClientProducto.getInstance();
+        
+        
+        for (Terreno terreno : agricultor.getTerrenos()) {
+        	terre.enviarPOST(terreno);
+		}  
+        for (Producto producto : agricultor.getProductos()) {
+        	pro.enviarPOST(producto);
+		}
+        
+        
     }
 	
-	public Agricultor getObject(String nombreBuscado) {
-        Agricultor agricultor = null;
+	public void getObject() {
+		ArrayList<Agricultor> agricultores = new ArrayList<>();
         try {
             // Construye la URL con el nombre buscado como parámetro de consulta
-            String apiUrl = "http://localhost:1337/api/agricultors?nombre=" + URLEncoder.encode(nombreBuscado, "UTF-8");
+            String apiUrl = "http://localhost:1337/api/agricultors";
             URL url = new URL(apiUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -97,9 +91,9 @@ public class ApiClientAgricultor {
                 JsonArray dataArray = jsonObject.getJsonArray("data");
 
                 // Si hay al menos un objeto en el array 'data'
-                if (dataArray.size() > 0) {
-                    JsonObject firstObject = dataArray.getJsonObject(0);
-                    JsonObject attributesObject = firstObject.getJsonObject("attributes");
+                for (int i = 0; i < dataArray.size(); i++) {
+	                JsonObject currentObject = dataArray.getJsonObject(i);
+	                JsonObject attributesObject = currentObject.getJsonObject("attributes");
 
                     // Obtiene los valores de los campos necesarios del objeto JSON
                     String nombre = attributesObject.getString("nombre");
@@ -108,27 +102,38 @@ public class ApiClientAgricultor {
                     int idAgricultor = Integer.parseInt(attributesObject.getString("idAgricultor"));
 
                     ApiClientTerreno instanceTerreno = ApiClientTerreno.getInstance();
-                    Terreno terreno = instanceTerreno.getObject(nombre);
-                    ApiClientProducto instanceProducto = ApiClientProducto.getInstance();
-                    Producto producto = instanceProducto.getObject(nombre);
+                    instanceTerreno.getObjects();
                     
-                    agricultor = new Agricultor(nombre, idAgricultor, dinero, deuda, terreno, producto);
-                } else {
-                    System.out.println("No se encontraron datos para el nombre buscado: " + nombreBuscado);
-                }
+                    ApiClientProducto instanceProducto = ApiClientProducto.getInstance();
+                    instanceProducto.getObjects();
+                    
+                    Agricultor agricultor = new Agricultor(nombre, idAgricultor, dinero, deuda, instanceTerreno.getExtraerTerrenoEspecifico(nombre),
+                    		instanceProducto.getExtraerProductoEspecifico(nombre));
+                    agricultores.add(agricultor);
+                } 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return agricultor;
+        this.agricultores = agricultores;
     }
+
+	public ArrayList<Agricultor> getAgricultores() {
+		return agricultores;
+	}
 		
 
-	
-	
-	public ArrayList<Pago> getListObject() {
-		//Logica para crear el objeto con la informacion
-		ArrayList<Pago> listaPagos = new ArrayList<>();
-		return listaPagos;
+	public Agricultor getAgricultorespecifico(String nombre){
+		Agricultor currentAgricultor = null;
+
+		for (Agricultor agricultor : agricultores) {
+			if (nombre.equals(agricultor.getNombre())) {
+				currentAgricultor = agricultor; 
+			}
+		}
+		return currentAgricultor;
+		
 	}
+	
+
 }

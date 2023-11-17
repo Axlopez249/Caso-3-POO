@@ -15,12 +15,15 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
+import com.google.gson.Gson;
+
 import clasesLogicas.*;
 
 public class ApiClientCaso {
 
 	private static ApiClientCaso instanceCaso = new ApiClientCaso();
 	private static String apiUrl;
+	private ArrayList<Caso> casos;
 	
 	private ApiClientCaso() {
 		apiUrl = "http://localhost:1337/api/casos";
@@ -31,54 +34,41 @@ public class ApiClientCaso {
 	}
 	
 
-	public String enviarPOST(Caso caso) {
+	public void enviarPOST(Caso caso) {
+		ObjetoTempoCaso temp = new ObjetoTempoCaso(caso.getIdCaso(), caso.getTelefonoAgricultor(),
+				caso.getProvincia(), caso.getTelefonoAsesor(), caso.getOrganiRepresentante(), caso.getFechaIngreso(), caso.getEstado());
 		
-		//Aqui se estaria guardando el registro correspondiente en la coleccion de agricultores
-		String postData = "{\"data\":{\"telefonoAgricultor\":" + caso.getTelefonoAgricultor() +
-                ",\"Provincia\":\"" + caso.getProvincia() + "\",\"telefonoAsesor\":" +
-                caso.getTelefonoAsesor() + ",\"organizacionRepresentante\":\"" +
-                caso.getOrganiRepresentante() + "\",\"fechaIngreso\":\"" +
-                getFecha(caso.getFechaIngreso()) + "\",\"Estado\":\"" + caso.getEstado() + "\",\"idCaso\":" + caso.getIdCaso() +
-                ",\"agricultor\":\"" + caso.getAgricultor().getNombre() + "\",\"Asesor\":\"" + caso.getAsesor().getNombre() + "\"}}";
+		String postData = null;
+		try {
+		    Gson gson = new Gson();
+		    DataWrapper<ObjetoTempoCaso> terrenoWrapper = new DataWrapper<>(temp);
+		    String jsonData = gson.toJson(terrenoWrapper);
 
-		ApiClientAgricultor agricultorStrapi = ApiClientAgricultor.getInstance();
-        agricultorStrapi.enviarPOST(caso.getAgricultor());
-        
-        ApiClientAsesor asesorStrapi = ApiClientAsesor.getInstance();
-        asesorStrapi.enviarPOST(caso.getAsesor());
-		
+		    // Si deseas imprimir el JSON resultante
+		    System.out.println("JSON resultante: " + jsonData);
+
+		    postData = jsonData;
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+
         StringBuilder response = new StringBuilder();
-        try {
-        	
-            URL url = new URL(apiUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-
-            OutputStream os = connection.getOutputStream();
-            os.write(postData.getBytes());
-            os.flush();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-
-            connection.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.toString();
+        CuerpoPost cuerpo = new CuerpoPost(response, postData, apiUrl);
+        
+        ApiClientAsesor asesorInstance = ApiClientAsesor.getInstance();
+        asesorInstance.enviarPOST(caso.getAsesor());
+        
+        ApiClientAgricultor agriInstance = ApiClientAgricultor.getInstance();
+        agriInstance.enviarPOST(caso.getAgricultor());
+        
+        
     }
 	
-	public Caso getObject(int codigo) {
-		Caso caso = null;
+	public void getObject() {
+		ArrayList<Caso> casos = new ArrayList<>();
 	    try {
 	        // Construye la URL con el nombre buscado como parámetro de consulta
-	        String apiUrl = "http://localhost:1337/api/casos?idCaso" + URLEncoder.encode(String.valueOf(codigo), "UTF-8");
+	        String apiUrl = "http://localhost:1337/api/casos";
 	        URL url = new URL(apiUrl);
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	        connection.setRequestMethod("GET");
@@ -99,9 +89,9 @@ public class ApiClientCaso {
 	            JsonArray dataArray = jsonObject.getJsonArray("data");
 
 	            // Si hay al menos un objeto en el array 'data'
-	            if (dataArray.size() > 0) {
-	                JsonObject firstObject = dataArray.getJsonObject(0);
-	                JsonObject attributesObject = firstObject.getJsonObject("attributes");
+	            for (int i = 0; i < dataArray.size(); i++) {
+	                JsonObject currentObject = dataArray.getJsonObject(i);
+	                JsonObject attributesObject = currentObject.getJsonObject("attributes");
 	                
 	                
 	                // Obtiene los valores de los campos necesarios del objeto JSON
@@ -117,45 +107,42 @@ public class ApiClientCaso {
 	                
 	                // Crea un nuevo objeto Agricultor con los datos obtenidos
 	                ApiClientAgricultor instanceAgricultor = ApiClientAgricultor.getInstance();
-	                Agricultor agricultorObject = instanceAgricultor.getObject(agricultor);
+	                instanceAgricultor.getObject();
 	                
 	                ApiClientAsesor instanceAsesor = ApiClientAsesor.getInstance();
-	                Asesor asesorObject = instanceAsesor.getObject(asesor);
+	                instanceAsesor.getObject();
 	                
-	                caso = new Caso(idCaso, agricultorObject, teleAgri, asesorObject, provincia,
+	                Caso caso = new Caso(idCaso, instanceAgricultor.getAgricultorespecifico(agricultor), teleAgri,
+	                		instanceAsesor.extraerTerrenoEspecifico(asesor), provincia,
 	                teleAsesor, orga, fechaIngreso, estado);
+	                
+	                casos.add(caso);
 	          
-	            } else {
-	                System.out.println("No se encontraron datos para el codigo buscado: " + codigo);
 	            }
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return caso;
+	    this.casos = casos;
 	}
 	
-	
-	public ArrayList<Pago> getListObject() {
-		//Logica para crear el objeto con la informacion
-		ArrayList<Pago> listaPagos = new ArrayList<>();
-		return listaPagos;
+	public ArrayList<Caso> getCasos() {
+		return casos;
 	}
-	
-	public static String getFecha(Date fecha) {
 		
-		Date fechaActual = new Date();
 
-        // Define el formato de fecha que deseas
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+	public Caso getCasoEspecifico(int code){
+		Caso currentCaso = null;
 
-        // Convierte la fecha a un String en el formato deseado
-        String fechaFormateada = formato.format(fechaActual);
-
-        // Imprime la fecha formateada
-        
-        return fechaFormateada;
+		for (Caso caso : casos) {
+			if (code == caso.getIdCaso()) {
+				currentCaso = caso;
+			}
+		}
+		return currentCaso;
+		
 	}
+	
 }
 
 

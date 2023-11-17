@@ -1,13 +1,13 @@
-package clasesLogicas;
+package strapi;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-public class Caso {
+import clasesLogicas.Agricultor;
+import clasesLogicas.Asesor;
+
+public class ObjetoTempoCaso {
 	private int idCaso;
-	private Agricultor agricultor;
 	private int telefonoAgricultor;
-	private Asesor asesor;
 	private String provincia;
 	private int telefonoAsesor;
 	private String organiRepresentante;
@@ -15,12 +15,10 @@ public class Caso {
 	private String estado;
 	
 	
-	public Caso(int idCaso, Agricultor agricultor, int telefonoAgricultor, Asesor asesor, String provincia,
+	public ObjetoTempoCaso(int idCaso, int telefonoAgricultor, String provincia,
 			int telefonoAsesor, String organiRepresentante, Date fechaIngreso, String estado) {
 		this.idCaso = idCaso;
-		this.agricultor = agricultor;
 		this.telefonoAgricultor = telefonoAgricultor;
-		this.asesor = asesor;
 		this.provincia = provincia;
 		this.telefonoAsesor = telefonoAsesor;
 		this.organiRepresentante = organiRepresentante;
@@ -33,21 +31,9 @@ public class Caso {
 		return idCaso;
 	}
 
-
-	public Agricultor getAgricultor() {
-		return agricultor;
-	}
-
-
 	public int getTelefonoAgricultor() {
 		return telefonoAgricultor;
 	}
-
-
-	public Asesor getAsesor() {
-		return asesor;
-	}
-
 
 	public String getProvincia() {
 		return provincia;
@@ -72,7 +58,6 @@ public class Caso {
 	public String getEstado() {
 		return estado;
 	}
-	
 	
 	
 	

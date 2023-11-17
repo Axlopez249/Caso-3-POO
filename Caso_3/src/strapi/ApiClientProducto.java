@@ -6,14 +6,18 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+
+import com.google.gson.Gson;
 
 import clasesLogicas.*;
 
@@ -21,6 +25,7 @@ public class ApiClientProducto {
 
 	private static ApiClientProducto instanceProducto = new ApiClientProducto();
 	private static String apiUrl;
+	private ArrayList<Producto> productos;
 	
 	private ApiClientProducto() {
 		apiUrl = "http://localhost:1337/api/productos";
@@ -31,45 +36,31 @@ public class ApiClientProducto {
 	}
 	
 
-	public static String enviarPOST(Producto producto) {
+	public void enviarPOST(Producto producto) {
 		
-		//Aqui se estaria guardando el registro correspondiente en la coleccion de agricultores
-		String postData = "{\"data\":{\"nombre\":\"" + producto.getNombre() + "\",\"productor\":\"" + producto.getProductor() + 
-				"\",\"abonado\":" + producto.isAbonado() + ",\"caducidad\":\"" + getFecha(producto.getCaducidad()) +
-				"\",\"cantidad\":" + producto.getCantidad() + "}}";
+		String postData = null;
+		try {
+		    Gson gson = new Gson();
+		    DataWrapper<Producto> terrenoWrapper = new DataWrapper<>(producto);
+		    String jsonData = gson.toJson(terrenoWrapper);
+
+		    // Si deseas imprimir el JSON resultante
+		    System.out.println("JSON resultante: " + jsonData);
+
+		    postData = jsonData;
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 
         StringBuilder response = new StringBuilder();
-        try {
-        	
-            URL url = new URL(apiUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-
-            OutputStream os = connection.getOutputStream();
-            os.write(postData.getBytes());
-            os.flush();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-
-            connection.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.toString();
+        CuerpoPost cuerpo = new CuerpoPost(response, postData, apiUrl);
     }
 	
-	public Producto getObject(String productor) {
-	    Producto producto = null;
+	public void getObjects() {
+	    ArrayList<Producto> productos = new ArrayList<>();
 	    try {
 	        // Construye la URL con el nombre buscado como parámetro de consulta
-	        String apiUrl = "http://localhost:1337/api/productos?productor=" + URLEncoder.encode(productor, "UTF-8");
+	        String apiUrl = "http://localhost:1337/api/productos";
 	        URL url = new URL(apiUrl);
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	        connection.setRequestMethod("GET");
@@ -90,49 +81,53 @@ public class ApiClientProducto {
 	            JsonArray dataArray = jsonObject.getJsonArray("data");
 
 	            // Si hay al menos un objeto en el array 'data'
-	            if (dataArray.size() > 0) {
-	                JsonObject firstObject = dataArray.getJsonObject(0);
-	                JsonObject attributesObject = firstObject.getJsonObject("attributes");
-	                
-	                
-	                // Obtiene los valores de los campos necesarios del objeto JSON
-	                boolean abonado = attributesObject.getBoolean("abonado");
-	                int cantidad = attributesObject.getInt("cantidad");
-	                Date caducidad = new Date(attributesObject.getString("caducidad"));
-	                String nombre = attributesObject.getString("nombre");
-	                
+	            for (int i = 0; i < dataArray.size(); i++) {
+	                JsonObject currentObject = dataArray.getJsonObject(i);
+	                JsonObject attributesObject = currentObject.getJsonObject("attributes");
 
-	                // Crea un nuevo objeto Agricultor con los datos obtenidos
-	                producto = new Producto(nombre, abonado, caducidad, cantidad, productor);
-	            } else {
-	                System.out.println("No se encontraron datos para el productor buscado: " + productor);
+	                // Obtiene los valores de los campos necesarios del objeto JSON
+	                String fechaStr = attributesObject.getString("caducidad");
+	                String nombre = attributesObject.getString("nombre");
+		             // Limpiar la cadena eliminando el "?" y cualquier espacio adicional
+		             fechaStr = fechaStr.replace("?", "").trim();
+	
+		             // Patrón que coincide con el formato proporcionado
+		             SimpleDateFormat formatoFecha = new SimpleDateFormat("MMM dd, yyyy, HH:mm:ss", Locale.ENGLISH);
+		             Date fecha = null;
+		             try {
+		                 // Parsear la cadena de fecha a un objeto Date
+		                 fecha = formatoFecha.parse(fechaStr);
+	
+		                 // Imprimir la fecha para verificar
+		                 //System.out.println("Fecha parseada: " + fecha);
+		             } catch (ParseException e) {
+		                 e.printStackTrace();
+		             }
+
+	                // Crea un nuevo objeto Producto con los datos obtenidos
+	                Producto producto = new Producto(attributesObject.getString("nombre"), attributesObject.getBoolean("abonado"), fecha, Integer.parseInt(attributesObject.getString("cantidad")), nombre);
+	                productos.add(producto);
 	            }
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return producto;
+	    this.productos = productos;
 	}
+
 	
-	
-	public ArrayList<Pago> getListObject() {
-		//Logica para crear el objeto con la informacion
-		ArrayList<Pago> listaPagos = new ArrayList<>();
-		return listaPagos;
+	public ArrayList<Producto> getExtraerProductoEspecifico(String productor) {
+		ArrayList<Producto> productosEspecificos = null;
+		//Aqui se va a retornar una lista de terrenos que pertenecen a un dueño inclusive siendo solo uno
+		for (Producto producto : productos) {
+			if (productor.equals(producto.getProductor())) {
+				productosEspecificos.add(producto);
+			}
+		}
+		return productosEspecificos;
 	}
-	
-	public static String getFecha(Date fecha) {
-		
-		Date fechaActual = new Date();
 
-        // Define el formato de fecha que deseas
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
-        // Convierte la fecha a un String en el formato deseado
-        String fechaFormateada = formato.format(fechaActual);
-
-        // Imprime la fecha formateada
-        
-        return fechaFormateada;
+	public ArrayList<Producto> getProductos() {
+		return productos;
 	}
 }

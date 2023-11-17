@@ -71,7 +71,7 @@ public class Main {
         System.out.println("Provincia: " + c.getProvincia());
         System.out.println("Fecha de inicio: " + c.getFechaIngreso());
     }
-    
+    /*
     public static void verAgricultor(Agricultor a) {
 
         System.out.println("====================");
@@ -89,7 +89,7 @@ public class Main {
         System.out.println("Caducidad: " + a.getProducto().getCaducidad());
         System.out.println("Cantidad: " + Integer.toString(a.getProducto().getCantidad()));
         
-    }
+    }*/
     
     public static void verAsesor(Asesor a) {
     	System.out.println("====================");

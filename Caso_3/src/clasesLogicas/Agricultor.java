@@ -1,21 +1,22 @@
 package clasesLogicas;
 
+import java.util.ArrayList;
 
 public class Agricultor {
 	private String nombre;
-	private int id;
+	private int idAgricultor;
 	private double dinero;
 	private double deuda;
-	private Terreno terreno;
-	private Producto producto;
+	private ArrayList<Terreno> terrenos;
+	private ArrayList<Producto> productos;
 	
-	public Agricultor(String nombre, int id, double dinero, double deuda, Terreno terreno, Producto producto) {
+	public Agricultor(String nombre, int idAgricultor, double dinero, double deuda, ArrayList<Terreno> terrenos, ArrayList<Producto> productos) {
 		this.nombre = nombre;
-		this.id = id;
+		this.idAgricultor = idAgricultor;
 		this.dinero = dinero;
 		this.deuda = deuda;
-		this.terreno = terreno;
-		this.producto = producto;
+		this.terrenos = terrenos;
+		this.productos = productos;
 	}
 
 	public String getNombre() {
@@ -23,7 +24,7 @@ public class Agricultor {
 	}
 
 	public int getId() {
-		return id;
+		return idAgricultor;
 	}
 
 	public double getDinero() {
@@ -34,12 +35,12 @@ public class Agricultor {
 		return deuda;
 	}
 
-	public Terreno getTerreno() {
-		return terreno;
+	public ArrayList<Terreno> getTerrenos() {
+		return terrenos;
 	}
 
-	public Producto getProducto() {
-		return producto;
+	public ArrayList<Producto> getProductos() {
+		return productos;
 	}
 	
 	

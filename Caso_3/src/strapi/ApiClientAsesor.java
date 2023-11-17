@@ -6,14 +6,18 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+
+import com.google.gson.Gson;
 
 import clasesLogicas.*;
 
@@ -21,6 +25,7 @@ public class ApiClientAsesor{
 
 	private static ApiClientAsesor instanceAsesor = new ApiClientAsesor();
 	private static String apiUrl;
+	private ArrayList<Asesor> asesores= new ArrayList<>();
 	
 	private ApiClientAsesor() {
 		apiUrl = "http://localhost:1337/api/asesors";
@@ -30,46 +35,31 @@ public class ApiClientAsesor{
 		return instanceAsesor;
 	}
 	
-	public String enviarPOST(Asesor asesor) {
+	public void enviarPOST(Asesor asesor) {
 		
-		//Aqui se estaria guardando el registro correspondiente en la coleccion de agricultores
-		String postData = "{\"data\":{\"nombre\":\"" + asesor.getNombre() + "\",\"lugar\":\"" +
-				asesor.getLugar() + "\",\"correo\":\"" + asesor.getCorreo() + "\",\"experiencia\":" +
-				asesor.getExperiencia() + ",\"cantCasos\":" + asesor.getCantCasos() + ",\"fechaIngreso\":\"" +
-		        getFecha(asesor.getFechaIngreso()) + "\",\"rating\":" + asesor.getRating() + "}}";
+		String postData = null;
+		try {
+		    Gson gson = new Gson();
+		    DataWrapper<Asesor> terrenoWrapper = new DataWrapper<>(asesor);
+		    String jsonData = gson.toJson(terrenoWrapper);
+
+		    // Si deseas imprimir el JSON resultante
+		    System.out.println("JSON resultante: " + jsonData);
+
+		    postData = jsonData;
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 
         StringBuilder response = new StringBuilder();
-        try {
-        	
-            URL url = new URL(apiUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-
-            OutputStream os = connection.getOutputStream();
-            os.write(postData.getBytes());
-            os.flush();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-
-            connection.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.toString();
+        CuerpoPost cuerpo = new CuerpoPost(response, postData, apiUrl);
     }
 	
-	public Asesor getObject(String asesorName) {
-	    Asesor asesor = null;
+	public void getObject() {
+		ArrayList<Asesor> asesores = new ArrayList<>();
 	    try {
 	        // Construye la URL con el nombre buscado como parámetro de consulta
-	        String apiUrl = "http://localhost:1337/api/asesors?nombre=" + URLEncoder.encode(asesorName, "UTF-8");
+	        String apiUrl = "http://localhost:1337/api/asesors";
 	        URL url = new URL(apiUrl);
 	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	        connection.setRequestMethod("GET");
@@ -90,46 +80,57 @@ public class ApiClientAsesor{
 	            JsonArray dataArray = jsonObject.getJsonArray("data");
 
 	            // Si hay al menos un objeto en el array 'data'
-	            if (dataArray.size() > 0) {
-	                JsonObject firstObject = dataArray.getJsonObject(0);
-	                JsonObject attributesObject = firstObject.getJsonObject("attributes");
-	                
-	                
-	                // Obtiene los valores de los campos necesarios del objeto JSON
-	                String lugar = attributesObject.getString("lugar");
-	                int experiencia = attributesObject.getInt("experiencia");
-	                int cantCasos = attributesObject.getInt("cantCasos");
-	                double rating = attributesObject.getJsonNumber("rating").doubleValue();
-	                Date fechaIngreso = new Date(attributesObject.getString("fechaIngreso"));
-	                String correo = attributesObject.getString("correo");
+	            for (int i = 0; i < dataArray.size(); i++) {
+	                JsonObject currentObject = dataArray.getJsonObject(i);
+	                JsonObject attributesObject = currentObject.getJsonObject("attributes");
+
+	                String fechaStr = attributesObject.getString("fechaIngreso");
+	                String name = attributesObject.getString("nombre");
+		             // Limpiar la cadena eliminando el "?" y cualquier espacio adicional
+		             fechaStr = fechaStr.replace("?", "").trim();
+
+		             // Patrón que coincide con el formato proporcionado
+		             SimpleDateFormat formatoFecha = new SimpleDateFormat("MMM dd, yyyy, HH:mm:ss", Locale.ENGLISH);
+		             Date fecha = null;
+		             try {
+		                 // Parsear la cadena de fecha a un objeto Date
+		                 fecha = formatoFecha.parse(fechaStr);
+
+		                 // Imprimir la fecha para verificar
+		                 //System.out.println("Fecha parseada: " + fecha);
+		             } catch (ParseException e) {
+		                 e.printStackTrace();
+		             }
+
 
 	                // Crea un nuevo objeto Agricultor con los datos obtenidos
-	                asesor = new Asesor(asesorName, lugar, correo, rating, experiencia, cantCasos, fechaIngreso);
-	            } else {
-	                System.out.println("No se encontraron datos para el dueno buscado: " + asesorName);
+	                Asesor asesor = new Asesor(name, attributesObject.getString("lugar"), attributesObject.getString("correo"), attributesObject.getJsonNumber("rating").doubleValue(),
+	                		Integer.parseInt(attributesObject.getString("experiencia")), Integer.parseInt(attributesObject.getString("cantCasos")), fecha);
+	                asesores.add(asesor);
 	            }
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return asesor;
+	    this.asesores = asesores;
 	}
 	
 	
 	
-	public static String getFecha(Date fecha) {
-			
-		Date fechaActual = new Date();
+	public Asesor extraerTerrenoEspecifico(String asesorName) {
+		Asesor currentAsesor = null;
+		
+		//Aqui se va a retornar una lista de terrenos que pertenecen a un dueño inclusive siendo solo uno
+		for (Asesor asesor : asesores) {
+			if (asesorName.equals(asesor.getNombre())) {
+				currentAsesor = asesor;
+			}
+		}
+		return currentAsesor;
+	}
 
-        // Define el formato de fecha que deseas
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
-        // Convierte la fecha a un String en el formato deseado
-        String fechaFormateada = formato.format(fechaActual);
-
-        // Imprime la fecha formateada
-        
-        return fechaFormateada;
+	public ArrayList<Asesor> getTerrenos() {
+		return asesores;
 	}
 }
 
