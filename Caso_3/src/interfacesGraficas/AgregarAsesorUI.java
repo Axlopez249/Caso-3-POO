@@ -23,7 +23,7 @@ import strapi.Main;
 
 public class AgregarAsesorUI extends JFrame {
 	
-	private ControllerAgregarAsesor controller;
+	private ControllerAsesor controller;
 	
 	public AgregarAsesorUI(AsesorUI tablaAsesores) {
 		
@@ -100,15 +100,9 @@ public class AgregarAsesorUI extends JFrame {
 
 				//Primero saco la info de cata jtxt
 				try {
-					String nombre = txtNombre.getText();
-					int id = Integer.parseInt(txtId.getText());
-					String zona = (String) cmbZona.getSelectedItem();
-					String correo = txtCorreo.getText();
-					int experiencia = Integer.parseInt(txtExperiencia.getText());
-					
 					Calendar cal = Calendar.getInstance();
-					
-					ControllerAsesor controller = new ControllerAsesor(nombre, 0 , id, zona, correo, experiencia, 0, cal.getTime(), tablaAsesores);
+					controller = new ControllerAsesor(txtNombre.getText(), 0 , Integer.parseInt(txtId.getText()), (String) cmbZona.getSelectedItem(), 
+													  txtCorreo.getText(), Integer.parseInt(txtExperiencia.getText()), 0, cal.getTime(), tablaAsesores);
 					controller.actualizarTablaAsesores();
 				} catch (Exception e1) {
 				    // Captura la excepción si hay un error al convertir a int o double
@@ -116,7 +110,6 @@ public class AgregarAsesorUI extends JFrame {
 				}
 				txtNombre.setText("");
 				txtId.setText("");
-				
 				txtCorreo.setText("");
 				txtExperiencia.setText("");
 

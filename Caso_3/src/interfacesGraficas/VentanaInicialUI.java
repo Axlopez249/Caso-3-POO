@@ -8,10 +8,12 @@ import strapi.Main;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class VentanaInicialUI extends JFrame {
 	public VentanaInicialUI() {
@@ -28,9 +30,11 @@ public class VentanaInicialUI extends JFrame {
         //Establece donde se abrirá la ventana cuando se corra el programa
         setLocation(50, 60);
         
+        SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy/MM/dd");
+		Calendar cal = Calendar.getInstance();
                 
         //Crea un label
-        JLabel label = new JLabel("Fecha actual:");
+        JLabel label = new JLabel("Fecha actual: " + dateOnly.format(cal.getTime()));
         //Le establece una fuente, en este caso el primer parámetro equivale a la fuente, el segundo al tipo de letra (BOLD = negrita, PLAIN = normal, ITALIC = cursiva) y por último el tamaño de la fuente
         label.setFont(new Font("Arial", Font.BOLD, 20));
         //Se ubica el label dentro de la ventana, en este caso, e primer parámetro equivale a la ubicación en x, el segundo parámetro a la ubicación en y, el tercer parámetro a la anchura del label y el último a la altura

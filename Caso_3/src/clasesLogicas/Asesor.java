@@ -4,22 +4,29 @@ import java.util.Date;
 
 public class Asesor {
 	private String nombre;
-	private String lugar;
+	private int id;
+	private String zona;
 	private String correo;
 	private double rating;
 	private int experiencia;
-	private int cantCasos;
+	private int cantidadCasos;
 	private Date fechaIngreso;
 	
 	
-	public Asesor(String nombre, String lugar, String correo, double rating, int experiencia, int cantCasos, Date fechaIngreso) {
+	public Asesor(String nombre, int id, String zona, String correo, double rating, int experiencia, int cantidadCasos, Date fechaIngreso) {
 		this.nombre = nombre;
-		this.lugar = lugar;
+		this.id = id;
+		this.zona = zona;
 		this.correo = correo;
 		this.rating = rating;
 		this.experiencia = experiencia;
-		this.cantCasos = cantCasos;
+		this.cantidadCasos = cantidadCasos;
 		this.fechaIngreso = fechaIngreso;
+	}
+
+
+	public int getId() {
+		return id;
 	}
 
 
@@ -28,8 +35,8 @@ public class Asesor {
 	}
 
 
-	public String getLugar() {
-		return lugar;
+	public String getZona() {
+		return zona;
 	}
 
 
@@ -48,8 +55,8 @@ public class Asesor {
 	}
 
 
-	public int getCantCasos() {
-		return cantCasos;
+	public int getCantidadCasos() {
+		return cantidadCasos;
 	}
 
 

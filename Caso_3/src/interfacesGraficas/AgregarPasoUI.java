@@ -2,20 +2,27 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import ControllersGUI.ControllerAsesor;
+import ControllersGUI.ControllerPaso;
 import strapi.Main;
 
 public class AgregarPasoUI extends JFrame{
-	public AgregarPasoUI() {
+	
+	private ControllerPaso controller;
+	
+	public AgregarPasoUI(PlanEconomicoUI tablaPlanes) {
 		
 		setTitle("Agregar paso plan económico");
         setSize(380, 420); // Set the desired size
@@ -34,6 +41,10 @@ public class AgregarPasoUI extends JFrame{
         JRadioButton rbFinanzas = new JRadioButton("Finanzas");
         JRadioButton rbComercial = new JRadioButton("Comercial");
         JRadioButton rbAgricultura = new JRadioButton("Agricultura");
+        
+        rbFinanzas.setActionCommand("Finanzas");
+        rbComercial.setActionCommand("Comercial");
+        rbAgricultura.setActionCommand("Agricultura");
         
         rbFinanzas.setBounds(130, 20, 100, 20);
         rbComercial.setBounds(130, 50, 100, 20);
@@ -83,6 +94,9 @@ public class AgregarPasoUI extends JFrame{
 
         JRadioButton rbPositivo = new JRadioButton("Positivo");
         JRadioButton rbNegativo = new JRadioButton("Negativo");
+
+        rbPositivo.setActionCommand("Positivo");
+        rbNegativo.setActionCommand("Negativo");
         
         rbPositivo.setBounds(135, 265, 100, 30);
         rbNegativo.setBounds(260, 265, 100, 30);
@@ -99,6 +113,46 @@ public class AgregarPasoUI extends JFrame{
         JButton btnAgregarPaso = new JButton("Guardar paso");
         JButton btnCancelar = new JButton("Cancelar");
 
+		if(bgTipoIngreso.getSelection() != null) {
+			System.out.println(bgTipoIngreso.getSelection().getActionCommand());
+		}
+		
+		btnAgregarPaso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					if(bgTipoAccion.getSelection() != null && bgTipoIngreso.getSelection() != null) {
+						
+						String estado = "ejecución";
+						if(Integer.parseInt(txtMesEjecucion.getText()) > 1) {
+							estado = "pending";
+						}
+						
+						controller = new ControllerPaso(bgTipoAccion.getSelection().getActionCommand(), txtDescripcion.getText(),
+													   Integer.parseInt(txtMesEjecucion.getText()), Integer.parseInt(txtIngreso.getText()),
+													   bgTipoIngreso.getSelection().getActionCommand(),estado, tablaPlanes);
+						controller.actualizarTablaPasos();
+					}else {
+					    JOptionPane.showMessageDialog(null, "Por favor no deje sin seleccionar las casillas");
+					}
+					
+					bgTipoAccion.clearSelection();
+					bgTipoIngreso.clearSelection();
+					txtDescripcion.setText("");
+					txtMesEjecucion.setText("");
+					txtIngreso.setText("");
+					
+					Main.PlanEconomicoUI.setVisible(true);
+					dispose();
+				} catch (Exception e1) {
+				    // Captura la excepción si hay un error al convertir a int o double
+				    JOptionPane.showMessageDialog(null, "Uno de los contenidos no corresponde");
+				}
+				
+			}
+        });
+		
         btnCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -20,11 +20,11 @@ public class ApiClientPayment {
 		return instancePayment;
 	}
 	
-	public void postObject(Pago pago) {
+	public void postObject(Paso pago) {
 		
 	}
 	
-	public Pago getObject() {
+	public Paso getObject() {
 		
 		StringBuilder response = new StringBuilder();
         try {
@@ -45,13 +45,13 @@ public class ApiClientPayment {
         }
 		
 		//Logica para crear el objeto con la informacion
-		Pago pago = new Pago();
+		Paso pago = new Paso();
 		return pago;
 	}
 	
-	public ArrayList<Pago> getListObject() {
+	public ArrayList<Paso> getListObject() {
 		//Logica para crear el objeto con la informacion
-		ArrayList<Pago> listaPagos = new ArrayList<>();
+		ArrayList<Paso> listaPagos = new ArrayList<>();
 		return listaPagos;
 	}
 }

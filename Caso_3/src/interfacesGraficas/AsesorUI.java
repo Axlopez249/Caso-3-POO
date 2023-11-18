@@ -6,13 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import strapi.Main;
 
@@ -30,21 +33,27 @@ public class AsesorUI extends JFrame{
         getContentPane().setLayout(null);
         
 		DefaultTableModel model = new DefaultTableModel();
-	    model.addColumn("Nombre");
-	    model.addColumn("ID");
-	    model.addColumn("Lugar");
-	    model.addColumn("Correo Electrónico");
-	    model.addColumn("Años de Experiencia");
-	    model.addColumn("Rating");
-	    model.addColumn("Casos completados");
-	    model.addColumn("Fecha de ingreso");
+		String[] columnas = {"Nombre", "ID", "Lugar", "Correo Electrónico", "Experiencia", "Rating", "Casos", "Ingreso"};
+	    
+		for(String columna : columnas) {
+			model.addColumn(columna);
+	    }
 	    
 	    table = new JTable(model);
 	    table.setDefaultEditor(Object.class, null);
 	    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
 
         table.setBounds(10, 10, 600, 600);
+        
+        table.setRowHeight(30);
 
+        int[] anchoColumnas = {160, 70, 80, 180, 70, 50, 50};
+        
+        TableColumnModel columnModel = table.getColumnModel();
+        for(int i = 0; i < anchoColumnas.length; i++) {
+    	    columnModel.getColumn(i).setPreferredWidth(anchoColumnas[i]);
+        }
+        
         JButton agregarAsesor = new JButton("Agregar Asesor");
         JButton volver = new JButton("Volver");
         

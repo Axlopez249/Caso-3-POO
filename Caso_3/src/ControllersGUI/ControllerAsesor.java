@@ -5,29 +5,16 @@ import java.util.Date;
 
 import javax.swing.table.DefaultTableModel;
 
+import clasesLogicas.Asesor;
 import interfacesGraficas.AsesorUI;
 
 public class ControllerAsesor {
-	private String nombre;
-	private int id;
-	private String lugar;
-	private String correo;
-	private int experiencia;
-	private int cantidadCasos;
-	private Date fechaIngreso;
+	private Asesor asesor;
 	private AsesorUI tableAsesores;
-	private double rating;
 	
-	public ControllerAsesor(String nombre, double rating, int id, String lugar, String correo, int experiencia, int cantidadCasos, Date fechaIngreso, AsesorUI tablaAsesores) {
-		this.nombre = nombre;
-		this.id = id;
-		this.lugar = lugar;
-		this.correo = correo;
-		this.experiencia = experiencia;
-		this.cantidadCasos = cantidadCasos;
-		this.fechaIngreso = fechaIngreso;
+	public ControllerAsesor(String nombre, double rating, int id, String zona, String correo, int experiencia, int cantidadCasos, Date fechaIngreso, AsesorUI tablaAsesores) {
+		asesor = new Asesor(nombre, id, zona, correo, rating, experiencia, cantidadCasos, fechaIngreso);
 		this.tableAsesores = tablaAsesores;
-		this.rating = rating;
 	}
 	
 	public void actualizarTablaAsesores() {
@@ -36,7 +23,8 @@ public class ControllerAsesor {
 	    SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy/MM/dd");
 	    
 	    // Agregar una nueva fila con la información proporcionada
-	    model.addRow(new Object[]{nombre, id, lugar, correo, experiencia, rating, cantidadCasos, dateOnly.format(fechaIngreso.getTime())});
+	    model.addRow(new Object[]{asesor.getNombre(), asesor.getId(), asesor.getZona(), asesor.getCorreo(), asesor.getExperiencia(), asesor.getRating(), 
+	    						  asesor.getCantidadCasos(), dateOnly.format(asesor.getFechaIngreso().getTime())});
 	    
 	    // Refrescar la tabla
 	    tableAsesores.getTable().repaint();
@@ -50,40 +38,8 @@ public class ControllerAsesor {
 		return verificado;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getLugar() {
-		return lugar;
-	}
-
-	public String getCorreo() {
-		return correo;
-	}
-
-	public int getExperiencia() {
-		return experiencia;
-	}
-
-	public int getCantidadCasos() {
-		return cantidadCasos;
-	}
-
-	public Date getFechaIngreso() {
-		return fechaIngreso;
-	}
-
 	public AsesorUI getTableAsesores() {
 		return tableAsesores;
-	}
-	
-	public double getRating() {
-		return rating;
 	}
 	
 	

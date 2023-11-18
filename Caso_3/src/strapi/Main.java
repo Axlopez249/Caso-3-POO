@@ -21,16 +21,12 @@ public class Main {
 	 * Arturo Chavarrïa, Axel Lopez y Tony Solano, 20
 	-	Diseño de las pantallas de usuario en java o web según el acuerdo
 	
-	o	En agregar asesor, el lugar que sea un selection con opción de agregar nuevo, llamemole zona de operación, 
-		la fecha de ingreso debe ser automática, el rating y casos completados debería calcularse con las acciones del sistema
+	o	Agregar Asesor - el rating y casos completados debería calcularse con las acciones del sistema
 		
-	o	Agregar paso, el estado inicial siempre es “planeado” , porque apenas se está haciendo el plan, hasta que se adjudican es 
-		que se cambian de estado, los que se hacen en el mes 1 pasan a “ejecución” y los del mes 2 en adelante “pending”. El campo 
-		dinero está sobrando, pero si poner alguna nota en cursiva letra pequeña que diga si la entrada es positiva o negativa. 
+	o	Agregar paso - el estado inicial siempre es “planeado” - los que se hacen en el mes 1 pasan a “ejecución” y los del mes 2 en adelante “pending”.
 		
-	o	Agregar caso, agricultor debería ser de selección, en lugar de provincia pongamos la zona y asi se hace match con la zona del 
-		asesor, y eso lo hacemos por selección, productos sembrado es saber que es lo que tiene sembrado, tomar en cuenta que pueden 
-		ser N productos, y las cantidades respectivas de cada producto.
+	o	Agregar caso - agricultor debería ser de selección - se hace match con la zona del asesor y eso lo hacemos por selección -
+		productos sembrado es saber que es lo que tiene sembrado, tomar en cuenta que pueden ser N productos, y las cantidades respectivas de cada producto.
 		
 	o	Ventana que lista los casos, que sea ordenado por fecha y estado
 	
@@ -55,7 +51,6 @@ public class Main {
 	o	Factorizar el código de los http request en una sola clase que sea usada por los apiclients, el apiclients solo interfaza la lógica hacia los objetos
 */
 	
-	public static AgregarPasoUI APasoUI = new AgregarPasoUI();
 	public static RevisarPlanesUI RevisarPlanesUI = new RevisarPlanesUI();
 	public static VentanaInicialUI Ventana = new VentanaInicialUI();
 	public static AsesorUI AsesorUI = new AsesorUI();
@@ -63,6 +58,7 @@ public class Main {
 	public static CasoUI CasoUI = new CasoUI();
 	public static AgregarCasoUI ACasoUI = new AgregarCasoUI(CasoUI);
 	public static PlanEconomicoUI PlanEconomicoUI = new PlanEconomicoUI();
+	public static AgregarPasoUI APasoUI = new AgregarPasoUI(PlanEconomicoUI);
 	public static FurtherInformationUI VerMasUI = new FurtherInformationUI();
 
     public static void main(String[] args) {
@@ -134,10 +130,10 @@ public class Main {
         System.out.println("Asesor:");
         System.out.println("Nombre: " + a.getNombre());
         System.out.println("Correo: " + a.getCorreo());
-        System.out.println("Cantidad de Casos: " + Integer.toString(a.getCantCasos()));
+        System.out.println("Cantidad de Casos: " + Integer.toString(a.getCantidadCasos()));
         System.out.println("Rating: " + Double.toString(a.getRating()));
         System.out.println("Años de experiencia: " + Double.toString(a.getExperiencia()));
-        System.out.println("Lugar de procedencia: " + a.getLugar());
+        System.out.println("Lugar de procedencia: " + a.getZona());
         System.out.println("Fecha de ingreso: " + a.getFechaIngreso());
         System.out.println("====================");
     }
