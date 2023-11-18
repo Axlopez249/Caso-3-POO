@@ -40,6 +40,7 @@ public class AsesorUI extends JFrame{
 	    model.addColumn("Fecha de ingreso");
 	    
 	    table = new JTable(model);
+	    table.setDefaultEditor(Object.class, null);
 	    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
 
         table.setBounds(10, 10, 600, 600);
@@ -80,14 +81,5 @@ public class AsesorUI extends JFrame{
 		return table;
 	}
 	
-	public void pintarTable(String nombre,double rating,  int id, String lugar, String correo, int experiencia, int cantidadCasos, Date fechaIngreso) {
-		// Obtener el modelo de la tabla
-	    DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-	    // Agregar una nueva fila con la información proporcionada
-	    model.addRow(new Object[]{nombre, id, lugar, correo, experiencia, rating, cantidadCasos, fechaIngreso});
-
-	    // Refrescar la tabla
-	    table.repaint();
-	}
+	
 }

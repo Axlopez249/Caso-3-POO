@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 
 import ControllersGUI.ControllerAsesor;
 import ControllersGUI.ControllerCaso;
+import ControllersGUI.ControllerZonas;
 import strapi.*;
 
 public class AgregarCasoUI extends JFrame {
@@ -36,14 +37,10 @@ public class AgregarCasoUI extends JFrame {
         JTextField terrenoDisponibleT = new JTextField();
         JLabel provincia = new JLabel("Provincia");
 //        JTextField provinciaT = new JTextField();
-        JComboBox<String> provinciaT = new JComboBox<>();
-        provinciaT.addItem("Limón");
-        provinciaT.addItem("Guanacaste");
-        provinciaT.addItem("Cartago");
-        provinciaT.addItem("San José");
-        provinciaT.addItem("Alajuela");
-        provinciaT.addItem("Puntarenas");
-        provinciaT.addItem("Heredia");
+        ControllerZonas getZonas = new ControllerZonas();
+        JComboBox<String> provinciaT = getZonas.getCmb();
+
+        
         JLabel boolSembrado = new JLabel("Productos sembrados");
 //        JTextField boolSembradoT = new JTextField();
         JLabel cantidadActual = new JLabel("Cantidad (kg)");
@@ -118,69 +115,32 @@ public class AgregarCasoUI extends JFrame {
 				//puede ser en el mismo controller de esta clase
 
 				//Primero saco la info de cata jtxt
+				
 				try {
+					String nombre = (String) agricultorT.getText();
+					int telefono = Integer.parseInt(telefonoAT.getText());
+					int terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
+					String provincia = (String) provinciaT.getSelectedItem();
+					int deuda = Integer.parseInt(deudaT.getText());
+					int dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
+					int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
+					int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
+					String organizacionA = (String) organizacionT.getText();
+					int cantidadActual = 0;
+					String terrainType = "Humedo";
+					
+					if(checkBoxSi.isSelected()) {
+						cantidadActual = Integer.parseInt(cantidadActualT.getText());
+					}
 					if(checkBoxArido.isSelected()) {
-						String terrainType = "Arido";
-						if(checkBoxSi.isSelected()) {
-							String nombre = (String) agricultorT.getText();
-							int telefono = Integer.parseInt(telefonoAT.getText());
-							int terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-							String provincia = (String) provinciaT.getSelectedItem();
-							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							int deuda = Integer.parseInt(deudaT.getText());
-							int dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
-							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-							String organizacionA = (String) organizacionT.getText();
-							ControllerCaso controller = new ControllerCaso(nombre, telefono, terrainType, terrenoDisponible, provincia, true, cantidadActual, deuda, dineroDisponible, ingresosActuales, pastYearGain, organizacionA,casoUI);
-							controller.actualizarTablaAsesores();
-						}
-						if(checkBoxNo.isSelected()) {
-							String nombre = (String) agricultorT.getText();
-							int telefono = Integer.parseInt(telefonoAT.getText());
-							int terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-							String provincia = (String) provinciaT.getSelectedItem();
-//							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							int deuda = Integer.parseInt(deudaT.getText());
-							int dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
-							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-							String organizacionA = (String) organizacionT.getText();
-							ControllerCaso controller = new ControllerCaso(nombre, telefono, terrainType, terrenoDisponible, provincia, false, 0, deuda, dineroDisponible, ingresosActuales, pastYearGain, organizacionA, casoUI);
-							controller.actualizarTablaAsesores();
-						}
+						terrainType = "Arido";
 					}
-					if(checkBoxHumedo.isSelected()) {
-						String terrainType = "Humedo";
-						if(checkBoxSi.isSelected()) {
-							String nombre = (String) agricultorT.getText();
-							int telefono = Integer.parseInt(telefonoAT.getText());
-							int terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-							String provincia = (String) provinciaT.getSelectedItem();
-							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							int deuda = Integer.parseInt(deudaT.getText());
-							int dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
-							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-							String organizacionA = (String) organizacionT.getText();
-							ControllerCaso controller = new ControllerCaso(nombre, telefono, terrainType, terrenoDisponible, provincia, true, cantidadActual, deuda, dineroDisponible, ingresosActuales, pastYearGain, organizacionA, casoUI);
-							controller.actualizarTablaAsesores();
-						}
-						if(checkBoxNo.isSelected()) {
-							String nombre = (String) agricultorT.getText();
-							int telefono = Integer.parseInt(telefonoAT.getText());
-							int terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-							String provincia = (String) provinciaT.getSelectedItem();
-//							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							int deuda = Integer.parseInt(deudaT.getText());
-							int dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
-							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-							String organizacionA = (String) organizacionT.getText();
-							ControllerCaso controller = new ControllerCaso(nombre, telefono, terrainType, terrenoDisponible, provincia, false, 0, deuda, dineroDisponible, ingresosActuales, pastYearGain, organizacionA, casoUI);
-							controller.actualizarTablaAsesores();
-						}
-					}
+					
+					ControllerCaso controller = new ControllerCaso(nombre, telefono, terrainType, terrenoDisponible, provincia, 
+																   checkBoxSi.isSelected(), cantidadActual, deuda, dineroDisponible, 
+																   ingresosActuales, pastYearGain, organizacionA,casoUI);
+					controller.actualizarTablaAsesores();
+					
 				} catch (NumberFormatException e1) {
 				    JOptionPane.showMessageDialog(null, "Error al convertir a número: " + e1.getMessage());
 				} catch (Exception e2) {

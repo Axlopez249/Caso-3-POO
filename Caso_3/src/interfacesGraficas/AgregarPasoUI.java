@@ -3,10 +3,12 @@ package interfacesGraficas;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -16,7 +18,7 @@ public class AgregarPasoUI extends JFrame{
 	public AgregarPasoUI() {
 		
 		setTitle("Agregar paso plan económico");
-        setSize(380, 480); // Set the desired size
+        setSize(380, 420); // Set the desired size
         setResizable(false); // Disable frame resizing
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -26,18 +28,28 @@ public class AgregarPasoUI extends JFrame{
         JLabel lblTipoAccion = new JLabel("Tipo de acción: ");
         lblTipoAccion.setBounds(30, 50, 330, 20);
         getContentPane().add(lblTipoAccion);
-
-        JCheckBox checkBoxFinanzas = new JCheckBox("Finanzas");
-        JCheckBox checkBoxComercial = new JCheckBox("Comercial");
-        JCheckBox checkBoxAgricultura = new JCheckBox("Agricultura");
         
-        checkBoxFinanzas.setBounds(130, 20, 100, 20);
-        checkBoxComercial.setBounds(130, 50, 100, 20);
-        checkBoxAgricultura.setBounds(130, 80, 100, 20);
+        ButtonGroup bgTipoAccion = new ButtonGroup();
 
-        getContentPane().add(checkBoxFinanzas);
-        getContentPane().add(checkBoxComercial);
-        getContentPane().add(checkBoxAgricultura);
+        JRadioButton rbFinanzas = new JRadioButton("Finanzas");
+        JRadioButton rbComercial = new JRadioButton("Comercial");
+        JRadioButton rbAgricultura = new JRadioButton("Agricultura");
+        
+        rbFinanzas.setBounds(130, 20, 100, 20);
+        rbComercial.setBounds(130, 50, 100, 20);
+        rbAgricultura.setBounds(130, 80, 100, 20);
+        
+        rbFinanzas.setFocusable(false);
+        rbComercial.setFocusable(false);
+        rbAgricultura.setFocusable(false);
+
+        getContentPane().add(rbFinanzas);
+        getContentPane().add(rbComercial);
+        getContentPane().add(rbAgricultura);
+        
+        bgTipoAccion.add(rbFinanzas);
+        bgTipoAccion.add(rbComercial);
+        bgTipoAccion.add(rbAgricultura);
 
         JLabel lblDescripción = new JLabel("Descripción: ");
         lblDescripción.setBounds(30, 110, 330, 40);
@@ -55,29 +67,34 @@ public class AgregarPasoUI extends JFrame{
         txtMesEjecucion.setBounds(140, 170, 200, 30);
         getContentPane().add(txtMesEjecucion);
 
-        JLabel lblIngresoSalida = new JLabel("Ingreso o salida: ");
-        lblIngresoSalida.setBounds(30, 210, 330, 40);
-        getContentPane().add(lblIngresoSalida);
+        JLabel lblIngreso = new JLabel("Ingreso: ");
+        lblIngreso.setBounds(30, 220, 330, 40);
+        getContentPane().add(lblIngreso);
 
-        JTextField txtIngresoSalida = new JTextField();
-        txtIngresoSalida.setBounds(140, 220, 200, 30);
-        getContentPane().add(txtIngresoSalida);
+        JTextField txtIngreso = new JTextField();
+        txtIngreso.setBounds(140, 220, 200, 30);
+        getContentPane().add(txtIngreso);
 
-        JLabel lblDinero = new JLabel("Dinero: ");
-        lblDinero.setBounds(30, 260, 330, 40);
-        getContentPane().add(lblDinero);
+        JLabel lblTipoIngreso = new JLabel("Tipo ingreso: ");
+        lblTipoIngreso.setBounds(30, 260, 330, 40);
+        getContentPane().add(lblTipoIngreso);
+        
+        ButtonGroup bgTipoIngreso = new ButtonGroup();
 
-        JTextField txtDinero = new JTextField();
-        txtDinero.setBounds(140, 270, 200, 30);
-        getContentPane().add(txtDinero);
+        JRadioButton rbPositivo = new JRadioButton("Positivo");
+        JRadioButton rbNegativo = new JRadioButton("Negativo");
+        
+        rbPositivo.setBounds(135, 265, 100, 30);
+        rbNegativo.setBounds(260, 265, 100, 30);
+        
+        rbPositivo.setFocusable(false);
+        rbNegativo.setFocusable(false);
 
-        JLabel lblEstado = new JLabel("Estado: ");
-        lblEstado.setBounds(30, 310, 330, 40);
-        getContentPane().add(lblEstado);
-
-        JTextField txtEstado = new JTextField();
-        txtEstado.setBounds(140, 320, 200, 30);
-        getContentPane().add(txtEstado);
+        getContentPane().add(rbPositivo);
+        getContentPane().add(rbNegativo);
+        
+        bgTipoIngreso.add(rbPositivo);
+        bgTipoIngreso.add(rbNegativo);
         
         JButton btnAgregarPaso = new JButton("Guardar paso");
         JButton btnCancelar = new JButton("Cancelar");
@@ -90,8 +107,8 @@ public class AgregarPasoUI extends JFrame{
 			}
         });
 
-        btnAgregarPaso.setBounds(30, 370, 130, 50);
-        btnCancelar.setBounds(180, 370, 130, 50);
+        btnAgregarPaso.setBounds(60, 310, 130, 50);
+        btnCancelar.setBounds(210, 310, 130, 50);
         
         getContentPane().add(btnAgregarPaso);
         getContentPane().add(btnCancelar);

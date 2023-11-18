@@ -1,6 +1,9 @@
 package ControllersGUI;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.table.DefaultTableModel;
 
 import interfacesGraficas.AsesorUI;
 
@@ -28,7 +31,15 @@ public class ControllerAsesor {
 	}
 	
 	public void actualizarTablaAsesores() {
-		tableAsesores.pintarTable( nombre,rating, id,  lugar,  correo,  experiencia,  cantidadCasos,  fechaIngreso);
+		// Obtener el modelo de la tabla
+	    DefaultTableModel model = (DefaultTableModel) tableAsesores.getTable().getModel();
+	    SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy/MM/dd");
+	    
+	    // Agregar una nueva fila con la información proporcionada
+	    model.addRow(new Object[]{nombre, id, lugar, correo, experiencia, rating, cantidadCasos, dateOnly.format(fechaIngreso.getTime())});
+	    
+	    // Refrescar la tabla
+	    tableAsesores.getTable().repaint();
 	}
 	
 	public boolean verificarDatos() {
