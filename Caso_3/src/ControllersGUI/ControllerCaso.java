@@ -1,11 +1,95 @@
 
 package ControllersGUI;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import interfacesGraficas.CasoUI;
+import javax.swing.table.DefaultTableModel;
+
+import clasesLogicas.Agricultor;
+import clasesLogicas.Asesor;
+import clasesLogicas.Caso2;
+import interfacesGraficas.AsesorUI;
+import interfacesGraficas.CasoUI3;
 
 public class ControllerCaso {
+	private Caso2 caso2;
+	private CasoUI3 tableCaso2;
+	private double deuda;
+	private double terrenoDisponible;
+	private String tipoDeTerreno;
+	private double dineroDisponible;
+	
+	public ControllerCaso(int IDCaso, Agricultor agricultor, int numeroTelefono, Asesor asesor, String provincia, int telefonoAsesor, String organizacion, Date fechaIngresoCaso, String estado, CasoUI3 casoUI, double deuda, double availableLand, String terrainType, double dineroDisponible) {
+		this.caso2 = new Caso2(IDCaso, agricultor, numeroTelefono, asesor, provincia, telefonoAsesor, organizacion, fechaIngresoCaso, estado);
+		this.tableCaso2 = casoUI;
+		this.deuda = deuda;
+		this.terrenoDisponible = availableLand;
+		this.tipoDeTerreno = terrainType;
+		this.dineroDisponible = dineroDisponible;
+	}
+	
+	
+	public void actualizarTablaAsesores() {
+		// Obtener el modelo de la tabla
+	    DefaultTableModel model = (DefaultTableModel) tableCaso2.getTable().getModel();
+//	    SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy/MM/dd");
+	    
+	    Agricultor agricultor = caso2.getAgricultor();
+	    
+	    model.addRow(new Object[]{agricultor.getNombre(), terrenoDisponible, tipoDeTerreno, caso2.getProvincia(), deuda, dineroDisponible, caso2.getOrganiRepresentante()});
+
+	    // Agregar una nueva fila con la información proporcionada
+//	    model.addRow(new Object[]{asesor.getNombre(), asesor.getId(), asesor.getZona(), asesor.getCorreo(), asesor.getExperiencia(), asesor.getRating(), 
+//	    						  asesor.getCantidadCasos(), dateOnly.format(asesor.getFechaIngreso().getTime())});
+	    
+	    // Refrescar la tabla
+	    tableCaso2.getTable().repaint();
+	}
+	
+	public boolean verificarDatos() {
+		boolean verificado = true;
+		
+		//Aquí tengo que validar el contenido de cada variable para ver si corresponde y no se haya metido algo incorrecto
+		
+		return verificado;
+	}
+
+	public CasoUI3 getTableCaso() {
+		return tableCaso2;
+	}
+
+
+	public Caso2 getCaso2() {
+		return caso2;
+	}
+
+
+	public CasoUI3 getTableCaso2() {
+		return tableCaso2;
+	}
+
+
+	public double getDeuda() {
+		return deuda;
+	}
+
+
+	public double getTerrenoDisponible() {
+		return terrenoDisponible;
+	}
+
+
+	public String getTipoDeTerreno() {
+		return tipoDeTerreno;
+	}
+
+
+	public double getDineroDisponible() {
+		return dineroDisponible;
+	}
+	
+/*
 	private String name;
 	private int cellphoneNumber;
 	private double availableLand;
@@ -21,7 +105,7 @@ public class ControllerCaso {
 	private Date fechaIngreso;
 	private CasoUI instanciaCaso;
 	
-	public ControllerCaso(String nombre, int numeroTelefono, String tipoDeTerreno, double terrenoDisponible, String provincia, boolean sembrado, int cantidadActual, 
+	public ControllerCaso2(String nombre, int numeroTelefono, String tipoDeTerreno, double terrenoDisponible, String provincia, boolean sembrado, int cantidadActual, 
 			double deuda, double dineroDisponible, int ingresosActuales, int ingresosAnoPasado, String organizacion, CasoUI casoUI) {
 		this.name = nombre;
 		this.cellphoneNumber = numeroTelefono;
@@ -105,5 +189,5 @@ public class ControllerCaso {
 	public CasoUI getTableAsesores() {
 		return instanciaCaso;
 	}
-
+*/
 }

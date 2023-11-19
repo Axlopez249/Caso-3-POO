@@ -9,7 +9,7 @@ import interfacesGraficas.AgregarAsesorUI;
 import interfacesGraficas.AgregarCasoUI;
 import interfacesGraficas.AgregarPasoUI;
 import interfacesGraficas.AsesorUI;
-import interfacesGraficas.CasoUI;
+import interfacesGraficas.CasoUI3;
 import interfacesGraficas.FurtherInformationUI;
 import interfacesGraficas.PlanEconomicoUI;
 import interfacesGraficas.RevisarPlanesUI;
@@ -55,7 +55,7 @@ public class Main {
 	public static VentanaInicialUI Ventana = new VentanaInicialUI();
 	public static AsesorUI AsesorUI = new AsesorUI();
 	public static AgregarAsesorUI AAsesorUI = new AgregarAsesorUI(AsesorUI);
-	public static CasoUI CasoUI = new CasoUI();
+	public static CasoUI3 CasoUI = new CasoUI3();
 	public static AgregarCasoUI ACasoUI = new AgregarCasoUI(CasoUI);
 	public static PlanEconomicoUI PlanEconomicoUI = new PlanEconomicoUI();
 	public static AgregarPasoUI APasoUI = new AgregarPasoUI(PlanEconomicoUI);
