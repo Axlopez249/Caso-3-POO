@@ -123,7 +123,7 @@ public class CasoUI extends JFrame {
 		return table;
 	}
 	
-	public void pintarTable(String nombre, int numero, int terrenoDisponible, String tipoDeTerreno, String provincia, int deuda, int dineroDisponible, String organizacion) {
+	public void pintarTable(String nombre, int numero, double terrenoDisponible, String tipoDeTerreno, String provincia, double deuda, double dineroDisponible, String organizacion) {
 //		JTable tabla2 = getTable();
 		// Obtener el modelo de la tabla
 	    DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -136,3 +136,4 @@ public class CasoUI extends JFrame {
 	}
 
 }
+

@@ -1,3 +1,4 @@
+
 package ControllersGUI;
 
 import java.util.Date;
@@ -7,21 +8,21 @@ import interfacesGraficas.CasoUI;
 public class ControllerCaso {
 	private String name;
 	private int cellphoneNumber;
-	private int availableLand;
+	private double availableLand;
 	private String landType;
 	private String provincia;
 	private boolean sembrado;
 	private int actualQuantity;
-	private int debt;
-	private int availableMoney;
+	private double debt;
+	private double availableMoney;
 	private int actualIncome;
 	private int lastYearIncome;
 	private String organization;
 	private Date fechaIngreso;
 	private CasoUI instanciaCaso;
 	
-	public ControllerCaso(String nombre, int numeroTelefono, String tipoDeTerreno, int terrenoDisponible, String provincia, boolean sembrado, int cantidadActual, 
-			int deuda, int dineroDisponible, int ingresosActuales, int ingresosAnoPasado, String organizacion, CasoUI casoUI) {
+	public ControllerCaso(String nombre, int numeroTelefono, String tipoDeTerreno, double terrenoDisponible, String provincia, boolean sembrado, int cantidadActual, 
+			double deuda, double dineroDisponible, int ingresosActuales, int ingresosAnoPasado, String organizacion, CasoUI casoUI) {
 		this.name = nombre;
 		this.cellphoneNumber = numeroTelefono;
 		this.landType = tipoDeTerreno;
@@ -57,7 +58,7 @@ public class ControllerCaso {
 		return cellphoneNumber;
 	}
 
-	public int getAvailableLand() {
+	public double getAvailableLand() {
 		return availableLand;
 	}
 
@@ -77,11 +78,11 @@ public class ControllerCaso {
 		return actualQuantity;
 	}
 
-	public int getDebt() {
+	public double getDebt() {
 		return debt;
 	}
 
-	public int getAvailableMoney() {
+	public double getAvailableMoney() {
 		return availableMoney;
 	}
 
