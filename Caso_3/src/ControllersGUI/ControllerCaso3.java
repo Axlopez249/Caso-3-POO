@@ -3,6 +3,7 @@ package ControllersGUI;
 
 import java.util.Date;
 
+import interfacesGraficas.CasoUI;
 import interfacesGraficas.CasoUI3;
 
 public class ControllerCaso3 {
@@ -19,10 +20,10 @@ public class ControllerCaso3 {
 	private int lastYearIncome;
 	private String organization;
 	private Date fechaIngreso;
-	private CasoUI3 instanciaCaso;
+	private CasoUI instanciaCaso;
 	
 	public ControllerCaso3(String nombre, int numeroTelefono, String tipoDeTerreno, double terrenoDisponible, String provincia, boolean sembrado, int cantidadActual, 
-			double deuda, double dineroDisponible, int ingresosActuales, int ingresosAnoPasado, String organizacion, CasoUI3 casoUI) {
+			double deuda, double dineroDisponible, int ingresosActuales, int ingresosAnoPasado, String organizacion, CasoUI casoUI) {
 		this.name = nombre;
 		this.cellphoneNumber = numeroTelefono;
 		this.landType = tipoDeTerreno;
@@ -102,7 +103,7 @@ public class ControllerCaso3 {
 		return fechaIngreso;
 	}
 
-	public CasoUI3 getTableAsesores() {
+	public CasoUI getTableAsesores() {
 		return instanciaCaso;
 	}
 

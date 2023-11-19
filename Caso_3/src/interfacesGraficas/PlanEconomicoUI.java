@@ -1,155 +1,124 @@
 package interfacesGraficas;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
-import ControllersGUI.ControllerPlanEconomico;
+import ControllersGUI.ActualizadorTablaPlan;
 import strapi.Main;
+
+//Los estados pueden ser asignado con plan asignado
+//O sin asignar
 
 public class PlanEconomicoUI extends JFrame{
 	private JTable table;
-	private ControllerPlanEconomico controller = new ControllerPlanEconomico();
-	
-	public PlanEconomicoUI() {
-		
-		setTitle("Asesores");
-        setSize(780, 750); // Set the desired size
-        setResizable(false); // Disable frame resizing
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setLocation(50, 60);
-        getContentPane().setLayout(null);
-        
-		DefaultTableModel model = new DefaultTableModel();
-		String[] columnas = {"Acción", "Descripción", "Mes de ejecución", "Ingreso", "Estado"};
+	public PlanEconomicoUI(CasoUI caso){
+		
+		//Lo primero es pintar este table con los casos no asignados
+		//Entonces lo que puedo hacer es mandar todo el table y recorrer aquellos como estado no asignado
+		//Y guardarlo en este table
+		
+		setTitle("Asesores en Agricultura");
+		setSize(1350, 725);
 	    
-		for(String columna : columnas) {
-			model.addColumn(columna);
-	    }
+	    getContentPane().setLayout(null);
+	    
+	    DefaultTableModel model = new DefaultTableModel();
+	    model.addColumn("Agricultor");
+	    model.addColumn("Teléfono agricultor");
+	    model.addColumn("Terreno disponible");
+	    model.addColumn("Tipo de terreno");
+	    model.addColumn("Provincia");
+	    model.addColumn("Deuda");
+	    model.addColumn("Dinero disponible");
+	    model.addColumn("Organización representante");
 	    
 	    table = new JTable(model);
-	    table.setDefaultEditor(Object.class, null);
 	    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
-
-        table.setBounds(10, 10, 600, 600);
-        
-        table.setRowHeight(30);table.setRowHeight(30);
-
-
-        TableColumnModel columnModel = table.getColumnModel();
-	    columnModel.getColumn(2).setPreferredWidth(50);
+	
+	    table.setBounds(10, 10, 200, 200);
 	    
-	    table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	        	controller.setIndexSelected(table.getSelectedRow());
-	        }
-	    });
-
-        JButton agregarPaso = new JButton("Agregar paso");
-        JButton marcarPaso = new JButton("Marcar paso");
-        JButton DeseleccionarPaso = new JButton("Deseleccionar paso");
-        JButton volver = new JButton("Volver");
 	    
-        ButtonGroup bgEstado = new ButtonGroup();
-        
-        JRadioButton rbPlaneado = controller.crearRadioButton("Planeado", 250, 520, 100, 30);
-        JRadioButton rbPendiente = controller.crearRadioButton("Pendiente", 380, 520, 100, 30);
-        JRadioButton rbEjecución = controller.crearRadioButton("Ejecución", 250, 560, 100, 30);
-        JRadioButton rbCancelado = controller.crearRadioButton("Cancelado", 380, 560, 100, 30);
-        JRadioButton rbCompletado = controller.crearRadioButton("Completado", 250, 600, 100, 30);
-        JRadioButton rbIncompleto = controller.crearRadioButton("Imcompleto", 380, 600, 100, 30);
-        
-        
-        volver.addActionListener(new ActionListener() {
+	    JButton crearPlan = new JButton("Crear plan economico");
+	    
+	    crearPlan.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				bgEstado.clearSelection();
+				
+				//Ademas de llamar a la ventana tengo que seleccionar el caso 
+				//Obtener los datos de ese caso para ponerlo como asignado luego
+				
+				//Activo para preguntar por los asesores
+				
+				//Luego se abre la ventana
+				Main.seleccionarAsesor.setVisible(true);
+				Main.seleccionarAsesor.crearSeleccion();
+				//Cuando la ventana se cierra 
+				dispose();
+			}
+	    });
+	    
+	    JButton asignarPlan = new JButton("Asignar plan economico");
+	    asignarPlan.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				//Ademas de llamar a la ventana tengo que seleccionar el caso 
+				//Obtener los datos de ese caso para ponerlo como asignado luego
+				int filaSeleccionada = table.getSelectedRow();
+	            if (filaSeleccionada != -1) {
+	                int numeroF = (int) table.getValueAt(filaSeleccionada, 0);
+	                int ID = (int) table.getValueAt(filaSeleccionada, 1);
+	                String falla = (String) table.getValueAt(filaSeleccionada, 3);
+	                ((DefaultTableModel) table.getModel()).removeRow(filaSeleccionada);
+	            } else {
+	            	
+	            }
+				Main.plan.setVisible(true);
+				dispose();
+			}
+	    });
+	    
+	    JButton botonSalir = new JButton("Salir");
+	    botonSalir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				Main.Ventana.setVisible(true);
 				dispose();
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0);
 			}
-        });
-        
-
-        agregarPaso.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				bgEstado.clearSelection();
-				Main.APasoUI.setVisible(true);
-				dispose();
-			}
-        });
-        
-        marcarPaso.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(bgEstado.getSelection() != null) {
-					controller.CambiarEstado(table, bgEstado.getSelection().getActionCommand());
-				}else {
-					JOptionPane.showMessageDialog(null, "Por favor seleccione un estado");
-				}
-			}
-        });
-        
-        DeseleccionarPaso.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				bgEstado.clearSelection();
-				table.clearSelection();
-			}
-        });
-        
-        agregarPaso.setBounds(10, 520, 200, 50);
-        marcarPaso.setBounds(10, 580, 200, 50);
-        DeseleccionarPaso.setBounds(10, 640, 200, 50);
-        volver.setBounds(535, 590, 220, 100);
-
-        JScrollPane panelDesplazamiento = new JScrollPane(table);
-        panelDesplazamiento.setBounds(10, 10, 745, 500);
+	    });
 	    
-        getContentPane().add(agregarPaso);
-        getContentPane().add(marcarPaso);
-        getContentPane().add(DeseleccionarPaso);
-        getContentPane().add(volver);
+	    crearPlan.setBounds(200, 550, 200, 100);
+	    botonSalir.setBounds(875, 550, 200, 100);
+	    asignarPlan.setBounds(500, 550, 200, 100);
+	    
+	    getContentPane().setLayout(new BorderLayout());
+	    JScrollPane panelDesplazamiento = new JScrollPane(table);
+	    
+	    getContentPane().add(crearPlan);
+	    getContentPane().add(botonSalir);
+	    getContentPane().add(asignarPlan);
 	    getContentPane().add(panelDesplazamiento);
-        
-        getContentPane().add(rbPlaneado);
-        getContentPane().add(rbPendiente);
-        getContentPane().add(rbEjecución);
-        getContentPane().add(rbCancelado);
-        getContentPane().add(rbCompletado);
-        getContentPane().add(rbIncompleto);
-        
-        bgEstado.add(rbPlaneado);
-        bgEstado.add(rbPendiente);
-        bgEstado.add(rbEjecución);
-        bgEstado.add(rbCancelado);
-        bgEstado.add(rbCompletado);
-        bgEstado.add(rbIncompleto);
+	    setLocationRelativeTo(null);
+	    
+	    
+	    
+	}
+	
+	public void pintarTable() {
+		ActualizadorTablaPlan actualizador = new ActualizadorTablaPlan(table);
+	}
+	
 
-        setLocationRelativeTo(null);
-	}
-	
-	public JTable getTable() {
-		return table;
-	}
-	
 }

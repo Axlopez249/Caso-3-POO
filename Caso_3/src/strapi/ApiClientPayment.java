@@ -23,7 +23,7 @@ public class ApiClientPayment {
 	public void postObject(Paso pago) {
 		
 	}
-	
+	/*
 	public Paso getObject() {
 		
 		StringBuilder response = new StringBuilder();
@@ -45,9 +45,9 @@ public class ApiClientPayment {
         }
 		
 		//Logica para crear el objeto con la informacion
-		Paso pago = new Paso();
+		//Paso pago = new Paso();
 		return pago;
-	}
+	}*/
 	
 	public ArrayList<Paso> getListObject() {
 		//Logica para crear el objeto con la informacion

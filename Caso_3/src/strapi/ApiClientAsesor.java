@@ -104,7 +104,7 @@ public class ApiClientAsesor{
 
 
 	                // Crea un nuevo objeto Agricultor con los datos obtenidos
-	                Asesor asesor = new Asesor(name, attributesObject.getString("lugar"), attributesObject.getString("correo"), attributesObject.getJsonNumber("rating").doubleValue(),
+	                Asesor asesor = new Asesor(name,Integer.parseInt(attributesObject.getString("idAsesor")), attributesObject.getString("lugar"), attributesObject.getString("correo"), attributesObject.getJsonNumber("rating").doubleValue(),
 	                		Integer.parseInt(attributesObject.getString("experiencia")), Integer.parseInt(attributesObject.getString("cantCasos")), fecha);
 	                asesores.add(asesor);
 	            }

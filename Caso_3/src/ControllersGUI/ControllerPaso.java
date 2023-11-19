@@ -6,13 +6,13 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 import clasesLogicas.Paso;
-import interfacesGraficas.PlanEconomicoUI;
+import interfacesGraficas.AgregarPlanEconomicoUI;
 
 public class ControllerPaso {
 	private Paso paso;
-	private PlanEconomicoUI tablePasos;
+	private AgregarPlanEconomicoUI tablePasos;
 	
-	public ControllerPaso(String accion, String descripcion, int mes, int ingreso, String tipoIngreso, String estado, PlanEconomicoUI tablePasos) {
+	public ControllerPaso(String accion, String descripcion, int mes, int ingreso, String tipoIngreso, String estado, AgregarPlanEconomicoUI tablePasos) {
 		paso = new Paso(accion, descripcion, mes, ingreso, tipoIngreso, estado);
 		this.tablePasos = tablePasos;
 	}
@@ -42,7 +42,13 @@ public class ControllerPaso {
 		return verificado;
 	}
 
-	public PlanEconomicoUI getTableAsesores() {
+	public AgregarPlanEconomicoUI getTableAsesores() {
 		return tablePasos;
 	}
+
+	public Paso getPaso() {
+		return paso;
+	}
+	
+	
 }

@@ -2,19 +2,11 @@ package strapi;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import clasesLogicas.*;
-import interfacesGraficas.AgregarAsesorUI;
-import interfacesGraficas.AgregarCasoUI;
-import interfacesGraficas.AgregarPasoUI;
-import interfacesGraficas.AsesorUI;
-import interfacesGraficas.CasoUI3;
-import interfacesGraficas.FurtherInformationUI;
-import interfacesGraficas.PlanEconomicoUI;
-import interfacesGraficas.RevisarPlanesUI;
-import interfacesGraficas.VentanaInicialUI;
-
+import interfacesGraficas.*;
 public class Main {
 	
 	/*
@@ -50,16 +42,23 @@ public class Main {
 	
 	o	Factorizar el código de los http request en una sola clase que sea usada por los apiclients, el apiclients solo interfaza la lógica hacia los objetos
 */
-	
+	public static PlanEconomicoDisponible planDisponible = new PlanEconomicoDisponible();
+	public static SeleccionarAsesorPlan seleccionarAsesor = new SeleccionarAsesorPlan();
 	public static RevisarPlanesUI RevisarPlanesUI = new RevisarPlanesUI();
 	public static VentanaInicialUI Ventana = new VentanaInicialUI();
 	public static AsesorUI AsesorUI = new AsesorUI();
 	public static AgregarAsesorUI AAsesorUI = new AgregarAsesorUI(AsesorUI);
-	public static CasoUI3 CasoUI = new CasoUI3();
+	public static CasoUI CasoUI = new CasoUI();
 	public static AgregarCasoUI ACasoUI = new AgregarCasoUI(CasoUI);
-	public static PlanEconomicoUI PlanEconomicoUI = new PlanEconomicoUI();
-	public static AgregarPasoUI APasoUI = new AgregarPasoUI(PlanEconomicoUI);
+	public static AgregarPlanEconomicoUI plan = new AgregarPlanEconomicoUI();
+	public static PlanEconomicoUI planesEconomicos = new PlanEconomicoUI(CasoUI);
+	public static AgregarPasoUI APasoUI = new AgregarPasoUI(plan);
 	public static FurtherInformationUI VerMasUI = new FurtherInformationUI();
+	
+	
+	
+	public static ArrayList<Asesor> asesoresRegistrados = new ArrayList<>();
+	public static ArrayList<PlanEconomico> planesRegistrados = new ArrayList<>();
 
     public static void main(String[] args) {
 

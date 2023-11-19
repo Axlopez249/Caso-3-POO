@@ -87,7 +87,7 @@ public class VentanaInicialUI extends JFrame {
         botonPlanes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.PlanEconomicoUI.setVisible(true);
+				Main.planesEconomicos.setVisible(true);
 				dispose();
 			}
         });

@@ -2,6 +2,7 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.ButtonGroup;
@@ -16,13 +17,15 @@ import javax.swing.SwingUtilities;
 
 import ControllersGUI.ControllerAsesor;
 import ControllersGUI.ControllerPaso;
+import clasesLogicas.Paso;
 import strapi.Main;
 
 public class AgregarPasoUI extends JFrame{
 	
 	private ControllerPaso controller;
+	private ArrayList<Paso> pasos = new ArrayList<Paso>();
 	
-	public AgregarPasoUI(PlanEconomicoUI tablaPlanes) {
+	public AgregarPasoUI(AgregarPlanEconomicoUI tablaPlanes) {
 		
 		setTitle("Agregar paso plan económico");
         setSize(380, 420); // Set the desired size
@@ -133,6 +136,8 @@ public class AgregarPasoUI extends JFrame{
 													   Integer.parseInt(txtMesEjecucion.getText()), Integer.parseInt(txtIngreso.getText()),
 													   bgTipoIngreso.getSelection().getActionCommand(),estado, tablaPlanes);
 						controller.actualizarTablaPasos();
+						Paso paso = controller.getPaso();
+						Main.plan.actualizarListaPasos(paso);
 					}else {
 					    JOptionPane.showMessageDialog(null, "Por favor no deje sin seleccionar las casillas");
 					}
@@ -143,7 +148,7 @@ public class AgregarPasoUI extends JFrame{
 					txtMesEjecucion.setText("");
 					txtIngreso.setText("");
 					
-					Main.PlanEconomicoUI.setVisible(true);
+					Main.plan.setVisible(true);
 					dispose();
 				} catch (Exception e1) {
 				    // Captura la excepción si hay un error al convertir a int o double
@@ -156,7 +161,7 @@ public class AgregarPasoUI extends JFrame{
         btnCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.PlanEconomicoUI.setVisible(true);
+				Main.plan.setVisible(true);
 				dispose();
 			}
         });
