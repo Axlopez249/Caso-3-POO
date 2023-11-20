@@ -2,17 +2,21 @@ package ControllersGUI;
 
 import java.text.SimpleDateFormat;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import clasesLogicas.InfoTemporal;
 import strapi.Main;
 
 public class ActualizadorTablaPlan {
-	JTable table;
+
 	
-	public ActualizadorTablaPlan(JTable table) {
-		table = table;
+	public ActualizadorTablaPlan() { 
+	}
+
+	public void actualizarTable(JTable table) {
 		JTable tableCaso = Main.CasoUI.getTable();
 		
 
@@ -46,10 +50,21 @@ public class ActualizadorTablaPlan {
         }
         table.repaint();
 	}
-
-	public JTable getTable() {
-		return table;
+	
+	public InfoTemporal extraerDatos(int filaSeleccionada, JTable table) {
+            // Obtener los datos de la fila seleccionada
+            String nombre = table.getValueAt(filaSeleccionada, 0).toString();
+            int telefonoAgricultor = Integer.parseInt(table.getValueAt(filaSeleccionada, 1).toString());
+            double terrenoDisponible = Double.parseDouble(table.getValueAt(filaSeleccionada, 2).toString());
+            String tipoTerreno = table.getValueAt(filaSeleccionada, 3).toString();
+            String provincia = table.getValueAt(filaSeleccionada, 4).toString();
+            double deuda = Double.parseDouble(table.getValueAt(filaSeleccionada, 5).toString());
+            double dineroDisponible = Double.parseDouble(table.getValueAt(filaSeleccionada, 6).toString());
+            String organizacion = table.getValueAt(filaSeleccionada, 7).toString();
+            
+            InfoTemporal infoTemporal = new InfoTemporal(nombre, telefonoAgricultor, terrenoDisponible, tipoTerreno, provincia, deuda, dineroDisponible, organizacion, null);
+            return infoTemporal;
 	}
 	
-	
-}
+}	
+

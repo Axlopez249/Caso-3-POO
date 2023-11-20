@@ -26,7 +26,7 @@ import clasesLogicas.Terreno;
 import strapi.*;
 
 public class AgregarCasoUI2 extends JFrame {
-	public AgregarCasoUI2(CasoUI3 casoUI) {
+	public AgregarCasoUI2(CasoUI casoUI) {
 		setTitle("Asesores en Agricultura");
 		setSize(1150, 725);
 		setResizable(false);

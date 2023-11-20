@@ -88,6 +88,7 @@ public class VentanaInicialUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Main.planesEconomicos.setVisible(true);
+				Main.planesEconomicos.pintarTable();
 				dispose();
 			}
         });

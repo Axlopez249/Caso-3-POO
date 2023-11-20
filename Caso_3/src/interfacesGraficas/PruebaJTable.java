@@ -15,6 +15,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+import strapi.Main;
+
 public class PruebaJTable extends JFrame {
 	public PruebaJTable() {
 		
@@ -29,6 +31,7 @@ public class PruebaJTable extends JFrame {
         model.addColumn("Teléfono agricultor");
         model.addColumn("Terreno disponible");
         model.addColumn("Tipo de terreno");
+        /*
         model.addColumn("Provincia");
         model.addColumn("Productos sembrados");
         model.addColumn("Cantidad (kg)");
@@ -43,13 +46,23 @@ public class PruebaJTable extends JFrame {
         model.addColumn("Teléfono asesor");
         model.addColumn("Correo del asesor");
         model.addColumn("Estado");
-        
+        */
         JTable table = new JTable(model);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
 
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
+        model.addRow(new Object[]{"Axel", 132123, 56.9, "Arido"});
         table.setBounds(10, 10, 700, 700);
         
         JButton boton = new JButton("Botón");
+        boton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Main.Ventana.setVisible(true);
+				dispose();
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0);
+			}
+	    });
         boton.setBounds(200, 200, 125, 50);
         
         getContentPane().setLayout(new BorderLayout());

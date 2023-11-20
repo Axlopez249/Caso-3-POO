@@ -9,24 +9,38 @@ import javax.swing.table.DefaultTableModel;
 import clasesLogicas.Agricultor;
 import clasesLogicas.Asesor;
 import clasesLogicas.Caso2;
+import clasesLogicas.InfoTemporal;
+import clasesLogicas.PlanEconomico;
 import interfacesGraficas.AsesorUI;
+import interfacesGraficas.CasoUI;
 import interfacesGraficas.CasoUI3;
+import strapi.Main;
 
 public class ControllerCaso {
 	private Caso2 caso2;
-	private CasoUI3 tableCaso2;
+	private CasoUI tableCaso2;
 	private double deuda;
 	private double terrenoDisponible;
 	private String tipoDeTerreno;
 	private double dineroDisponible;
+	private int numeroTelefono;
 	
-	public ControllerCaso(int IDCaso, Agricultor agricultor, int numeroTelefono, Asesor asesor, String provincia, int telefonoAsesor, String organizacion, Date fechaIngresoCaso, String estado, CasoUI3 casoUI, double deuda, double availableLand, String terrainType, double dineroDisponible) {
+	public ControllerCaso(int IDCaso, Agricultor agricultor, int numeroTelefono, Asesor asesor, String provincia, int telefonoAsesor, String organizacion, Date fechaIngresoCaso, String estado, CasoUI casoUI, double deuda, double availableLand, String terrainType, double dineroDisponible) {
 		this.caso2 = new Caso2(IDCaso, agricultor, numeroTelefono, asesor, provincia, telefonoAsesor, organizacion, fechaIngresoCaso, estado);
+		Main.casos.add(caso2);
 		this.tableCaso2 = casoUI;
 		this.deuda = deuda;
 		this.terrenoDisponible = availableLand;
 		this.tipoDeTerreno = terrainType;
 		this.dineroDisponible = dineroDisponible;
+		this.numeroTelefono = numeroTelefono;
+		PlanEconomico plan = null;
+		
+		
+		InfoTemporal infoTemporal = new InfoTemporal(agricultor.getNombre(), numeroTelefono, availableLand, terrainType, provincia,
+				deuda, dineroDisponible, organizacion, plan);
+		
+		Main.infoTemporalessinasignar.add(infoTemporal);
 	}
 	
 	
@@ -37,7 +51,7 @@ public class ControllerCaso {
 	    
 	    Agricultor agricultor = caso2.getAgricultor();
 	    
-	    model.addRow(new Object[]{agricultor.getNombre(), terrenoDisponible, tipoDeTerreno, caso2.getProvincia(), deuda, dineroDisponible, caso2.getOrganiRepresentante()});
+	    model.addRow(new Object[]{agricultor.getNombre(), numeroTelefono, terrenoDisponible, tipoDeTerreno, caso2.getProvincia(), deuda, dineroDisponible, caso2.getOrganiRepresentante(), "no asignado"});
 
 	    // Agregar una nueva fila con la información proporcionada
 //	    model.addRow(new Object[]{asesor.getNombre(), asesor.getId(), asesor.getZona(), asesor.getCorreo(), asesor.getExperiencia(), asesor.getRating(), 
@@ -55,7 +69,7 @@ public class ControllerCaso {
 		return verificado;
 	}
 
-	public CasoUI3 getTableCaso() {
+	public CasoUI getTableCaso() {
 		return tableCaso2;
 	}
 
@@ -65,7 +79,7 @@ public class ControllerCaso {
 	}
 
 
-	public CasoUI3 getTableCaso2() {
+	public CasoUI getTableCaso2() {
 		return tableCaso2;
 	}
 

@@ -42,24 +42,35 @@ public class Main {
 	
 	o	Factorizar el código de los http request en una sola clase que sea usada por los apiclients, el apiclients solo interfaza la lógica hacia los objetos
 */
-	public static PlanEconomicoDisponible planDisponible = new PlanEconomicoDisponible();
+	
 	public static SeleccionarAsesorPlan seleccionarAsesor = new SeleccionarAsesorPlan();
 	public static RevisarPlanesUI RevisarPlanesUI = new RevisarPlanesUI();
 	public static VentanaInicialUI Ventana = new VentanaInicialUI();
 	public static AsesorUI AsesorUI = new AsesorUI();
 	public static AgregarAsesorUI AAsesorUI = new AgregarAsesorUI(AsesorUI);
 	public static CasoUI CasoUI = new CasoUI();
-	public static AgregarCasoUI ACasoUI = new AgregarCasoUI(CasoUI);
+	public static AgregarCasoUI2 ACasoUI = new AgregarCasoUI2(CasoUI);
+	
+	//Secuencia de las interfaces de los planes economicos
+	/*
+	 * El mae primero arranca con la clase PlanEconomicoUI donde observo los casos no asignados
+	 * Luego Ahí mismo puedo crear un plan economico, donde pregunto primero el nombre del asesor y luego se definen los pasos
+	 * Cuando se crea un plan economico se guarda en la lista public de los planes economicos
+	 * Luego cuando para ver o asginar un plan a un caso, primero de debe de seleccionar una fila de la tabla (cada caso sin asignar)*/
 	public static AgregarPlanEconomicoUI plan = new AgregarPlanEconomicoUI();
 	public static PlanEconomicoUI planesEconomicos = new PlanEconomicoUI(CasoUI);
 	public static AgregarPasoUI APasoUI = new AgregarPasoUI(plan);
 	public static FurtherInformationUI VerMasUI = new FurtherInformationUI();
-	
+	public static PlanEconomicoDisponible planDisponible = new PlanEconomicoDisponible();
 	
 	
 	public static ArrayList<Asesor> asesoresRegistrados = new ArrayList<>();
 	public static ArrayList<PlanEconomico> planesRegistrados = new ArrayList<>();
+	public static ArrayList<InfoTemporal> infoTemporalessinasignar = new ArrayList<>();
+	
+	public static ArrayList<Caso2> casos = new ArrayList<>();
 
+	public static int numeroCaso = 0;
     public static void main(String[] args) {
 
     	/*Date fecha = new Date("12/10/2023");

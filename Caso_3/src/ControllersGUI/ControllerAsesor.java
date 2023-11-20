@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import clasesLogicas.Asesor;
 import interfacesGraficas.AsesorUI;
+import strapi.Main;
 
 public class ControllerAsesor {
 	private Asesor asesor;
@@ -15,6 +16,7 @@ public class ControllerAsesor {
 	public ControllerAsesor(String nombre, double rating, int id, String zona, String correo, int experiencia, int cantidadCasos, Date fechaIngreso, AsesorUI tablaAsesores) {
 		asesor = new Asesor(nombre, id, zona, correo, rating, experiencia, cantidadCasos, fechaIngreso);
 		this.tableAsesores = tablaAsesores;
+		Main.asesoresRegistrados.add(asesor);
 	}
 	
 	public void actualizarTablaAsesores() {

@@ -3,8 +3,14 @@ package ControllersGUI;
 
 import java.util.Date;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import clasesLogicas.InfoTemporal;
+import clasesLogicas.PlanEconomico;
 import interfacesGraficas.CasoUI;
 import interfacesGraficas.CasoUI3;
+import strapi.Main;
 
 public class ControllerCaso3 {
 	private String name;
@@ -24,6 +30,13 @@ public class ControllerCaso3 {
 	
 	public ControllerCaso3(String nombre, int numeroTelefono, String tipoDeTerreno, double terrenoDisponible, String provincia, boolean sembrado, int cantidadActual, 
 			double deuda, double dineroDisponible, int ingresosActuales, int ingresosAnoPasado, String organizacion, CasoUI casoUI) {
+		
+		//Creo un objeto tipo infoTemporal por mientras
+		//Pero se deberia de crear un objeto caso
+		
+		
+		
+		
 		this.name = nombre;
 		this.cellphoneNumber = numeroTelefono;
 		this.landType = tipoDeTerreno;
@@ -37,10 +50,26 @@ public class ControllerCaso3 {
 		this.lastYearIncome = ingresosAnoPasado;
 		this.organization = organizacion;
 		this.instanciaCaso = casoUI;
+		PlanEconomico plan = null;
+		
+		
+		InfoTemporal infoTemporal = new InfoTemporal(name, cellphoneNumber, availableLand, landType, provincia,
+				debt, availableMoney, organization, plan);
+		
+		Main.infoTemporalessinasignar.add(infoTemporal);
 	}
 	
 	public void actualizarTablaAsesores() {
-		instanciaCaso.pintarTable(name, cellphoneNumber, availableLand, landType, provincia, debt, availableMoney, organization);
+		
+		JTable tablaCasos = Main.CasoUI.getTable();
+		// Obtener el modelo de la tabla
+	    DefaultTableModel model = (DefaultTableModel) tablaCasos.getModel();
+
+	    // Agregar una nueva fila con la información proporcionada
+	    model.addRow(new Object[]{name, cellphoneNumber, availableLand, landType, provincia, debt, availableMoney, organization, "no asignado"});
+
+	    // Refrescar la tabla
+	    tablaCasos.repaint();
 	}
 	
 	public boolean verificarDatos() {

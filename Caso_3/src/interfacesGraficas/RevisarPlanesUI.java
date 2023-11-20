@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import strapi.Main;
-
+//Saldrian los casos ya asignados con un plan
 public class RevisarPlanesUI extends JFrame {
 	public RevisarPlanesUI() {
 		setTitle("Asesores en Agricultura");

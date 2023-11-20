@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -13,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import ControllersGUI.ActualizadorTablaPlan;
+import clasesLogicas.InfoTemporal;
 import strapi.Main;
 
 //Los estados pueden ser asignado con plan asignado
@@ -20,6 +22,8 @@ import strapi.Main;
 
 public class PlanEconomicoUI extends JFrame{
 	private JTable table;
+	private ActualizadorTablaPlan actualizador = new ActualizadorTablaPlan();
+	private InfoTemporal infoTemporal;
 
 	public PlanEconomicoUI(CasoUI caso){
 		
@@ -75,16 +79,16 @@ public class PlanEconomicoUI extends JFrame{
 				//Ademas de llamar a la ventana tengo que seleccionar el caso 
 				//Obtener los datos de ese caso para ponerlo como asignado luego
 				int filaSeleccionada = table.getSelectedRow();
-	            if (filaSeleccionada != -1) {
-	                int numeroF = (int) table.getValueAt(filaSeleccionada, 0);
-	                int ID = (int) table.getValueAt(filaSeleccionada, 1);
-	                String falla = (String) table.getValueAt(filaSeleccionada, 3);
-	                ((DefaultTableModel) table.getModel()).removeRow(filaSeleccionada);
-	            } else {
-	            	
-	            }
-				Main.plan.setVisible(true);
-				dispose();
+				if (filaSeleccionada != -1) {
+					infoTemporal = actualizador.extraerDatos(filaSeleccionada, table);
+					Main.planDisponible.setVisible(true);
+					Main.planDisponible.pintarTable();
+					dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "Selecciona una fila primero.");
+				}
+				
+			
 			}
 	    });
 	    
@@ -117,8 +121,11 @@ public class PlanEconomicoUI extends JFrame{
 	}
 	
 	public void pintarTable() {
-		ActualizadorTablaPlan actualizador = new ActualizadorTablaPlan(table);
+		actualizador.actualizarTable(table);
 	}
 	
+	public InfoTemporal getInfo() {
+		return infoTemporal;
+	}
 
 }

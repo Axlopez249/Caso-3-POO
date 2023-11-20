@@ -61,7 +61,7 @@ public class CasoUI extends JFrame {
         agregarCaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			Main.ACasoUI.setVisible(true);
+				Main.ACasoUI.setVisible(true);
 				dispose();
 			}
         });
@@ -123,17 +123,7 @@ public class CasoUI extends JFrame {
 		return table;
 	}
 	
-	public void pintarTable(String nombre, int numero, double terrenoDisponible, String tipoDeTerreno, String provincia, double deuda, double dineroDisponible, String organizacion) {
-//		JTable tabla2 = getTable();
-		// Obtener el modelo de la tabla
-	    DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-	    // Agregar una nueva fila con la información proporcionada
-	    model.addRow(new Object[]{nombre, terrenoDisponible, tipoDeTerreno, provincia, deuda, dineroDisponible, organizacion});
-
-	    // Refrescar la tabla
-	    table.repaint();
-	}
 
 }
 
