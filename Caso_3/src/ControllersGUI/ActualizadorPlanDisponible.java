@@ -61,7 +61,7 @@ public class ActualizadorPlanDisponible {
 							if (asesorx.getNombre() == nombre) {
 								Asesor asesor = asesorx;
 								//Ahora busco en los casos
-								for (Caso2 caso : Main.casos) {
+								for (Caso caso : Main.casos) {
 									if (caso.getAgricultor().getNombre() == infoTemporal.getAgricultor() && caso.getTelefonoAgricultor() == infoTemporal.getTelefonoAgricultor()) {
 										caso.setAsesor(asesor);
 										break;
@@ -96,7 +96,7 @@ public class ActualizadorPlanDisponible {
          * 
          * Ahora el problema que falta resolver nuevamente es cómo puedo guardar los pasos o mas bien un plan asignado a caso,
          * ya que inicialmente se tiene sin nada asignado
-         * */
+        */
        
 	}
 }

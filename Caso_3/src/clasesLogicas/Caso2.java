@@ -73,9 +73,9 @@ public class Caso2 {
 		return estado;
 	}
 	
+	
 	public void setAsesor(Asesor asesor) {
 		this.asesor = asesor;
 	}
-	
 	
 }

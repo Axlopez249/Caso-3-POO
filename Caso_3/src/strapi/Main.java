@@ -49,7 +49,7 @@ public class Main {
 	public static AsesorUI AsesorUI = new AsesorUI();
 	public static AgregarAsesorUI AAsesorUI = new AgregarAsesorUI(AsesorUI);
 	public static CasoUI CasoUI = new CasoUI();
-	public static AgregarCasoUI2 ACasoUI = new AgregarCasoUI2(CasoUI);
+	public static AgregarCasoUI ACasoUI = new AgregarCasoUI(CasoUI);
 	
 	//Secuencia de las interfaces de los planes economicos
 	/*
@@ -63,12 +63,10 @@ public class Main {
 	public static FurtherInformationUI VerMasUI = new FurtherInformationUI();
 	public static PlanEconomicoDisponible planDisponible = new PlanEconomicoDisponible();
 	
-	
 	public static ArrayList<Asesor> asesoresRegistrados = new ArrayList<>();
 	public static ArrayList<PlanEconomico> planesRegistrados = new ArrayList<>();
 	public static ArrayList<InfoTemporal> infoTemporalessinasignar = new ArrayList<>();
-	
-	public static ArrayList<Caso2> casos = new ArrayList<>();
+	public static ArrayList<Caso> casos = new ArrayList<>();
 
 	public static int numeroCaso = 0;
     public static void main(String[] args) {

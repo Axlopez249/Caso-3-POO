@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import clasesLogicas.InfoTemporal;
 import clasesLogicas.PlanEconomico;
 import interfacesGraficas.CasoUI;
-import interfacesGraficas.CasoUI3;
+//import interfacesGraficas.CasoUI3;
 import strapi.Main;
 
 public class ControllerCaso3 {
@@ -33,9 +33,6 @@ public class ControllerCaso3 {
 		
 		//Creo un objeto tipo infoTemporal por mientras
 		//Pero se deberia de crear un objeto caso
-		
-		
-		
 		
 		this.name = nombre;
 		this.cellphoneNumber = numeroTelefono;

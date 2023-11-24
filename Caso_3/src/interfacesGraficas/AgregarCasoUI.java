@@ -18,8 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import ControllersGUI.ControllerAsesor;
+import ControllersGUI.ControllerCaso;
 import ControllersGUI.ControllerCaso3;
 import clasesLogicas.Agricultor;
+import clasesLogicas.Asesor;
 import clasesLogicas.Producto;
 import clasesLogicas.Terreno;
 import strapi.*;
@@ -130,9 +132,31 @@ public class AgregarCasoUI extends JFrame {
 			        int IDAgricultor = random.nextInt(9000) + 1000;
 			        int IDCaso = random.nextInt(9000) + 1000;
 			        
+			        double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
+					double deuda = Integer.parseInt(deudaT.getText());
+					double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
+			        Date currentDate = new Date();
+			        
+			        // Crear un objeto Calendar y establecer la fecha actual
+			        Calendar calendar = Calendar.getInstance();
+			        calendar.setTime(currentDate);
+			        
+			        // Incrementar la fecha en 30 días
+			        calendar.add(Calendar.DAY_OF_MONTH, 30);
+			        
+			        // Obtener la nueva fecha
+//			        Date newDate = calendar.getTime();
+			        Asesor asesor = new Asesor("Null", 0, "Null","Null", 1.1, 1, 1, calendar.getTime());
+
+					Producto producto = new Producto("Papa", false, calendar.getTime(), Integer.parseInt(cantidadActualT.getText()), agricultorT.getText());
+					ArrayList<Producto> productos = new ArrayList<>();
+					productos.add(producto);
+
+			        
 					if(checkBoxArido.isSelected()) {
 						String terrainType = "Arido";
 						if(checkBoxSi.isSelected()) {
+/*
 							String nombre = (String) agricultorT.getText();
 							int telefono = Integer.parseInt(telefonoAT.getText());
 							double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
@@ -142,76 +166,81 @@ public class AgregarCasoUI extends JFrame {
 							double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
 							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
 							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-							String organizacionA = (String) organizacionT.getText();
-							
-					        Date currentDate = new Date();
-
-					        // Crear un objeto Calendar y establecer la fecha actual
-					        Calendar calendar = Calendar.getInstance();
-					        calendar.setTime(currentDate);
-
-					        // Incrementar la fecha en 30 días
-					        calendar.add(Calendar.DAY_OF_MONTH, 30);
-
-					        // Obtener la nueva fecha
-					        Date newDate = calendar.getTime();
-					        
-							Terreno terreno = new Terreno(terrainType, true, false, false, terrenoDisponible, nombre);
+//							String organizacionA = (String) organizacionT.getText();
+*/
+							Terreno terreno = new Terreno(terrainType, true, false, false, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
 							ArrayList<Terreno> terrenos = new ArrayList<>();
 							terrenos.add(terreno);
-							Producto producto = new Producto("Papa", false, newDate, cantidadActual, nombre);
-							ArrayList<Producto> productos = new ArrayList<>();
-							productos.add(producto);
-							
-							Agricultor agricultor = new Agricultor(nombre, IDAgricultor, dineroDisponible, deuda, terrenos, productos);
-							ControllerCaso3 controller = new ControllerCaso3(nombre, telefono, terrainType, terrenoDisponible, provincia, true, cantidadActual, deuda, dineroDisponible, ingresosActuales, pastYearGain, organizacionA,casoUI);
+														
+							Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), Integer.parseInt(deudaT.getText()), terrenos, productos);
+							ControllerCaso controller = new ControllerCaso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, (String) provinciaT.getSelectedItem(), 0, organizacionT.getText(), calendar.getTime(), "Sin asignar", casoUI, deuda, terrenoDisponible, terrainType, dineroDisponible);
 							controller.actualizarTablaAsesores();
 						}
 						if(checkBoxNo.isSelected()) {
+							/*
 							String nombre = (String) agricultorT.getText();
 							int telefono = Integer.parseInt(telefonoAT.getText());
-							int terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
+							double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
 							String provincia = (String) provinciaT.getSelectedItem();
-//							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							int deuda = Integer.parseInt(deudaT.getText());
-							int dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
+							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
+							double deuda = Integer.parseInt(deudaT.getText());
+							double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
 							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
 							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-							String organizacionA = (String) organizacionT.getText();
-							ControllerCaso3 controller = new ControllerCaso3(nombre, telefono, terrainType, terrenoDisponible, provincia, false, 0, deuda, dineroDisponible, ingresosActuales, pastYearGain, organizacionA, casoUI);
-							controller.actualizarTablaAsesores();
+//							String organizacionA = (String) organizacionT.getText();
+*/
+							Terreno terreno = new Terreno(terrainType, true, false, false, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
+							ArrayList<Terreno> terrenos = new ArrayList<>();
+							terrenos.add(terreno);
+														
+							Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), Integer.parseInt(deudaT.getText()), terrenos, productos);
+							ControllerCaso controller = new ControllerCaso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, (String) provinciaT.getSelectedItem(), 0, organizacionT.getText(), calendar.getTime(), "Sin asignar", casoUI, deuda, terrenoDisponible, terrainType, dineroDisponible);
+							controller.actualizarTablaAsesores();						
 						}
 					}
 					if(checkBoxHumedo.isSelected()) {
 						String terrainType = "Humedo";
 						if(checkBoxSi.isSelected()) {
+//							Agragex
+							/*
 							String nombre = (String) agricultorT.getText();
 							int telefono = Integer.parseInt(telefonoAT.getText());
-							int terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
+							double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
 							String provincia = (String) provinciaT.getSelectedItem();
 							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							int deuda = Integer.parseInt(deudaT.getText());
-							int dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
+							double deuda = Integer.parseInt(deudaT.getText());
+							double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
 							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
 							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-							String organizacionA = (String) organizacionT.getText();
-							ControllerCaso3 controller = new ControllerCaso3(nombre, telefono, terrainType, terrenoDisponible, provincia, true, cantidadActual, deuda, dineroDisponible, ingresosActuales, pastYearGain, organizacionA, casoUI);
-							controller.actualizarTablaAsesores();
-						}
+//							String organizacionA = (String) organizacionT.getText();
+*/
+							Terreno terreno = new Terreno(terrainType, false, false, false, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
+							ArrayList<Terreno> terrenos = new ArrayList<>();
+							terrenos.add(terreno);
+														
+							Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), Integer.parseInt(deudaT.getText()), terrenos, productos);
+							ControllerCaso controller = new ControllerCaso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, (String) provinciaT.getSelectedItem(), 0, organizacionT.getText(), calendar.getTime(), "Sin asignar", casoUI, deuda, terrenoDisponible, terrainType, dineroDisponible);
+							controller.actualizarTablaAsesores();						}
 						if(checkBoxNo.isSelected()) {
+							/*
 							String nombre = (String) agricultorT.getText();
 							int telefono = Integer.parseInt(telefonoAT.getText());
-							int terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
+							double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
 							String provincia = (String) provinciaT.getSelectedItem();
-//							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							int deuda = Integer.parseInt(deudaT.getText());
-							int dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
+							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
+							double deuda = Integer.parseInt(deudaT.getText());
+							double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
 							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
 							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-							String organizacionA = (String) organizacionT.getText();
-							ControllerCaso3 controller = new ControllerCaso3(nombre, telefono, terrainType, terrenoDisponible, provincia, false, 0, deuda, dineroDisponible, ingresosActuales, pastYearGain, organizacionA, casoUI);
-							controller.actualizarTablaAsesores();
-						}
+//							String organizacionA = (String) organizacionT.getText();
+*/
+							Terreno terreno = new Terreno(terrainType, false, false, false, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
+							ArrayList<Terreno> terrenos = new ArrayList<>();
+							terrenos.add(terreno);
+														
+							Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), Integer.parseInt(deudaT.getText()), terrenos, productos);
+							ControllerCaso controller = new ControllerCaso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, (String) provinciaT.getSelectedItem(), 0, organizacionT.getText(), calendar.getTime(), "Sin asignar", casoUI, deuda, terrenoDisponible, terrainType, dineroDisponible);
+							controller.actualizarTablaAsesores();						}
 					}
 				} catch (NumberFormatException e1) {
 				    JOptionPane.showMessageDialog(null, "Error al convertir a número: " + e1.getMessage());

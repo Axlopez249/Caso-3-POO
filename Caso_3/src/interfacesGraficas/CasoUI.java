@@ -22,6 +22,7 @@ public class CasoUI extends JFrame {
         
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Agricultor");
+        model.addColumn("ID Caso");
         model.addColumn("Teléfono agricultor");
         model.addColumn("Terreno disponible");
         model.addColumn("Tipo de terreno");
