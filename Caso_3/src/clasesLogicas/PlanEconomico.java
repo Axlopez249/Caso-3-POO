@@ -1,4 +1,4 @@
-package clasesLogicas;
+ package clasesLogicas;
 
 import java.util.ArrayList;
 

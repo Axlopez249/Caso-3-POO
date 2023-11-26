@@ -92,8 +92,11 @@ public class AgregarPlanEconomicoUI extends JFrame{
 				controllerAgregarPlan = new ControllerAgregarPlan(nombreAsesor, pasos);
 				//Tengo que liberar las listas usadas
 				//Y el string nombre del asesor
-				pasos = null;
+				pasos.clear();
 				nombreAsesor = "";
+				for(int i = 0; i < model.getRowCount(); i++) {
+					model.removeRow(i);
+				}
 				Main.planesEconomicos.setVisible(true);
 				dispose();
 			}
