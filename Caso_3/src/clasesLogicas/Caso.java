@@ -8,20 +8,20 @@ public class Caso {
 	private Agricultor agricultor;
 	private int telefonoAgricultor;
 	private Asesor asesor;
-	private String provincia;
+	private String zona;
 	private int telefonoAsesor;
 	private String organiRepresentante;
 	private Date fechaIngreso;
 	private String estado;
 	
 	
-	public Caso(int idCaso, Agricultor agricultor, int telefonoAgricultor, Asesor asesor, String provincia,
+	public Caso(int idCaso, Agricultor agricultor, int telefonoAgricultor, Asesor asesor, String zona,
 			int telefonoAsesor, String organiRepresentante, Date fechaIngreso, String estado) {
 		this.idCaso = idCaso;
 		this.agricultor = agricultor;
 		this.telefonoAgricultor = telefonoAgricultor;
 		this.asesor = asesor;
-		this.provincia = provincia;
+		this.zona = zona;
 		this.telefonoAsesor = telefonoAsesor;
 		this.organiRepresentante = organiRepresentante;
 		this.fechaIngreso = fechaIngreso;
@@ -49,8 +49,8 @@ public class Caso {
 	}
 
 
-	public String getProvincia() {
-		return provincia;
+	public String getZona() {
+		return zona;
 	}
 
 

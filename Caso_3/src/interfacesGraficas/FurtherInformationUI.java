@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 
 
 public class FurtherInformationUI extends JFrame {
+	
+	private JTable table = new JTable();
+	
     public FurtherInformationUI() {
 		setTitle("Ver más");
 		setSize(1350, 725);
@@ -21,27 +24,15 @@ public class FurtherInformationUI extends JFrame {
         
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Agricultor");
-//        model.addColumn("Teléfono agricultor");
         model.addColumn("Terreno disponible");
-//        model.addColumn("Tipo de terreno");
-//        model.addColumn("Provincia");
         model.addColumn("Productos sembrados");
         model.addColumn("Cantidad (kg)");
         model.addColumn("Deuda");
         model.addColumn("Dinero disponible");
         model.addColumn("Ingresos actuales");
         model.addColumn("Ganancia (año pasado)");
-//        model.addColumn("Organización representante");
-//        model.addColumn("Fecha de ingreso de caso");
-/*
-        model.addColumn("Asesor");
-        model.addColumn("Provincia");
-        model.addColumn("Teléfono asesor");
-        model.addColumn("Correo del asesor");
-*/
-//        model.addColumn("Estado");
         
-        JTable table = new JTable(model);
+        table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Modo de selección de una sola fila
 
         table.setBounds(10, 10, 200, 200);
@@ -51,15 +42,15 @@ public class FurtherInformationUI extends JFrame {
         botonSalir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.CasoUI.setVisible(true);
+				Main.casoUI.setVisible(true);
 				dispose();
 			}
         });
         
         botonSalir.setBounds(475, 550, 400, 100);
         
-        getContentPane().setLayout(new BorderLayout());
         JScrollPane panelDesplazamiento = new JScrollPane(table);
+        panelDesplazamiento.setBounds(10, 10, 1315, 500);
 
         getContentPane().add(botonSalir);
         getContentPane().add(panelDesplazamiento);
@@ -84,4 +75,7 @@ public class FurtherInformationUI extends JFrame {
 
     }
 
+	public JTable getTable() {
+		return table;
+	}
 }

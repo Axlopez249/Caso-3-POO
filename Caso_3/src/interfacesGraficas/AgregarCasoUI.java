@@ -8,18 +8,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
-import ControllersGUI.ControllerAsesor;
 import ControllersGUI.ControllerCaso;
-import ControllersGUI.ControllerCaso3;
+import ControllersGUI.ControllerZonas;
 import clasesLogicas.Agricultor;
 import clasesLogicas.Asesor;
 import clasesLogicas.Producto;
@@ -27,6 +26,21 @@ import clasesLogicas.Terreno;
 import strapi.*;
 
 public class AgregarCasoUI extends JFrame {
+	
+	private ControllerCaso controller = new ControllerCaso();
+	
+    private JTextField agricultorT = new JTextField();
+    private JTextField telefonoAT = new JTextField();
+    private JTextField terrenoDisponibleT = new JTextField();
+    private JTextField cantidadActualT = new JTextField();
+    private JTextField deudaT = new JTextField();
+    private JTextField dineroDisponibleT = new JTextField();
+    private JTextField ingresosActualesT = new JTextField();
+    private JTextField gananciaAnoPasadoT = new JTextField();
+    private JTextField organizacionT = new JTextField();
+    private ButtonGroup bgTipoSuelo = new ButtonGroup();
+    private ButtonGroup bgTieneSiembra = new ButtonGroup();
+    
 	public AgregarCasoUI(CasoUI casoUI) {
 		setTitle("Asesores en Agricultura");
 		setSize(1150, 725);
@@ -34,44 +48,28 @@ public class AgregarCasoUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         JLabel agricultor = new JLabel("Agricultor");
-//        JComboBox<String> agricultorT = new JComboBox<>();
-        JTextField agricultorT = new JTextField();
         JLabel telefonoA = new JLabel("Teléfono agricultor");
-        JTextField telefonoAT = new JTextField();
         JLabel tipoTerreno = new JLabel("Tipo de terreno");
-//        JTextField tipoTerrenoT = new JTextField();
         JLabel terrenoDisponible = new JLabel("Terreno disponible");
-        JTextField terrenoDisponibleT = new JTextField();
-        JLabel provincia = new JLabel("Provincia");
-//        JTextField provinciaT = new JTextField();
-        JComboBox<String> provinciaT = new JComboBox<>();
-        provinciaT.addItem("Limón");
-        provinciaT.addItem("Guanacaste");
-        provinciaT.addItem("Cartago");
-        provinciaT.addItem("San José");
-        provinciaT.addItem("Alajuela");
-        provinciaT.addItem("Puntarenas");
-        provinciaT.addItem("Heredia");
+        JLabel zona = new JLabel("Zona de Operación");
+        
+        ControllerZonas getZonas = new ControllerZonas();
+        
+        JComboBox<String> zonaT = getZonas.getCmb();
+        
         JLabel boolSembrado = new JLabel("Productos sembrados");
-//        JTextField boolSembradoT = new JTextField();
         JLabel cantidadActual = new JLabel("Cantidad (kg)");
-        JTextField cantidadActualT = new JTextField();
         JLabel deuda = new JLabel("Deuda");
-        JTextField deudaT = new JTextField();
         JLabel dineroDisponible = new JLabel("Dinero disponible");
-        JTextField dineroDisponibleT = new JTextField();
         JLabel ingresosActuales = new JLabel("Ingresos actuales");
-        JTextField ingresosActualesT = new JTextField();
         JLabel gananciaAnoPasado = new JLabel("Ganancia (año pasado)");
-        JTextField gananciaAnoPasadoT = new JTextField();
         JLabel organizacion = new JLabel("Organización representante");
-        JTextField organizacionT = new JTextField();
         
         agricultor.setFont(new Font("Arial", Font.BOLD, 20));
         telefonoA.setFont(new Font("Arial", Font.BOLD, 20));
         tipoTerreno.setFont(new Font("Arial", Font.BOLD, 20));
         terrenoDisponible.setFont(new Font("Arial", Font.BOLD, 20));
-        provincia.setFont(new Font("Arial", Font.BOLD, 20));
+        zona.setFont(new Font("Arial", Font.BOLD, 20));
         boolSembrado.setFont(new Font("Arial", Font.BOLD, 20));
         cantidadActual.setFont(new Font("Arial", Font.BOLD, 20));
         deuda.setFont(new Font("Arial", Font.BOLD, 20));
@@ -84,7 +82,7 @@ public class AgregarCasoUI extends JFrame {
         telefonoA.setBounds(60, 140, 330, 40);
         tipoTerreno.setBounds(60, 220, 330, 40);
         terrenoDisponible.setBounds(60, 300, 330, 40);
-        provincia.setBounds(60, 380, 330, 40);
+        zona.setBounds(60, 380, 330, 40);
         boolSembrado.setBounds(60, 460, 330, 40);
         cantidadActual.setBounds(740, 60, 330, 40);
         deuda.setBounds(800, 140, 330, 40);
@@ -96,7 +94,7 @@ public class AgregarCasoUI extends JFrame {
         agricultorT.setBounds(300, 60, 200, 30);
         telefonoAT.setBounds(300, 140, 200, 30);
         terrenoDisponibleT.setBounds(300, 300, 200, 30);
-        provinciaT.setBounds(300, 380, 200, 30);
+        zonaT.setBounds(300, 380, 200, 30);
         cantidadActualT.setBounds(885, 60, 200, 30);
         deudaT.setBounds(885, 140, 200, 30);
         dineroDisponibleT.setBounds(885, 220, 200, 30);
@@ -104,18 +102,41 @@ public class AgregarCasoUI extends JFrame {
         gananciaAnoPasadoT.setBounds(885, 380, 200, 30);
         organizacionT.setBounds(885, 460, 200, 30);
         
-        JCheckBox checkBoxArido = new JCheckBox("Arido");
-        JCheckBox checkBoxHumedo = new JCheckBox("Húmedo");
+        JRadioButton rbArido = new JRadioButton("Árido");
+        JRadioButton rbHumedo = new JRadioButton("Húmedo");
         
-        checkBoxArido.setBounds(300, 215, 80, 20);
-        checkBoxHumedo.setBounds(300, 245, 80, 20);
+        rbArido.setActionCommand("Árido");
+        rbHumedo.setActionCommand("Húmedo");
         
-        JCheckBox checkBoxSi = new JCheckBox("Sí");
-        JCheckBox checkBoxNo = new JCheckBox("No");
+        rbArido.setBounds(300, 215, 80, 20);
+        rbHumedo.setBounds(300, 245, 80, 20);
         
-        checkBoxSi.setBounds(300, 455, 80, 20);
-        checkBoxNo.setBounds(300, 485, 80, 20);
+        rbArido.setFocusable(false);
+        rbHumedo.setFocusable(false);
+
+        getContentPane().add(rbArido);
+        getContentPane().add(rbHumedo);
         
+        bgTipoSuelo.add(rbArido);
+        bgTipoSuelo.add(rbHumedo);
+
+        JRadioButton rbSi = new JRadioButton("Si");
+        JRadioButton rbNo = new JRadioButton("No");
+        
+        rbSi.setActionCommand("Árido");
+        rbNo.setActionCommand("Húmedo");
+
+        rbSi.setBounds(300, 455, 80, 20);
+        rbNo.setBounds(300, 485, 80, 20);
+        
+        rbSi.setFocusable(false);
+        rbNo.setFocusable(false);
+
+        getContentPane().add(rbSi);
+        getContentPane().add(rbNo);
+        
+        bgTieneSiembra.add(rbSi);
+        bgTieneSiembra.add(rbNo);
         
         JButton botonConfirmar = new JButton("Confirmar caso");
         
@@ -125,141 +146,38 @@ public class AgregarCasoUI extends JFrame {
 				//Tienene que haber un tipo de seguridad a la hora de tomar los datos
 				//puede ser en el mismo controller de esta clase
 
-				//Primero saco la info de cata jtxt
+				//Primero saco la info del JTextBox
 				try {
+
+					if(bgTipoSuelo.getSelection() == null || bgTieneSiembra.getSelection() == null) {
+					    JOptionPane.showMessageDialog(null, "Por favor no deje opciones sin seleccionar.");
+					}else if(agricultorT.getText().isEmpty() || telefonoAT.getText().isEmpty() || terrenoDisponibleT.getText().isEmpty() || cantidadActualT.getText().isEmpty() || dineroDisponibleT.getText().isEmpty()
+							|| ingresosActualesT.getText().isEmpty() || gananciaAnoPasadoT.getText().isEmpty() || organizacionT.getText().isEmpty() || deudaT.getText().isEmpty()){
+						JOptionPane.showMessageDialog(null, "Por favor complete todos los espacios");
+					}else {
+						controller.añadirCaso(agricultorT, telefonoAT, terrenoDisponibleT, cantidadActualT, dineroDisponibleT, 
+											  ingresosActualesT, gananciaAnoPasadoT, organizacionT, deudaT, bgTipoSuelo, 
+											  bgTieneSiembra, (String) zonaT.getSelectedItem());
+						controller.actualizarTablaAsesores(Main.casoUI.getTable(), Main.verMasUI.getTable());
+						Salir();
+					}
 					
-			        Random random = new Random();
-			        int IDAgricultor = random.nextInt(9000) + 1000;
-			        int IDCaso = random.nextInt(9000) + 1000;
-			        
-			        double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-					double deuda = Integer.parseInt(deudaT.getText());
-					double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-			        Date currentDate = new Date();
-			        
-			        // Crear un objeto Calendar y establecer la fecha actual
-			        Calendar calendar = Calendar.getInstance();
-			        calendar.setTime(currentDate);
-			        
-			        // Incrementar la fecha en 30 días
-			        calendar.add(Calendar.DAY_OF_MONTH, 30);
-			        
-			        // Obtener la nueva fecha
-//			        Date newDate = calendar.getTime();
-			        Asesor asesor = new Asesor("Null", 0, "Null","Null", 1.1, 1, 1, calendar.getTime());
-
-					Producto producto = new Producto("Papa", false, calendar.getTime(), Integer.parseInt(cantidadActualT.getText()), agricultorT.getText());
-					ArrayList<Producto> productos = new ArrayList<>();
-					productos.add(producto);
-
-			        
-					if(checkBoxArido.isSelected()) {
-						String terrainType = "Arido";
-						if(checkBoxSi.isSelected()) {
-/*
-							String nombre = (String) agricultorT.getText();
-							int telefono = Integer.parseInt(telefonoAT.getText());
-							double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-							String provincia = (String) provinciaT.getSelectedItem();
-							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							double deuda = Integer.parseInt(deudaT.getText());
-							double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
-							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-//							String organizacionA = (String) organizacionT.getText();
-*/
-							Terreno terreno = new Terreno(terrainType, true, false, false, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
-							ArrayList<Terreno> terrenos = new ArrayList<>();
-							terrenos.add(terreno);
-														
-							Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), Integer.parseInt(deudaT.getText()), terrenos, productos);
-							ControllerCaso controller = new ControllerCaso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, (String) provinciaT.getSelectedItem(), 0, organizacionT.getText(), calendar.getTime(), "Sin asignar", casoUI, deuda, terrenoDisponible, terrainType, dineroDisponible);
-							controller.actualizarTablaAsesores();
-						}
-						if(checkBoxNo.isSelected()) {
-							/*
-							String nombre = (String) agricultorT.getText();
-							int telefono = Integer.parseInt(telefonoAT.getText());
-							double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-							String provincia = (String) provinciaT.getSelectedItem();
-							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							double deuda = Integer.parseInt(deudaT.getText());
-							double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
-							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-//							String organizacionA = (String) organizacionT.getText();
-*/
-							Terreno terreno = new Terreno(terrainType, true, false, false, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
-							ArrayList<Terreno> terrenos = new ArrayList<>();
-							terrenos.add(terreno);
-														
-							Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), Integer.parseInt(deudaT.getText()), terrenos, productos);
-							ControllerCaso controller = new ControllerCaso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, (String) provinciaT.getSelectedItem(), 0, organizacionT.getText(), calendar.getTime(), "Sin asignar", casoUI, deuda, terrenoDisponible, terrainType, dineroDisponible);
-							controller.actualizarTablaAsesores();						
-						}
-					}
-					if(checkBoxHumedo.isSelected()) {
-						String terrainType = "Humedo";
-						if(checkBoxSi.isSelected()) {
-//							Agragex
-							/*
-							String nombre = (String) agricultorT.getText();
-							int telefono = Integer.parseInt(telefonoAT.getText());
-							double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-							String provincia = (String) provinciaT.getSelectedItem();
-							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							double deuda = Integer.parseInt(deudaT.getText());
-							double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
-							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-//							String organizacionA = (String) organizacionT.getText();
-*/
-							Terreno terreno = new Terreno(terrainType, false, false, false, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
-							ArrayList<Terreno> terrenos = new ArrayList<>();
-							terrenos.add(terreno);
-														
-							Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), Integer.parseInt(deudaT.getText()), terrenos, productos);
-							ControllerCaso controller = new ControllerCaso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, (String) provinciaT.getSelectedItem(), 0, organizacionT.getText(), calendar.getTime(), "Sin asignar", casoUI, deuda, terrenoDisponible, terrainType, dineroDisponible);
-							controller.actualizarTablaAsesores();						}
-						if(checkBoxNo.isSelected()) {
-							/*
-							String nombre = (String) agricultorT.getText();
-							int telefono = Integer.parseInt(telefonoAT.getText());
-							double terrenoDisponible = Integer.parseInt(terrenoDisponibleT.getText());
-							String provincia = (String) provinciaT.getSelectedItem();
-							int cantidadActual = Integer.parseInt(cantidadActualT.getText());
-							double deuda = Integer.parseInt(deudaT.getText());
-							double dineroDisponible = Integer.parseInt(dineroDisponibleT.getText());
-							int ingresosActuales = Integer.parseInt(ingresosActualesT.getText());
-							int pastYearGain = Integer.parseInt(gananciaAnoPasadoT.getText());
-//							String organizacionA = (String) organizacionT.getText();
-*/
-							Terreno terreno = new Terreno(terrainType, false, false, false, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
-							ArrayList<Terreno> terrenos = new ArrayList<>();
-							terrenos.add(terreno);
-														
-							Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), Integer.parseInt(deudaT.getText()), terrenos, productos);
-							ControllerCaso controller = new ControllerCaso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, (String) provinciaT.getSelectedItem(), 0, organizacionT.getText(), calendar.getTime(), "Sin asignar", casoUI, deuda, terrenoDisponible, terrainType, dineroDisponible);
-							controller.actualizarTablaAsesores();						}
-					}
 				} catch (NumberFormatException e1) {
-				    JOptionPane.showMessageDialog(null, "Error al convertir a número: " + e1.getMessage());
+				    JOptionPane.showMessageDialog(null, "Por favor coloque valores númericos en los espacios en los que se le indica.");
 				} catch (Exception e2) {
-				    JOptionPane.showMessageDialog(null, "Otro error: " + e2.getMessage());
+				    JOptionPane.showMessageDialog(null, "Ha ocurrido un error: \n" + e2.getMessage());
 				}
-				Main.CasoUI.setVisible(true);
-				dispose();
+				
 			}
         });
-//String pName, int pTelefono, Terreno pTerreno, int pTerrenoDisponible, String pProvincia, boolean pProductosSembrados, int pCantidadSembrada, int pDeuda, int pDineroDisponible, int pIngresosActuales, int pGananciaAnoPasado, String pOrganizacion
+
         
         JButton botonCancelar = new JButton("Cancelar");
         
         botonCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.CasoUI.setVisible(true);
-				dispose();
+				Salir();
 			}
         });
         
@@ -275,13 +193,11 @@ public class AgregarCasoUI extends JFrame {
         getContentPane().add(telefonoA);
         getContentPane().add(telefonoAT);
         getContentPane().add(tipoTerreno);
-//        getContentPane().add(tipoTerrenoT);
         getContentPane().add(terrenoDisponible);
         getContentPane().add(terrenoDisponibleT);
-        getContentPane().add(provincia);
-        getContentPane().add(provinciaT);
+        getContentPane().add(zona);
+        getContentPane().add(zonaT);
         getContentPane().add(boolSembrado);
-//        getContentPane().add(boolSembradoT);
         getContentPane().add(cantidadActual);
         getContentPane().add(cantidadActualT);
         getContentPane().add(deuda);
@@ -296,16 +212,28 @@ public class AgregarCasoUI extends JFrame {
         getContentPane().add(organizacionT);
         getContentPane().add(botonConfirmar);
         getContentPane().add(botonCancelar);
-        getContentPane().add(checkBoxArido);
-        getContentPane().add(checkBoxHumedo);
-        getContentPane().add(checkBoxSi);
-        getContentPane().add(checkBoxNo);
+        getContentPane().add(rbArido);
+        getContentPane().add(rbHumedo);
+        getContentPane().add(rbSi);
+        getContentPane().add(rbNo);
 
         setLocationRelativeTo(null);
 	}
 	
-//	public void generarCaso(String pName, int pTelefono, Terreno pTerreno, int pTerrenoDisponible, String pProvincia, boolean pProductosSembrados, int pCantidadSembrada, int pDeuda, int pDineroDisponible, int pIngresosActuales, int pGananciaAnoPasado, String pOrganizacion) {
-//		Caso caso = new Caso(pName, pTelefono, pTerreno, pTerrenoDisponible, pProvincia, pProductosSembrados, pCantidadSembrada, pDeuda, pDineroDisponible, pIngresosActuales, pGananciaAnoPasado, pOrganizacion);
-//	}
+	public void Salir() {
 
+		agricultorT.setText("");
+		telefonoAT.setText("");
+		terrenoDisponibleT.setText("");
+		cantidadActualT.setText("");
+		dineroDisponibleT.setText("");
+		ingresosActualesT.setText("");
+		gananciaAnoPasadoT.setText("");
+		organizacionT.setText("");
+		deudaT.setText("");
+		bgTipoSuelo.clearSelection();
+		bgTieneSiembra.clearSelection();
+		Main.casoUI.setVisible(true);
+		dispose();
+	}
 }

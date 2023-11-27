@@ -82,8 +82,8 @@ public class ApiClientTerreno {
 	                // Obtiene los valores de los campos necesarios del objeto JSON
 
 	                // Crea un nuevo objeto Terreno con los datos obtenidos
-	                Terreno terreno = new Terreno(attributesObject.getString("tipoSuelo"), attributesObject.getBoolean("siembra"), attributesObject.getBoolean("plagas"),
-	                		attributesObject.getBoolean("abonado"), attributesObject.getJsonNumber("hectareas").doubleValue(), attributesObject.getString("dueno"));
+	                Terreno terreno = new Terreno(attributesObject.getString("tipoSuelo"), attributesObject.getBoolean("siembra"), 
+	                		attributesObject.getJsonNumber("hectareas").doubleValue(), attributesObject.getString("dueno"));
 	                terrenos.add(terreno);
 	            }
 	        }
@@ -93,15 +93,15 @@ public class ApiClientTerreno {
 	    this.terrenos = terrenos;
 	}
 	
-	public ArrayList<Terreno> getExtraerTerrenoEspecifico(String dueno) {
-		ArrayList<Terreno> terrenosEspecificos = null;
+	public Terreno getExtraerTerrenoEspecifico(String dueno) {
+		
 		//Aqui se va a retornar una lista de terrenos que pertenecen a un dueño inclusive siendo solo uno
 		for (Terreno terreno : terrenos) {
 			if (dueno.equals(terreno.getDueno())) {
-				terrenosEspecificos.add(terreno);
+				return terreno;
 			}
 		}
-		return terrenosEspecificos;
+		return null;
 	}
 
 	public ArrayList<Terreno> getTerrenos() {

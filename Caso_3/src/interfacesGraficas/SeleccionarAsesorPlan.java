@@ -10,11 +10,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import ControllersGUI.ControllerSeleccionarAsesorPlan;
 import clasesLogicas.Asesor;
 import clasesLogicas.Caso;
 import strapi.Main;
 
 public class SeleccionarAsesorPlan extends JFrame{
+	
+	private ControllerSeleccionarAsesorPlan controller = new ControllerSeleccionarAsesorPlan();
 	private JComboBox<String> comboBox_asesores;
 	private JComboBox<String> comboBox_casos;
 	
@@ -34,16 +37,9 @@ public class SeleccionarAsesorPlan extends JFrame{
         seleccionarAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String nombreAsesor = comboBox_asesores.getSelectedItem().toString();
-				int IDCaso = Integer.parseInt(comboBox_casos.getSelectedItem().toString());
-				if (comboBox_asesores.getSelectedItem().toString()!= ".") {
-					Main.plan.setVisible(true);
-					Main.plan.setNombreAsesor(nombreAsesor);
-					Main.plan.setIDCaso(IDCaso);
+			    if(controller.seleccionarAsesor(comboBox_casos, comboBox_asesores)) {
 					dispose();
-				}else {
-					JOptionPane.showMessageDialog(null, "No hay asesores o debe seleccionar uno válido");
-				}
+			    }
 			}
         });
         
@@ -51,7 +47,7 @@ public class SeleccionarAsesorPlan extends JFrame{
         volver.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.planesEconomicos.setVisible(true);
+				Main.planesEconomicosUI.setVisible(true);
 				dispose();
 			}
         });
@@ -77,21 +73,8 @@ public class SeleccionarAsesorPlan extends JFrame{
 	
 	public void crearSeleccion() {
 		// Agrego las opciones después de la creación
-		comboBox_asesores.removeAllItems();
-		comboBox_casos.removeAllItems();
-	    for (Asesor asesor : Main.asesoresRegistrados) {
-	        comboBox_asesores.addItem(asesor.getNombre());
-	        System.out.println(asesor.getNombre());
-	        System.out.println(Main.casos.size());
-	    }
-	    comboBox_asesores.revalidate();
-	    comboBox_asesores.repaint();
-	    for (Caso caso : Main.casos) {
-	    	comboBox_casos.addItem(Integer.toString(caso.getIdCaso()));
-	    	System.out.println(caso.getIdCaso());
-	    }
-	    comboBox_casos.revalidate();
-	    comboBox_casos.repaint();
+
+	    controller.getComboBoxSelection(comboBox_casos, comboBox_asesores);
 	    
 	}
 	

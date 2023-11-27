@@ -45,7 +45,7 @@ public class ActualizadorPlanDisponible {
         for (PlanEconomico plan : Main.planesRegistrados) {
 			if (plan.getNombreAsesor() == nombre && plan.getPasos().size() == cantidadCasos) {
 				//Ya tengo el plan economico, ahora traigo el objeto infoTemporal 
-				InfoTemporal infoTemporal = Main.planesEconomicos.getInfo();
+				InfoTemporal infoTemporal = Main.planesEconomicosUI.getInfo();
 				
 				//le asigno su plan
 				infoTemporal.setPlan(plan);
@@ -63,7 +63,7 @@ public class ActualizadorPlanDisponible {
 						//Ahora aquí mismo me toca buscar aquel caso que coincida con el objeto que tengo para asignarle el asesor
 						
 						//Busco el asesor con el nombre en la lista de asesores registrados
-						for (Asesor asesorx : Main.asesoresRegistrados) {
+						for (Asesor asesorx : Main.getAsesores()) {
 							if (asesorx.getNombre() == nombre) {
 								Asesor asesor = asesorx;
 								//Ahora busco en los casos

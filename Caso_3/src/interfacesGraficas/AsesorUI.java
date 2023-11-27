@@ -17,9 +17,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import ControllersGUI.ControllerAsesor;
 import strapi.Main;
 
 public class AsesorUI extends JFrame{
+	
+	private ControllerAsesor controller = new ControllerAsesor();
 	private JTable table;
 	
 	public AsesorUI() {
@@ -68,7 +71,7 @@ public class AsesorUI extends JFrame{
         agregarAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.AAsesorUI.setVisible(true);
+				Main.agregarAsesorUI.setVisible(true);
 				dispose();
 			}
         });
@@ -82,6 +85,8 @@ public class AsesorUI extends JFrame{
         getContentPane().add(agregarAsesor);
         getContentPane().add(volver);
 	    getContentPane().add(panelDesplazamiento);
+	    
+	    controller.actualizarTablaAsesores(table);
 
         setLocationRelativeTo(null);
 	}

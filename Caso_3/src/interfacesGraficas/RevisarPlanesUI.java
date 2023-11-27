@@ -40,7 +40,7 @@ public class RevisarPlanesUI extends JFrame {
         botonCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.CasoUI.setVisible(true);
+				Main.casoUI.setVisible(true);
 				dispose();
 			}
         });
@@ -49,8 +49,8 @@ public class RevisarPlanesUI extends JFrame {
         seleccionarPlan.setBounds(425, 550, 200, 100);
         botonCancelar.setBounds(675, 550, 200, 100);
         
-        getContentPane().setLayout(new BorderLayout());
         JScrollPane panelDesplazamiento = new JScrollPane(table);
+        panelDesplazamiento.setBounds(10, 10, 1315, 500);
         
         getContentPane().add(seleccionarPlan);
         getContentPane().add(botonCancelar);

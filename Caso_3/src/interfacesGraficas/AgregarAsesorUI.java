@@ -15,17 +15,21 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
-import ControllersGUI.ControllerAgregarAsesor;
 import ControllersGUI.ControllerAsesor;
 import ControllersGUI.ControllerZonas;
 import strapi.Main;
 
 public class AgregarAsesorUI extends JFrame {
 	
-	private ControllerAsesor controller;
+	private ControllerAsesor controller = new ControllerAsesor();
+	private JTextField txtNombre = new JTextField();
+	private JTextField txtId = new JTextField();
+	private JTextField txtCorreo = new JTextField();
+	private JTextField txtExperiencia = new JTextField();
 	
-	public AgregarAsesorUI(AsesorUI tablaAsesores) {
+	public AgregarAsesorUI() {
 		
 		setTitle("Agregar Asesor");
 		setSize(380, 390); // Set the desired size
@@ -34,12 +38,13 @@ public class AgregarAsesorUI extends JFrame {
 
         setLocation(50, 60);
         getContentPane().setLayout(null);
-
+        
+		
+		
         JLabel lblNombre = new JLabel("Nombre: ");
         lblNombre.setBounds(20, 20, 330, 40);
         getContentPane().add(lblNombre);
 
-        JTextField txtNombre = new JTextField();
         txtNombre.setBounds(140, 30, 200, 30);
         getContentPane().add(txtNombre);
 
@@ -47,7 +52,6 @@ public class AgregarAsesorUI extends JFrame {
         lblId.setBounds(20, 70, 330, 40);
         getContentPane().add(lblId);
 
-        JTextField txtId = new JTextField();
         txtId.setBounds(140, 80, 200, 30);
         getContentPane().add(txtId);
 
@@ -67,7 +71,6 @@ public class AgregarAsesorUI extends JFrame {
         lblCorreo.setBounds(20, 170, 330, 40);
         getContentPane().add(lblCorreo);
 
-        JTextField txtCorreo = new JTextField();
         txtCorreo.setBounds(140, 180, 200, 30);
         getContentPane().add(txtCorreo);
 
@@ -75,7 +78,6 @@ public class AgregarAsesorUI extends JFrame {
         lblExperiencia.setBounds(20, 220, 330, 40);
         getContentPane().add(lblExperiencia);
 
-        JTextField txtExperiencia = new JTextField();
         txtExperiencia.setBounds(140, 230, 200, 30);
         getContentPane().add(txtExperiencia);
         
@@ -85,8 +87,7 @@ public class AgregarAsesorUI extends JFrame {
         btnCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.AsesorUI.setVisible(true);
-				dispose();
+				Salir();
 			}
         });
 
@@ -95,26 +96,20 @@ public class AgregarAsesorUI extends JFrame {
         btnAgregarAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//Tienene que haber un tipo de seguridad a la hora de tomar los datos
-				//puede ser en el mismo controller de esta clase
-
-				//Primero saco la info de cata jtxt
+				
 				try {
-					Calendar cal = Calendar.getInstance();
-					controller = new ControllerAsesor(txtNombre.getText(), 0 , Integer.parseInt(txtId.getText()), (String) cmbZona.getSelectedItem(), 
-													  txtCorreo.getText(), Integer.parseInt(txtExperiencia.getText()), 0, cal.getTime(), tablaAsesores);
-					controller.actualizarTablaAsesores();
-				} catch (Exception e1) {
-				    // Captura la excepción si hay un error al convertir a int o double
-				    JOptionPane.showMessageDialog(null, "Uno de los contenidos no corresponde");
-				}
-				txtNombre.setText("");
-				txtId.setText("");
-				txtCorreo.setText("");
-				txtExperiencia.setText("");
+					
+					if(txtNombre.getText().isBlank() || txtId.getText().isBlank() || txtCorreo.getText().isBlank() || txtExperiencia.getText().isBlank()) {
 
-				Main.AsesorUI.setVisible(true);
-				dispose();
+					    JOptionPane.showMessageDialog(null, "Por favor complete todos los espacios.");
+					}else {
+						controller.añadirAsesor(txtNombre, txtId, txtCorreo, txtExperiencia, (String) cmbZona.getSelectedItem());
+						controller.actualizarTablaAsesores(Main.asesorUI.getTable());
+						Salir();
+					}
+				} catch (Exception e1) {
+				    JOptionPane.showMessageDialog(null, "Ha ocurrido un error: \n" + e1);
+				}
 			}
         });
         
@@ -125,5 +120,15 @@ public class AgregarAsesorUI extends JFrame {
         setLocationRelativeTo(null);
 		
 	}
+	
+	public void Salir() {
 
+		txtNombre.setText("");
+		txtId.setText("");
+		txtCorreo.setText("");
+		txtExperiencia.setText("");
+
+		Main.asesorUI.setVisible(true);
+		dispose();
+	}
 }

@@ -23,7 +23,6 @@ import strapi.Main;
 public class AgregarPasoUI extends JFrame{
 	
 	private ControllerPaso controller;
-	private ArrayList<Paso> pasos = new ArrayList<Paso>();
 	
 	public AgregarPasoUI(AgregarPlanEconomicoUI tablaPlanes) {
 		
@@ -127,9 +126,9 @@ public class AgregarPasoUI extends JFrame{
 				try {
 					if(bgTipoAccion.getSelection() != null && bgTipoIngreso.getSelection() != null) {
 						
-						String estado = "ejecución";
+						String estado = "Ejecución";
 						if(Integer.parseInt(txtMesEjecucion.getText()) > 1) {
-							estado = "pending";
+							estado = "Pendiente";
 						}
 						
 						controller = new ControllerPaso(bgTipoAccion.getSelection().getActionCommand(), txtDescripcion.getText(),
@@ -137,7 +136,7 @@ public class AgregarPasoUI extends JFrame{
 													   bgTipoIngreso.getSelection().getActionCommand(), estado, tablaPlanes);
 						controller.actualizarTablaPasos();
 						Paso paso = controller.getPaso();
-						Main.plan.actualizarListaPasos(paso);
+						tablaPlanes.actualizarListaPasos(paso);
 					}else {
 					    JOptionPane.showMessageDialog(null, "Por favor no deje sin seleccionar las casillas");
 					}
@@ -148,7 +147,7 @@ public class AgregarPasoUI extends JFrame{
 					txtMesEjecucion.setText("");
 					txtIngreso.setText("");
 					
-					Main.plan.setVisible(true);
+					Main.agregarPlanUI.setVisible(true);
 					dispose();
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -162,7 +161,7 @@ public class AgregarPasoUI extends JFrame{
         btnCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.plan.setVisible(true);
+				Main.agregarPlanUI.setVisible(true);
 				dispose();
 			}
         });

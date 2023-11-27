@@ -51,19 +51,8 @@ public class VentanaInicialUI extends JFrame {
         botonAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.AsesorUI.setVisible(true);
+				Main.asesorUI.setVisible(true);
 				dispose();
-//				verFallas();
-//				visitarFinca(objeto);	; Aquí  debería ir la llamada de un método
-/*
-	private void verHistorial() {
-		try {
-			HistorialUI.main(null);
-		} catch (Exception e) {
-	        JOptionPane.showMessageDialog(this, "Todavía no existe historial por mostrar.");
-		}
-	}
- */
 			}
         });
         
@@ -75,7 +64,7 @@ public class VentanaInicialUI extends JFrame {
         botonCaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.CasoUI.setVisible(true);
+				Main.casoUI.setVisible(true);
 				dispose();
 			}
         });
@@ -87,8 +76,8 @@ public class VentanaInicialUI extends JFrame {
         botonPlanes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.planesEconomicos.setVisible(true);
-				Main.planesEconomicos.pintarTable();
+				Main.planesEconomicosUI.setVisible(true);
+				Main.planesEconomicosUI.pintarTable();
 				dispose();
 			}
         });
@@ -103,15 +92,4 @@ public class VentanaInicialUI extends JFrame {
         setLocationRelativeTo(null);
 	}
 	
-	private void verHistorial() {
-		try {
-
-		} catch (Exception e) {
-	        JOptionPane.showMessageDialog(this, "Todavía no existe historial por mostrar.");
-		}
-	}
-	
-	private void visitarFinca(Object pObjeto) {
-
-    }
 }

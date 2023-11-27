@@ -83,8 +83,8 @@ public class PlanEconomicoUI extends JFrame{
 				if (filaSeleccionada != -1) {
 					int entero = (Integer) table.getValueAt(filaSeleccionada, 1);
 					infoTemporal = actualizador.extraerDatos(filaSeleccionada, table);
-					Main.planDisponible.setVisible(true);
 					Main.planDisponible.pintarTable(entero);
+					Main.planDisponible.setVisible(true);
 					dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "Selecciona una fila primero.");
@@ -98,10 +98,10 @@ public class PlanEconomicoUI extends JFrame{
 	    botonSalir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.Ventana.setVisible(true);
-				dispose();
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.setRowCount(0);
+				Main.Ventana.setVisible(true);
+				dispose();
 			}
 	    });
 	    
@@ -109,8 +109,8 @@ public class PlanEconomicoUI extends JFrame{
 	    botonSalir.setBounds(875, 550, 200, 100);
 	    asignarPlan.setBounds(500, 550, 200, 100);
 	    
-	    getContentPane().setLayout(new BorderLayout());
 	    JScrollPane panelDesplazamiento = new JScrollPane(table);
+        panelDesplazamiento.setBounds(10, 10, 1315, 500);
 	    
 	    getContentPane().add(crearPlan);
 	    getContentPane().add(botonSalir);

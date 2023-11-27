@@ -38,8 +38,8 @@ public class PlanEconomicoDisponible extends JFrame{
 	
 	    table.setBounds(10, 10, 200, 125);
 	    
-	    getContentPane().setLayout(new BorderLayout());
 	    JScrollPane panelDesplazamiento = new JScrollPane(table);
+	    panelDesplazamiento.setBounds(10, 10, 1315, 540);
 	    
 	    JButton aceptar = new JButton("Aceptar");
 	    aceptar.addActionListener(new ActionListener() {
@@ -47,28 +47,29 @@ public class PlanEconomicoDisponible extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = table.getSelectedRow();
 				if (filaSeleccionada != -1) {
-					Main.planesEconomicos.setVisible(true);
-					dispose();
 					actualizador.asignarPlan(table, filaSeleccionada);
+					Main.planesEconomicosUI.setVisible(true);
+					dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "Selecciona una fila primero.");
 				}
 			}
 	    });
+        aceptar.setBounds(1135, 560, 190, 100);
 	    
         JButton salir = new JButton("Salir");
         salir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.planesEconomicos.setVisible(true);
+				Main.planesEconomicosUI.setVisible(true);
 				dispose();
 			}
         });
         
-        salir.setBounds(633, 600, 100, 50);
+        salir.setBounds(633, 560, 190, 100);
         
         getContentPane().add(salir);
-        
+	    getContentPane().add(aceptar);
 	    getContentPane().add(panelDesplazamiento);
 	    
 	    setLocationRelativeTo(null);

@@ -17,7 +17,7 @@ public class ActualizadorTablaPlan {
 	}
 
 	public void actualizarTable(JTable table) {
-		JTable tableCaso = Main.CasoUI.getTable();
+		JTable tableCaso = Main.casoUI.getTable();
 		
 
 		// Obtiene el modelo de la tabla

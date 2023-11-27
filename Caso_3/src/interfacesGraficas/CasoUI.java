@@ -52,7 +52,7 @@ public class CasoUI extends JFrame {
         verInformacion.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.VerMasUI.setVisible(true);
+				Main.verMasUI.setVisible(true);
 				dispose();
 			}
         });
@@ -62,7 +62,7 @@ public class CasoUI extends JFrame {
         agregarCaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.ACasoUI.setVisible(true);
+				Main.agregarCasoUI.setVisible(true);
 				dispose();
 			}
         });
@@ -72,7 +72,7 @@ public class CasoUI extends JFrame {
         planesXCaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.RevisarPlanesUI.setVisible(true);
+				Main.revisarPlanesUI.setVisible(true);
 				dispose();
 			}
         });
@@ -92,8 +92,8 @@ public class CasoUI extends JFrame {
         planesXCaso.setBounds(650, 550, 200, 100);
         botonSalir.setBounds(875, 550, 200, 100);
         
-        getContentPane().setLayout(new BorderLayout());
         JScrollPane panelDesplazamiento = new JScrollPane(table);
+        panelDesplazamiento.setBounds(10, 10, 1315, 500);
         
         getContentPane().add(verInformacion);
         getContentPane().add(agregarCaso);

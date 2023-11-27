@@ -2,8 +2,14 @@
 package ControllersGUI;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import clasesLogicas.Agricultor;
@@ -11,200 +17,95 @@ import clasesLogicas.Asesor;
 import clasesLogicas.Caso;
 import clasesLogicas.InfoTemporal;
 import clasesLogicas.PlanEconomico;
-import interfacesGraficas.AsesorUI;
-import interfacesGraficas.CasoUI;
-//import interfacesGraficas.CasoUI3;
+import clasesLogicas.Producto;
+import clasesLogicas.Terreno;
 import strapi.Main;
 
 public class ControllerCaso {
-	private Caso caso;
-	private CasoUI tableCaso2;
-	private double deuda;
-	private double terrenoDisponible;
-	private String tipoDeTerreno;
-	private double dineroDisponible;
-	private int numeroTelefono;
-	
-	public ControllerCaso(int IDCaso, Agricultor agricultor, int numeroTelefono, Asesor asesor, String provincia,
-			int telefonoAsesor, String organizacion, Date fechaIngresoCaso, String estado, CasoUI casoUI,
-			double deuda, double availableLand, String terrainType, double dineroDisponible) {
-		this.caso = new Caso(IDCaso, agricultor, numeroTelefono, asesor, provincia, telefonoAsesor, organizacion, fechaIngresoCaso, estado);
-		Main.casos.add(caso);
-		this.tableCaso2 = casoUI;
-		this.deuda = deuda;
-		this.terrenoDisponible = availableLand;
-		this.tipoDeTerreno = terrainType;
-		this.dineroDisponible = dineroDisponible;
-		this.numeroTelefono = numeroTelefono;
-		PlanEconomico plan = null;
-		
-		
-		InfoTemporal infoTemporal = new InfoTemporal(agricultor.getNombre(), numeroTelefono, availableLand, terrainType, provincia,
-				deuda, dineroDisponible, organizacion, plan);
-		
-		Main.infoTemporalessinasignar.add(infoTemporal);
-	}
 	
 	
-	public void actualizarTablaAsesores() {
+	public void actualizarTablaAsesores(JTable table1, JTable table2) {
+		
 		// Obtener el modelo de la tabla
-	    DefaultTableModel model = (DefaultTableModel) tableCaso2.getTable().getModel();
-//	    SimpleDateFormat dateOnly = new SimpleDateFormat("yyyy/MM/dd");
-	    
-	    Agricultor agricultor = caso.getAgricultor();
-	    String IDCaso = Integer.toString(caso.getIdCaso());
-	    
-	    model.addRow(new Object[]{agricultor.getNombre(), IDCaso, numeroTelefono, terrenoDisponible, tipoDeTerreno, caso.getProvincia(), deuda, dineroDisponible, caso.getOrganiRepresentante(), "no asignado"});
+		DefaultTableModel model1 = (DefaultTableModel)table1.getModel();
+		// Limpia la tabla actual.
+		model1.setRowCount(0);
 
-	    // Agregar una nueva fila con la información proporcionada
-//	    model.addRow(new Object[]{asesor.getNombre(), asesor.getId(), asesor.getZona(), asesor.getCorreo(), asesor.getExperiencia(), asesor.getRating(), 
-//	    						  asesor.getCantidadCasos(), dateOnly.format(asesor.getFechaIngreso().getTime())});
-	    
-	    // Refrescar la tabla
-	    tableCaso2.getTable().repaint();
+		DefaultTableModel model2 = (DefaultTableModel)table2.getModel();
+		model2.setRowCount(0);
+			    
+		// Agregar la información actual de asesores
+		ArrayList<Caso> casos = Main.getCasos();
+		if(casos != null) {
+			for(Caso caso: casos) {
+				model1.addRow(new Object[]{caso.getAgricultor().getNombre(), caso.getIdCaso(), caso.getTelefonoAgricultor(), caso.getAgricultor().getTerreno().getHectareas(), 
+										  caso.getAgricultor().getTerreno().getTipoSuelo(), caso.getZona(), caso.getAgricultor().getDeuda(), caso.getAgricultor().getDinero(), 
+										  caso.getOrganiRepresentante(), caso.getEstado()});
+				model2.addRow(new Object[]{caso.getAgricultor().getId(), caso.getAgricultor().getTerreno().getHectareas(), caso.getAgricultor().getTerreno().isSiembra(),
+										   caso.getAgricultor().getProductos().get(0).getCantidad(), caso.getAgricultor().getDeuda(), caso.getAgricultor().getDinero(),
+										   caso.getAgricultor().getIngresosActuales(), caso.getAgricultor().getGananciasAñoPasado()});
+			}
+		}
+		// Refrescar la tabla
+		table1.repaint();
 	}
 	
-	public boolean verificarDatos() {
-		boolean verificado = true;
+	public void añadirCaso(JTextField agricultorT, JTextField telefonoAT, JTextField terrenoDisponibleT, JTextField cantidadActualT, JTextField dineroDisponibleT, 
+						  JTextField ingresosActualesT, JTextField gananciaAnoPasadoT, JTextField organizacionT, JTextField deudaT, ButtonGroup bgTipoSuelo, ButtonGroup bgTieneSiembra, String zona) {
 		
-		//Aquí tengo que validar el contenido de cada variable para ver si corresponde y no se haya metido algo incorrecto
+		Random random = new Random();
+		int IDAgricultor = random.nextInt(9000) + 1000;
+				
+		Date currentDate = new Date();
+		// Crear un objeto Calendar y establecer la fecha actual
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(currentDate);
+		// Incrementar la fecha en 30 días
+		calendar.add(Calendar.DAY_OF_MONTH, 30);
+
+		String terrainType = bgTipoSuelo.getSelection().getActionCommand();
+		boolean tieneSiembra = false;
+
+		if(bgTieneSiembra.getSelection().getActionCommand().equals("Si")) {
+			tieneSiembra = true;
+		}
+		        
+		Asesor asesor = new Asesor("Null", 0, "Null","Null", 1.1, 1, 1, calendar.getTime());
+		Producto producto = new Producto("Papa", false, calendar.getTime(), Integer.parseInt(cantidadActualT.getText()), agricultorT.getText());
+		ArrayList<Producto> productos = new ArrayList<>();
+		productos.add(producto);
+				
+		Terreno terreno = new Terreno(terrainType, tieneSiembra, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
+													
+		Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), 
+											   Integer.parseInt(deudaT.getText()), Integer.parseInt(telefonoAT.getText()), 
+											   Integer.parseInt(ingresosActualesT.getText()), Integer.parseInt(gananciaAnoPasadoT.getText()), terreno, productos);
+
+		boolean encontrado = false;
+		int IDCaso;
+
+		do {
+			IDCaso = random.nextInt(9000) + 1000;
+			for(Caso casoAlmacenado: Main.getCasos()) {
+				if(casoAlmacenado.getIdCaso() == IDCaso) {
+					encontrado = true;
+					break;
+				}
+				encontrado = false;
+			}
+		}while(encontrado);
+
+		Caso caso = new Caso(IDCaso, agricultor, Integer.parseInt(telefonoAT.getText()), asesor, zona, 00000000, organizacionT.getText(), calendar.getTime(), "No asignado");
+		Main.getCasos().add(caso);
 		
-		return verificado;
-	}
-
-	public CasoUI getTableCaso() {
-		return tableCaso2;
-	}
-
-
-	public Caso getCaso2() {
-		return caso;
-	}
-
-
-	public CasoUI getTableCaso2() {
-		return tableCaso2;
-	}
-
-
-	public double getDeuda() {
-		return deuda;
-	}
-
-
-	public double getTerrenoDisponible() {
-		return terrenoDisponible;
-	}
-
-
-	public String getTipoDeTerreno() {
-		return tipoDeTerreno;
-	}
-
-
-	public double getDineroDisponible() {
-		return dineroDisponible;
-	}
-	
-/*
-	private String name;
-	private int cellphoneNumber;
-	private double availableLand;
-	private String landType;
-	private String provincia;
-	private boolean sembrado;
-	private int actualQuantity;
-	private double debt;
-	private double availableMoney;
-	private int actualIncome;
-	private int lastYearIncome;
-	private String organization;
-	private Date fechaIngreso;
-	private CasoUI instanciaCaso;
-	
-	public ControllerCaso2(String nombre, int numeroTelefono, String tipoDeTerreno, double terrenoDisponible, String provincia, boolean sembrado, int cantidadActual, 
-			double deuda, double dineroDisponible, int ingresosActuales, int ingresosAnoPasado, String organizacion, CasoUI casoUI) {
-		this.name = nombre;
-		this.cellphoneNumber = numeroTelefono;
-		this.landType = tipoDeTerreno;
-		this.availableLand = terrenoDisponible;
-		this.provincia = provincia;
-		this.sembrado = sembrado;
-		this.actualQuantity = cantidadActual;
-		this.debt = deuda;
-		this.availableMoney = dineroDisponible;
-		this.actualIncome = ingresosActuales;
-		this.lastYearIncome = ingresosAnoPasado;
-		this.organization = organizacion;
-		this.instanciaCaso = casoUI;
-	}
-	
-	public void actualizarTablaAsesores() {
-		instanciaCaso.pintarTable(name, cellphoneNumber, availableLand, landType, provincia, debt, availableMoney, organization);
-	}
-	
-	public boolean verificarDatos() {
-		boolean verificado = true;
+		PlanEconomico plan = null;
+			
+		InfoTemporal infoTemporal = new InfoTemporal(agricultor.getNombre(), Integer.parseInt(telefonoAT.getText()), 
+														 Integer.parseInt(terrenoDisponibleT.getText()), terrainType, zona,
+														 Integer.parseInt(deudaT.getText()), Integer.parseInt(dineroDisponibleT.getText()), organizacionT.getText(), plan);
+			
+		Main.infoTemporalessinasignar.add(infoTemporal);
 		
-		//Aquí tengo que validar el contenido de cada variable para ver si corresponde y no se haya metido algo incorrecto
-		
-		return verificado;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public int getCellphoneNumber() {
-		return cellphoneNumber;
-	}
-
-	public double getAvailableLand() {
-		return availableLand;
-	}
-
-	public String getLandType() {
-		return landType;
-	}
-
-	public String getProvincia() {
-		return provincia;
-	}
-
-	public boolean isSembrado() {
-		return sembrado;
-	}
-
-	public int getActualQuantity() {
-		return actualQuantity;
-	}
-
-	public double getDebt() {
-		return debt;
-	}
-
-	public double getAvailableMoney() {
-		return availableMoney;
-	}
-
-	public int getActualIncome() {
-		return actualIncome;
-	}
-
-	public int getLastYearIncome() {
-		return lastYearIncome;
-	}
-
-	public String getOrganization() {
-		return organization;
-	}
-
-	public Date getFechaIngreso() {
-		return fechaIngreso;
-	}
-
-	public CasoUI getTableAsesores() {
-		return instanciaCaso;
-	}
-*/
+	
 }

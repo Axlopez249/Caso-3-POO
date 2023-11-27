@@ -56,9 +56,8 @@ public class ApiClientAgricultor {
         ApiClientProducto pro = ApiClientProducto.getInstance();
         
         
-        for (Terreno terreno : agricultor.getTerrenos()) {
-        	terre.enviarPOST(terreno);
-		}  
+        terre.enviarPOST(agricultor.getTerreno());
+        
         for (Producto producto : agricultor.getProductos()) {
         	pro.enviarPOST(producto);
 		}
@@ -107,7 +106,7 @@ public class ApiClientAgricultor {
                     ApiClientProducto instanceProducto = ApiClientProducto.getInstance();
                     instanceProducto.getObjects();
                     
-                    Agricultor agricultor = new Agricultor(nombre, idAgricultor, dinero, deuda, instanceTerreno.getExtraerTerrenoEspecifico(nombre),
+                    Agricultor agricultor = new Agricultor(nombre, idAgricultor, dinero, deuda, 00000000, 0, 0, instanceTerreno.getExtraerTerrenoEspecifico(nombre),
                     		instanceProducto.getExtraerProductoEspecifico(nombre));
                     agricultores.add(agricultor);
                 } 

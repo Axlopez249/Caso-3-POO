@@ -36,7 +36,7 @@ public class ApiClientCaso {
 
 	public void enviarPOST(Caso caso) {
 		ObjetoTempoCaso temp = new ObjetoTempoCaso(caso.getIdCaso(), caso.getTelefonoAgricultor(),
-				caso.getProvincia(), caso.getTelefonoAsesor(), caso.getOrganiRepresentante(), caso.getFechaIngreso(), caso.getEstado());
+				caso.getZona(), caso.getTelefonoAsesor(), caso.getOrganiRepresentante(), caso.getFechaIngreso(), caso.getEstado());
 		
 		String postData = null;
 		try {

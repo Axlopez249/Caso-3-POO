@@ -15,41 +15,25 @@ public class Main {
 	
 	o	Agregar Asesor - el rating y casos completados debería calcularse con las acciones del sistema
 		
-	o	Agregar paso - el estado inicial siempre es “planeado” - los que se hacen en el mes 1 pasan a “ejecución” y los del mes 2 en adelante “pending”.
-		
 	o	Agregar caso - agricultor debería ser de selección - se hace match con la zona del asesor y eso lo hacemos por selección -
 		productos sembrado es saber que es lo que tiene sembrado, tomar en cuenta que pueden ser N productos, y las cantidades respectivas de cada producto.
 		
 	o	Ventana que lista los casos, que sea ordenado por fecha y estado
 	
-	o	En la ventana de los pasos , aprovechar lo de marcar pero que se pueda escoger el estado y marcarlo, por ejemplo: planeado, 
-		pendiente, ejecución, terminado, cancelado, incompleto, no completado.
-		
-	-	Acceso a datos usando base de datos o headless cms con las operaciones del sistema, -10
-	
-	o	Están armando un json con concatenación de string
-	
-	o	Y se parsea también la respuesta con un stringbuilder
-	
-	o	El que agregaAgricultor no tiene por que retornar string
-	
-	o	Todos los apiclient solo tienen dos métodos uno para guardar un item y otro para recuperar un item dada una llave, que llega 
-		siempre como string aunque no sea string lo que requiere el tipo de dato
-		
-	o	El prosamiento de json haganlo con json no manipulación,
-	 
-	o	Hay un static extraño
-	
-	o	Factorizar el código de los http request en una sola clase que sea usada por los apiclients, el apiclients solo interfaza la lógica hacia los objetos
 */
 	
+	private static ArrayList<Asesor> asesoresRegistrados = new ArrayList<>();
+	public static ArrayList<PlanEconomico> planesRegistrados = new ArrayList<>();
+	public static ArrayList<InfoTemporal> infoTemporalessinasignar = new ArrayList<>();
+	public static ArrayList<Caso> casos = new ArrayList<>();
+	
 	public static SeleccionarAsesorPlan seleccionarAsesor = new SeleccionarAsesorPlan();
-	public static RevisarPlanesUI RevisarPlanesUI = new RevisarPlanesUI();
+	public static RevisarPlanesUI revisarPlanesUI = new RevisarPlanesUI();
 	public static VentanaInicialUI Ventana = new VentanaInicialUI();
-	public static AsesorUI AsesorUI = new AsesorUI();
-	public static AgregarAsesorUI AAsesorUI = new AgregarAsesorUI(AsesorUI);
-	public static CasoUI CasoUI = new CasoUI();
-	public static AgregarCasoUI ACasoUI = new AgregarCasoUI(CasoUI);
+	public static AsesorUI asesorUI = new AsesorUI();
+	public static AgregarAsesorUI agregarAsesorUI = new AgregarAsesorUI();
+	public static CasoUI casoUI = new CasoUI();
+	public static AgregarCasoUI agregarCasoUI = new AgregarCasoUI(casoUI);
 	
 	//Secuencia de las interfaces de los planes economicos
 	/*
@@ -57,16 +41,12 @@ public class Main {
 	 * Luego Ahí mismo puedo crear un plan economico, donde pregunto primero el nombre del asesor y luego se definen los pasos
 	 * Cuando se crea un plan economico se guarda en la lista public de los planes economicos
 	 * Luego cuando para ver o asginar un plan a un caso, primero de debe de seleccionar una fila de la tabla (cada caso sin asignar)*/
-	public static AgregarPlanEconomicoUI plan = new AgregarPlanEconomicoUI();
-	public static PlanEconomicoUI planesEconomicos = new PlanEconomicoUI(CasoUI);
-	public static AgregarPasoUI APasoUI = new AgregarPasoUI(plan);
-	public static FurtherInformationUI VerMasUI = new FurtherInformationUI();
-	public static PlanEconomicoDisponible planDisponible = new PlanEconomicoDisponible();
 	
-	public static ArrayList<Asesor> asesoresRegistrados = new ArrayList<>();
-	public static ArrayList<PlanEconomico> planesRegistrados = new ArrayList<>();
-	public static ArrayList<InfoTemporal> infoTemporalessinasignar = new ArrayList<>();
-	public static ArrayList<Caso> casos = new ArrayList<>();
+	public static AgregarPlanEconomicoUI agregarPlanUI = new AgregarPlanEconomicoUI();
+	public static PlanEconomicoUI planesEconomicosUI = new PlanEconomicoUI(casoUI);
+	public static AgregarPasoUI agregarPasoUI = new AgregarPasoUI(agregarPlanUI);
+	public static FurtherInformationUI verMasUI = new FurtherInformationUI();
+	public static PlanEconomicoDisponible planDisponible = new PlanEconomicoDisponible();
 
 	public static int numeroCaso = 0;
     public static void main(String[] args) {
@@ -102,6 +82,15 @@ public class Main {
         Ventana.setVisible(true);
     }
     
+    public static ArrayList<Asesor> getAsesores(){
+    	return asesoresRegistrados;
+    }
+    
+    public static ArrayList<Caso> getCasos(){
+    	return casos;
+    }
+
+    /*
     public static void verCaso(Caso c) {
     	System.out.println("====================");
         System.out.println("Caso:");
@@ -113,7 +102,6 @@ public class Main {
         System.out.println("Provincia: " + c.getProvincia());
         System.out.println("Fecha de inicio: " + c.getFechaIngreso());
     }
-    /*
     public static void verAgricultor(Agricultor a) {
 
         System.out.println("====================");
@@ -131,7 +119,7 @@ public class Main {
         System.out.println("Caducidad: " + a.getProducto().getCaducidad());
         System.out.println("Cantidad: " + Integer.toString(a.getProducto().getCantidad()));
         
-    }*/
+    }
     
     public static void verAsesor(Asesor a) {
     	System.out.println("====================");
@@ -145,4 +133,5 @@ public class Main {
         System.out.println("Fecha de ingreso: " + a.getFechaIngreso());
         System.out.println("====================");
     }
+    */
 }

@@ -97,8 +97,9 @@ public class AgregarPlanEconomicoUI extends JFrame{
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				modelo.setRowCount(0);
 				pasos.clear();
+				System.out.println(pasos.size());
 				nombreAsesor = "";
-				Main.planesEconomicos.setVisible(true);
+				Main.planesEconomicosUI.setVisible(true);
 				dispose();
 			}
         });
@@ -108,7 +109,7 @@ public class AgregarPlanEconomicoUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				bgEstado.clearSelection();
-				Main.APasoUI.setVisible(true);
+				Main.agregarPasoUI.setVisible(true);
 				//Aqui tengo que pintar la tabla de APasoUI
 				dispose();
 			}
