@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import ControllersGUI.ControllerCaso;
 import strapi.*;
 
 import java.awt.*;
@@ -13,7 +15,10 @@ import java.awt.event.ActionListener;
 
 
 public class CasoUI extends JFrame {
+
+	private ControllerCaso controller = new ControllerCaso();
 	private JTable table;
+	
     public CasoUI() {
 		setTitle("Asesores en Agricultura");
 		setSize(1350, 725);
@@ -72,8 +77,17 @@ public class CasoUI extends JFrame {
         planesXCaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.revisarPlanesUI.setVisible(true);
-				dispose();
+				int filaSeleccionada = table.getSelectedRow();
+				if (filaSeleccionada != -1) {
+					int entero = (Integer) table.getValueAt(filaSeleccionada, 1);
+					
+					if(Main.revisarPlanesUI.getController().buscarPlan(entero)) {
+						Main.revisarPlanesUI.setVisible(true);
+						dispose();
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Selecciona una fila primero.");
+				}
 			}
         });
         
@@ -124,7 +138,9 @@ public class CasoUI extends JFrame {
 		return table;
 	}
 	
-
+	public ControllerCaso getController() {
+		return controller;
+	}
 
 }
 

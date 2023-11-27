@@ -51,6 +51,7 @@ public class VentanaInicialUI extends JFrame {
         botonAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Main.asesorUI.actualizarTabla();
 				Main.asesorUI.setVisible(true);
 				dispose();
 			}
@@ -64,6 +65,7 @@ public class VentanaInicialUI extends JFrame {
         botonCaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Main.casoUI.getController().actualizarTablaAsesores(Main.casoUI.getTable(), Main.verMasUI.getTable());
 				Main.casoUI.setVisible(true);
 				dispose();
 			}

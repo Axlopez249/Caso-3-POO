@@ -20,9 +20,9 @@ public class Main2 {
         
         listaProductos.add(producto);
         
-        Agricultor agricultor = new Agricultor("yyy", 1234, 350000.45, 120000.34, terreno, listaProductos);
+        //Agricultor agricultor = new Agricultor("yyy", 1234, 350000.45, 120000.34, terreno, listaProductos);
         Asesor asesor = new Asesor("Axel", 12, "Turrialba", "axelstevenlopezvega04@gmail.com", 23.567, 4, 98, fecha);
-        Caso caso = new Caso(1234, agricultor, 94509324, asesor, "Cartago", 934938948, "Academia Josefa", fecha, "Pendiente");
+        //Caso caso = new Caso(1234, agricultor, 94509324, asesor, "Cartago", 934938948, "Academia Josefa", fecha, "Pendiente");
 
         
         //ApiClientAsesor ase = ApiClientAsesor.getInstance();
@@ -30,7 +30,7 @@ public class Main2 {
         //ase.getObject("Axel");
         
         ApiClientCaso casoStrapi = ApiClientCaso.getInstance();
-        casoStrapi.enviarPOST(caso);
+        //casoStrapi.enviarPOST(caso);
         
         //ApiClientAgricultor agri = ApiClientAgricultor.getInstance();
         //agri.enviarPOST(agricultor);

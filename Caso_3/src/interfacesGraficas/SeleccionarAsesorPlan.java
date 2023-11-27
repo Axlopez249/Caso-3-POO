@@ -37,9 +37,15 @@ public class SeleccionarAsesorPlan extends JFrame{
         seleccionarAsesor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+			
+			try {
 			    if(controller.seleccionarAsesor(comboBox_casos, comboBox_asesores)) {
 					dispose();
 			    }
+			}catch(Exception er) {
+				JOptionPane.showMessageDialog(null, "Ha ocurrido un error: \n" + er);
+			}
+			
 			}
         });
         
@@ -72,7 +78,6 @@ public class SeleccionarAsesorPlan extends JFrame{
 	}
 	
 	public void crearSeleccion() {
-		// Agrego las opciones después de la creación
 
 	    controller.getComboBoxSelection(comboBox_casos, comboBox_asesores);
 	    

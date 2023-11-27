@@ -42,7 +42,7 @@ public class ControllerCaso {
 										  caso.getAgricultor().getTerreno().getTipoSuelo(), caso.getZona(), caso.getAgricultor().getDeuda(), caso.getAgricultor().getDinero(), 
 										  caso.getOrganiRepresentante(), caso.getEstado()});
 				model2.addRow(new Object[]{caso.getAgricultor().getId(), caso.getAgricultor().getTerreno().getHectareas(), caso.getAgricultor().getTerreno().isSiembra(),
-										   caso.getAgricultor().getProductos().get(0).getCantidad(), caso.getAgricultor().getDeuda(), caso.getAgricultor().getDinero(),
+										   caso.getAgricultor().getProducto(), caso.getAgricultor().getDeuda(), caso.getAgricultor().getDinero(),
 										   caso.getAgricultor().getIngresosActuales(), caso.getAgricultor().getGananciasAñoPasado()});
 			}
 		}
@@ -72,15 +72,13 @@ public class ControllerCaso {
 		        
 		Asesor asesor = new Asesor("Null", 0, "Null","Null", 1.1, 1, 1, calendar.getTime());
 		Producto producto = new Producto("Papa", false, calendar.getTime(), Integer.parseInt(cantidadActualT.getText()), agricultorT.getText());
-		ArrayList<Producto> productos = new ArrayList<>();
-		productos.add(producto);
 				
 		Terreno terreno = new Terreno(terrainType, tieneSiembra, Integer.parseInt(terrenoDisponibleT.getText()), agricultorT.getText());
 													
-		Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Integer.parseInt(dineroDisponibleT.getText()), 
-											   Integer.parseInt(deudaT.getText()), Integer.parseInt(telefonoAT.getText()), 
-											   Integer.parseInt(ingresosActualesT.getText()), Integer.parseInt(gananciaAnoPasadoT.getText()), terreno, productos);
-
+		Agricultor agricultor = new Agricultor(agricultorT.getText(), IDAgricultor, Double.parseDouble(dineroDisponibleT.getText()), 
+				Double.parseDouble(deudaT.getText()), Integer.parseInt(telefonoAT.getText()), 
+				Double.parseDouble(ingresosActualesT.getText()), Double.parseDouble(gananciaAnoPasadoT.getText()), terreno, producto);
+		
 		boolean encontrado = false;
 		int IDCaso;
 
@@ -102,8 +100,8 @@ public class ControllerCaso {
 			
 		InfoTemporal infoTemporal = new InfoTemporal(agricultor.getNombre(), Integer.parseInt(telefonoAT.getText()), 
 														 Integer.parseInt(terrenoDisponibleT.getText()), terrainType, zona,
-														 Integer.parseInt(deudaT.getText()), Integer.parseInt(dineroDisponibleT.getText()), organizacionT.getText(), plan);
-			
+														 Double.parseDouble(deudaT.getText()), Double.parseDouble(dineroDisponibleT.getText()), organizacionT.getText(), plan);
+		 
 		Main.infoTemporalessinasignar.add(infoTemporal);
 		
 	}

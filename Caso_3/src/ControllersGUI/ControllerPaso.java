@@ -33,14 +33,6 @@ public class ControllerPaso {
 	    // Refrescar la tabla
 	    tablePasos.getTable().repaint();
 	}
-	
-	public boolean verificarDatos() {
-		boolean verificado = true;
-		
-		//Aquí tengo que validar el contenido de cada variable para ver si corresponde y no se haya metido algo incorrecto
-		
-		return verificado;
-	}
 
 	public AgregarPlanEconomicoUI getTableAsesores() {
 		return tablePasos;

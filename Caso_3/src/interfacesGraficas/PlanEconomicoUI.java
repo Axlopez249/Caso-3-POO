@@ -63,7 +63,6 @@ public class PlanEconomicoUI extends JFrame{
 				//Obtener los datos de ese caso para ponerlo como asignado luego
 				
 				//Activo para preguntar por los asesores
-				
 				//Luego se abre la ventana
 				Main.seleccionarAsesor.setVisible(true);
 				Main.seleccionarAsesor.crearSeleccion();

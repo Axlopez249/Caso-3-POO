@@ -73,6 +73,9 @@ public class Caso {
 		return estado;
 	}
 	
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 	
 	public void setAsesor(Asesor asesor) {
 		this.asesor = asesor;

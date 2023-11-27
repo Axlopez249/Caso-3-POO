@@ -8,7 +8,7 @@ import clasesLogicas.Asesor;
 public class ObjetoTempoCaso {
 	private int idCaso;
 	private int telefonoAgricultor;
-	private String provincia;
+	private String zona;
 	private int telefonoAsesor;
 	private String organiRepresentante;
 	private Date fechaIngreso;
@@ -19,7 +19,7 @@ public class ObjetoTempoCaso {
 			int telefonoAsesor, String organiRepresentante, Date fechaIngreso, String estado) {
 		this.idCaso = idCaso;
 		this.telefonoAgricultor = telefonoAgricultor;
-		this.provincia = provincia;
+		this.zona = provincia;
 		this.telefonoAsesor = telefonoAsesor;
 		this.organiRepresentante = organiRepresentante;
 		this.fechaIngreso = fechaIngreso;
@@ -36,7 +36,7 @@ public class ObjetoTempoCaso {
 	}
 
 	public String getProvincia() {
-		return provincia;
+		return zona;
 	}
 
 

@@ -10,9 +10,11 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import clasesLogicas.Asesor;
+import strapi.ApiClientAsesor;
 import strapi.Main;
 
 public class ControllerAsesor {
+	private ApiClientAsesor guardadoAsesor = ApiClientAsesor.getInstance();
 	
 	public void actualizarTablaAsesores(JTable table) {
 		
@@ -42,8 +44,7 @@ public class ControllerAsesor {
 		}else {
 			
 			Calendar cal = Calendar.getInstance();
-			Asesor asesor = new Asesor(txtNombre.getText(), Integer.parseInt(txtId.getText()), zona, txtCorreo.getText(), 0,  Integer.parseInt(txtExperiencia.getText()), 0, cal.getTime());
-			boolean encontrado = false;
+			Asesor asesor = new Asesor(txtNombre.getText(), Integer.parseInt(txtId.getText()), zona, txtCorreo.getText(), 1,  Integer.parseInt(txtExperiencia.getText()), 1, cal.getTime());boolean encontrado = false;
 		    ArrayList<Asesor> asesores = Main.getAsesores();
 			for(Asesor asesorAlmacenado: asesores) {
 				if(asesorAlmacenado.getId() == Integer.parseInt(txtId.getText())) {
@@ -52,6 +53,7 @@ public class ControllerAsesor {
 			}
 			if(!encontrado) {
 				Main.getAsesores().add(asesor);
+				guardadoAsesor.enviarPOST(asesor);
 			}else {
 				JOptionPane.showMessageDialog(null, "El asesor ya está registrado en el sistema, no se puede volver a registrar.");
 			}

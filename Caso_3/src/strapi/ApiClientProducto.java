@@ -116,15 +116,15 @@ public class ApiClientProducto {
 	}
 
 	
-	public ArrayList<Producto> getExtraerProductoEspecifico(String productor) {
-		ArrayList<Producto> productosEspecificos = null;
+	public Producto getExtraerProductoEspecifico(String productor) {
+
 		//Aqui se va a retornar una lista de terrenos que pertenecen a un dueño inclusive siendo solo uno
 		for (Producto producto : productos) {
 			if (productor.equals(producto.getProductor())) {
-				productosEspecificos.add(producto);
+				return producto;
 			}
 		}
-		return productosEspecificos;
+		return null;
 	}
 
 	public ArrayList<Producto> getProductos() {

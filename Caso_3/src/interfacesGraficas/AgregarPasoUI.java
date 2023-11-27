@@ -23,6 +23,11 @@ import strapi.Main;
 public class AgregarPasoUI extends JFrame{
 	
 	private ControllerPaso controller;
+    ButtonGroup bgTipoAccion = new ButtonGroup();
+    JTextField txtDescripcion = new JTextField();
+    JTextField txtMesEjecucion = new JTextField();
+    JTextField txtIngreso = new JTextField();
+    ButtonGroup bgTipoIngreso = new ButtonGroup();
 	
 	public AgregarPasoUI(AgregarPlanEconomicoUI tablaPlanes) {
 		
@@ -38,7 +43,6 @@ public class AgregarPasoUI extends JFrame{
         lblTipoAccion.setBounds(30, 50, 330, 20);
         getContentPane().add(lblTipoAccion);
         
-        ButtonGroup bgTipoAccion = new ButtonGroup();
 
         JRadioButton rbFinanzas = new JRadioButton("Finanzas");
         JRadioButton rbComercial = new JRadioButton("Comercial");
@@ -68,7 +72,6 @@ public class AgregarPasoUI extends JFrame{
         lblDescripción.setBounds(30, 110, 330, 40);
         getContentPane().add(lblDescripción);
 
-        JTextField txtDescripcion = new JTextField();
         txtDescripcion.setBounds(140, 120, 200, 30);
         getContentPane().add(txtDescripcion);
 
@@ -76,7 +79,6 @@ public class AgregarPasoUI extends JFrame{
         lblMesEjecucion.setBounds(30, 160, 330, 40);
         getContentPane().add(lblMesEjecucion);
 
-        JTextField txtMesEjecucion = new JTextField();
         txtMesEjecucion.setBounds(140, 170, 200, 30);
         getContentPane().add(txtMesEjecucion);
 
@@ -84,7 +86,6 @@ public class AgregarPasoUI extends JFrame{
         lblIngreso.setBounds(30, 220, 330, 40);
         getContentPane().add(lblIngreso);
 
-        JTextField txtIngreso = new JTextField();
         txtIngreso.setBounds(140, 220, 200, 30);
         getContentPane().add(txtIngreso);
 
@@ -92,7 +93,6 @@ public class AgregarPasoUI extends JFrame{
         lblTipoIngreso.setBounds(30, 260, 330, 40);
         getContentPane().add(lblTipoIngreso);
         
-        ButtonGroup bgTipoIngreso = new ButtonGroup();
 
         JRadioButton rbPositivo = new JRadioButton("Positivo");
         JRadioButton rbNegativo = new JRadioButton("Negativo");
@@ -135,20 +135,12 @@ public class AgregarPasoUI extends JFrame{
 													   Integer.parseInt(txtMesEjecucion.getText()), Integer.parseInt(txtIngreso.getText()),
 													   bgTipoIngreso.getSelection().getActionCommand(), estado, tablaPlanes);
 						controller.actualizarTablaPasos();
-						Paso paso = controller.getPaso();
-						tablaPlanes.actualizarListaPasos(paso);
+						Salir();
 					}else {
 					    JOptionPane.showMessageDialog(null, "Por favor no deje sin seleccionar las casillas");
 					}
 					
-					bgTipoAccion.clearSelection();
-					bgTipoIngreso.clearSelection();
-					txtDescripcion.setText("");
-					txtMesEjecucion.setText("");
-					txtIngreso.setText("");
 					
-					Main.agregarPlanUI.setVisible(true);
-					dispose();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				    // Captura la excepción si hay un error al convertir a int o double
@@ -161,8 +153,7 @@ public class AgregarPasoUI extends JFrame{
         btnCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.agregarPlanUI.setVisible(true);
-				dispose();
+				Salir();
 			}
         });
 
@@ -173,5 +164,17 @@ public class AgregarPasoUI extends JFrame{
         getContentPane().add(btnCancelar);
 
         setLocationRelativeTo(null);
+	}
+	
+	public void Salir() {
+
+		bgTipoAccion.clearSelection();
+		bgTipoIngreso.clearSelection();
+		txtDescripcion.setText("");
+		txtMesEjecucion.setText("");
+		txtIngreso.setText("");
+		
+		Main.agregarPlanUI.setVisible(true);
+		dispose();
 	}
 }

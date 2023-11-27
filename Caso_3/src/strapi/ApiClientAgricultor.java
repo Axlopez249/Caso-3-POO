@@ -33,13 +33,13 @@ public class ApiClientAgricultor {
 	
 
 	public void enviarPOST(Agricultor agricultor) {
-		ObjetoTempoAgri temp = new ObjetoTempoAgri(agricultor.getNombre(),agricultor.getId(), agricultor.getDinero(), agricultor.getDeuda());
+		ObjetoTempoAgri temp = new ObjetoTempoAgri(agricultor.getNombre(),agricultor.getId(), agricultor.getDinero(), agricultor.getDeuda(), agricultor.getTelefono(), agricultor.getIngresosActuales(), agricultor.getGananciasAñoPasado());
 		
 		String postData = null;
 		try {
 		    Gson gson = new Gson();
-		    DataWrapper<ObjetoTempoAgri> terrenoWrapper = new DataWrapper<>(temp);
-		    String jsonData = gson.toJson(terrenoWrapper);
+		    DataWrapper<ObjetoTempoAgri> agriWrapper = new DataWrapper<>(temp);
+		    String jsonData = gson.toJson(agriWrapper);
 
 		    // Si deseas imprimir el JSON resultante
 		    System.out.println("JSON resultante: " + jsonData);
@@ -58,9 +58,7 @@ public class ApiClientAgricultor {
         
         terre.enviarPOST(agricultor.getTerreno());
         
-        for (Producto producto : agricultor.getProductos()) {
-        	pro.enviarPOST(producto);
-		}
+        pro.enviarPOST(agricultor.getProducto());
         
         
     }
@@ -88,26 +86,31 @@ public class ApiClientAgricultor {
             try (JsonReader jsonReader = Json.createReader(new java.io.StringReader(response.toString()))) {
                 JsonObject jsonObject = jsonReader.readObject();
                 JsonArray dataArray = jsonObject.getJsonArray("data");
-
                 // Si hay al menos un objeto en el array 'data'
                 for (int i = 0; i < dataArray.size(); i++) {
 	                JsonObject currentObject = dataArray.getJsonObject(i);
 	                JsonObject attributesObject = currentObject.getJsonObject("attributes");
+	                
 
                     // Obtiene los valores de los campos necesarios del objeto JSON
                     String nombre = attributesObject.getString("nombre");
                     double deuda = attributesObject.getJsonNumber("deuda").doubleValue();
                     double dinero = attributesObject.getJsonNumber("dinero").doubleValue();
+                    int telefono = Integer.parseInt(attributesObject.getString("telefono"));
+                    double ingresosActuales =  attributesObject.getJsonNumber("ingresosActuales").doubleValue();             
+                    double gananciasAnoPasado = attributesObject.getJsonNumber("gananciasAnoPasado").doubleValue(); 
                     int idAgricultor = Integer.parseInt(attributesObject.getString("idAgricultor"));
+                    
 
                     ApiClientTerreno instanceTerreno = ApiClientTerreno.getInstance();
                     instanceTerreno.getObjects();
                     
                     ApiClientProducto instanceProducto = ApiClientProducto.getInstance();
                     instanceProducto.getObjects();
-                    
-                    Agricultor agricultor = new Agricultor(nombre, idAgricultor, dinero, deuda, 00000000, 0, 0, instanceTerreno.getExtraerTerrenoEspecifico(nombre),
+
+                    Agricultor agricultor = new Agricultor(nombre, idAgricultor, dinero, deuda, telefono, ingresosActuales, gananciasAnoPasado, instanceTerreno.getExtraerTerrenoEspecifico(nombre),
                     		instanceProducto.getExtraerProductoEspecifico(nombre));
+                    
                     agricultores.add(agricultor);
                 } 
             }

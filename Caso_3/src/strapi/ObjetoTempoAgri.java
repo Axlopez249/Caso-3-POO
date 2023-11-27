@@ -10,14 +10,19 @@ public class ObjetoTempoAgri {
 	private int idAgricultor;
 	private double dinero;
 	private double deuda;
+	private int telefono;
+	private double ingresosActuales;
+	private double gananciasAnoPasado;
 
 	
-	public ObjetoTempoAgri(String nombre, int idAgricultor, double dinero, double deuda ) {
+	public ObjetoTempoAgri(String nombre, int idAgricultor, double dinero, double deuda, int telefono, double ingregosActuales, double gananciasAnoPasado ) {
 		this.nombre = nombre;
 		this.idAgricultor = idAgricultor;
 		this.dinero = dinero;
 		this.deuda = deuda;
-
+		this.telefono = telefono;
+		this.gananciasAnoPasado = gananciasAnoPasado;
+		this.ingresosActuales = ingresosActuales;
 	}
 
 	public String getNombre() {

@@ -94,6 +94,9 @@ public class AsesorUI extends JFrame{
 	public JTable getTable() {
 		return table;
 	}
-	
+
+	public void actualizarTabla() {
+		controller.actualizarTablaAsesores(table);
+	}
 	
 }

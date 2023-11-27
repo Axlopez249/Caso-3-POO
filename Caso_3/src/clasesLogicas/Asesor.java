@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Asesor {
 	private String nombre;
-	private int id;
+	private int idAsesor;
 	private String zona;
 	private String correo;
 	private double rating;
@@ -13,9 +13,9 @@ public class Asesor {
 	private Date fechaIngreso;
 	
 	
-	public Asesor(String nombre, int id, String zona, String correo, double rating, int experiencia, int cantidadCasos, Date fechaIngreso) {
+	public Asesor(String nombre, int idAsesor, String zona, String correo, double rating, int experiencia, int cantidadCasos, Date fechaIngreso) {
 		this.nombre = nombre;
-		this.id = id;
+		this.idAsesor = idAsesor;
 		this.zona = zona;
 		this.correo = correo;
 		this.rating = rating;
@@ -26,7 +26,7 @@ public class Asesor {
 
 
 	public int getId() {
-		return id;
+		return idAsesor;
 	}
 
 

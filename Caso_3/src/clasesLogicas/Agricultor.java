@@ -8,21 +8,21 @@ public class Agricultor {
 	private double dinero;
 	private double deuda;
 	private int telefono;
-	private int ingresosActuales;
-	private int gananciasAñoPasado;
+	private double ingresosActuales;
+	private double gananciasAnoPasado;
 	private Terreno terreno;
-	private ArrayList<Producto> productos;
+	private Producto producto;
 	
-	public Agricultor(String nombre, int idAgricultor, double dinero, double deuda, int telefono, int ingregosActuales, int gananciasAñoPasado, Terreno terreno, ArrayList<Producto> productos) {
+	public Agricultor(String nombre, int idAgricultor, double dinero, double deuda, int telefono, double ingregosActuales, double gananciasAnoPasado, Terreno terreno, Producto producto) {
 		this.nombre = nombre;
 		this.idAgricultor = idAgricultor;
 		this.dinero = dinero;
 		this.telefono = telefono;
 		this.ingresosActuales = ingregosActuales;
-		this.gananciasAñoPasado = gananciasAñoPasado;
+		this.gananciasAnoPasado = gananciasAnoPasado;
 		this.deuda = deuda;
 		this.terreno = terreno;
-		this.productos = productos;
+		this.producto = producto;
 	}
 
 	public String getNombre() {
@@ -33,11 +33,11 @@ public class Agricultor {
 		return idAgricultor;
 	}
 
-	public int getGananciasAñoPasado() {
-		return gananciasAñoPasado;
+	public double getGananciasAñoPasado() {
+		return gananciasAnoPasado;
 	}
 
-	public int getIngresosActuales() {
+	public double getIngresosActuales() {
 		return ingresosActuales;
 	}
 	
@@ -61,8 +61,8 @@ public class Agricultor {
 		return terreno;
 	}
 
-	public ArrayList<Producto> getProductos() {
-		return productos;
+	public Producto getProducto() {
+		return producto;
 	}
 	
 	

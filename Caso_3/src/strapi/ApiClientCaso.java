@@ -41,8 +41,8 @@ public class ApiClientCaso {
 		String postData = null;
 		try {
 		    Gson gson = new Gson();
-		    DataWrapper<ObjetoTempoCaso> terrenoWrapper = new DataWrapper<>(temp);
-		    String jsonData = gson.toJson(terrenoWrapper);
+		    DataWrapper<ObjetoTempoCaso> casoWrapper = new DataWrapper<>(temp);
+		    String jsonData = gson.toJson(casoWrapper);
 
 		    // Si deseas imprimir el JSON resultante
 		    System.out.println("JSON resultante: " + jsonData);
@@ -113,7 +113,7 @@ public class ApiClientCaso {
 	                instanceAsesor.getObject();
 	                
 	                Caso caso = new Caso(idCaso, instanceAgricultor.getAgricultorespecifico(agricultor), teleAgri,
-	                		instanceAsesor.extraerTerrenoEspecifico(asesor), provincia,
+	                		instanceAsesor.extraerAsesorEspecifico(asesor), provincia,
 	                teleAsesor, orga, fechaIngreso, estado);
 	                
 	                casos.add(caso);

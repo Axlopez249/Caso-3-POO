@@ -78,7 +78,6 @@ public class ApiClientAsesor{
 	        try (JsonReader jsonReader = Json.createReader(new java.io.StringReader(response.toString()))) {
 	            JsonObject jsonObject = jsonReader.readObject();
 	            JsonArray dataArray = jsonObject.getJsonArray("data");
-
 	            // Si hay al menos un objeto en el array 'data'
 	            for (int i = 0; i < dataArray.size(); i++) {
 	                JsonObject currentObject = dataArray.getJsonObject(i);
@@ -101,11 +100,15 @@ public class ApiClientAsesor{
 		             } catch (ParseException e) {
 		                 e.printStackTrace();
 		             }
+		             String lugar = attributesObject.getString("zona");
+		             String correo = attributesObject.getString("correo");
+		             double rating = attributesObject.getJsonNumber("rating").doubleValue();
+		             int experiencia = Integer.parseInt(attributesObject.getString("experiencia"));
+		             int cantCasos = Integer.parseInt(attributesObject.getString("cantidadCasos"));
+		             String idAsesor = attributesObject.getString("idAsesor");
+		             
 
-
-	                // Crea un nuevo objeto Agricultor con los datos obtenidos
-	                Asesor asesor = new Asesor(name,Integer.parseInt(attributesObject.getString("idAsesor")), attributesObject.getString("lugar"), attributesObject.getString("correo"), attributesObject.getJsonNumber("rating").doubleValue(),
-	                		Integer.parseInt(attributesObject.getString("experiencia")), Integer.parseInt(attributesObject.getString("cantCasos")), fecha);
+		             Asesor asesor = new Asesor(name, Integer.parseInt(idAsesor), lugar, correo, rating, experiencia, cantCasos, fecha);
 	                asesores.add(asesor);
 	            }
 	        }
@@ -117,7 +120,7 @@ public class ApiClientAsesor{
 	
 	
 	
-	public Asesor extraerTerrenoEspecifico(String asesorName) {
+	public Asesor extraerAsesorEspecifico(String asesorName) {
 		Asesor currentAsesor = null;
 		
 		//Aqui se va a retornar una lista de terrenos que pertenecen a un dueño inclusive siendo solo uno
@@ -129,9 +132,7 @@ public class ApiClientAsesor{
 		return currentAsesor;
 	}
 
-	public ArrayList<Asesor> getTerrenos() {
+	public ArrayList<Asesor> getAsesores() {
 		return asesores;
 	}
 }
-
-

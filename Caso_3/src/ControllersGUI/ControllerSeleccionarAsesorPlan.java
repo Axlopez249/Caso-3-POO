@@ -18,19 +18,25 @@ public class ControllerSeleccionarAsesorPlan {
 	    }
 	    comboBox_asesores.revalidate();
 	    comboBox_asesores.repaint();
+	    if(comboBox_asesores.getItemCount() == 0) {
+	    	comboBox_asesores.addItem(".");
+	    }
 	    
-	    for (Caso caso : Main.casos) {
+	    for (Caso caso : Main.getCasos()) {
 	    	comboBox_casos.addItem(Integer.toString(caso.getIdCaso()));
 	    }
 	    comboBox_casos.revalidate();
 	    comboBox_casos.repaint();
+	    if(comboBox_casos.getItemCount() == 0) {
+	    	comboBox_casos.addItem(".");
+	    }
 	}
 	
 	public boolean seleccionarAsesor(JComboBox<String> comboBox_casos, JComboBox<String> comboBox_asesores) {
-		
-		int IDAsesor = Integer.parseInt(comboBox_asesores.getSelectedItem().toString());
-		int IDCaso = Integer.parseInt(comboBox_casos.getSelectedItem().toString());
 		if (comboBox_asesores.getSelectedItem().toString()!= ".") {
+
+			int IDAsesor = Integer.parseInt(comboBox_asesores.getSelectedItem().toString());
+			int IDCaso = Integer.parseInt(comboBox_casos.getSelectedItem().toString());
 			
 			Asesor asesor = null;
 			for(Asesor asesorAlmacenado : Main.getAsesores()) {
@@ -57,7 +63,7 @@ public class ControllerSeleccionarAsesorPlan {
 			}
 			
 		}else {
-			JOptionPane.showMessageDialog(null, "No hay asesores o debe seleccionar uno válido");
+			JOptionPane.showMessageDialog(null, "No se ha seleccionado Asesor o Caso.");
 			return false;
 		}
 	}

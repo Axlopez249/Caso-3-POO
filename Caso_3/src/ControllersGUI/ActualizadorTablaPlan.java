@@ -41,7 +41,7 @@ public class ActualizadorTablaPlan {
             String estado = model.getValueAt(i, 9).toString();
             
             //Si de la fila que tengo el estado es no asignado entonces la pinto en mi tabla
-            if (estado.equals("no asignado")) {
+            if (estado.equals("No asignado")) {
             	// Obtener el modelo de la tabla
         	    DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         	    

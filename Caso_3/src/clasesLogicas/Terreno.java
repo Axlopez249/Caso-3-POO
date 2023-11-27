@@ -18,8 +18,11 @@ public class Terreno {
 		return tipoSuelo;
 	}
 
-	public boolean isSiembra() {
-		return siembra;
+	public String isSiembra() {
+		if(siembra) {
+			return "Si";
+		}
+		return "No";
 	}
 
 	public double getHectareas() {

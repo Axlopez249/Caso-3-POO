@@ -28,20 +28,22 @@ import ControllersGUI.ControllerPlanEconomico;
 import clasesLogicas.Paso;
 import strapi.Main;
 
-public class AgregarPlanEconomicoUI extends JFrame{
+public class ModificarPlanEconomicoUI extends JFrame{
 	private JTable table;
 	private ControllerPlanEconomico controller = new ControllerPlanEconomico();
 	private ControllerAgregarPlan controllerAgregarPlan;
 	private String nombreAsesor;
 	private int IDCaso;
+	private ArrayList<Paso> pasos = new ArrayList<Paso>();
 	
-	public AgregarPlanEconomicoUI() {
+	public ModificarPlanEconomicoUI() {
 		
 		setTitle("Asesores");
         setSize(780, 750); // Set the desired size
         setResizable(false); // Disable frame resizing
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        pasos.clear();
         setLocation(50, 60);
         getContentPane().setLayout(null);
         
@@ -71,35 +73,31 @@ public class AgregarPlanEconomicoUI extends JFrame{
 	    });
 
         JButton agregarPaso = new JButton("Agregar paso");
-        JButton aceptar = new JButton("Crear caso");
-        JButton cancelar = new JButton("Cancelar");
+        JButton marcarPaso = new JButton("Marcar paso");
+        JButton DeseleccionarPaso = new JButton("Deseleccionar paso");
+        JButton aceptar = new JButton("Aceptar");
+	    
+        ButtonGroup bgEstado = new ButtonGroup();
+        
+        JRadioButton rbPlaneado = controller.crearRadioButton("Planeado", 250, 520, 100, 30);
+        JRadioButton rbPendiente = controller.crearRadioButton("Pendiente", 380, 520, 100, 30);
+        JRadioButton rbEjecución = controller.crearRadioButton("Ejecución", 250, 560, 100, 30);
+        JRadioButton rbCancelado = controller.crearRadioButton("Cancelado", 380, 560, 100, 30);
+        JRadioButton rbCompletado = controller.crearRadioButton("Completado", 250, 600, 100, 30);
+        JRadioButton rbIncompleto = controller.crearRadioButton("Imcompleto", 380, 600, 100, 30);
+        
         
         aceptar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Aqui es donde yo ya tengo el objeto PlanEconomico por medio del controller
-				ArrayList<Paso> pasos = new ArrayList<Paso>();
-				
-				for(int rows = 0; rows < table.getRowCount(); rows++) {
-					String ingreso = table.getValueAt(rows, 3).toString();
-					
-					String tipoIngreso = "Negativo";
-					if(ingreso.charAt(0) == '+') {
-						tipoIngreso = "Positivo";
-					}
-					ingreso = ingreso.substring(0);
-					
-					Paso paso = new Paso(table.getValueAt(rows, 0).toString(), table.getValueAt(rows, 1).toString(), Integer.parseInt(table.getValueAt(rows, 2).toString()),
-										 Integer.parseInt(ingreso), tipoIngreso ,table.getValueAt(rows, 4).toString());
-					pasos.add(paso);
-				}
-				
-				controllerAgregarPlan = new ControllerAgregarPlan(nombreAsesor, IDCaso, pasos);   
-				// ----------------------------------------------------------
+				controllerAgregarPlan = new ControllerAgregarPlan(nombreAsesor, IDCaso, pasos);   // ----------------------------------------------------------
 				//Tengo que liberar las listas usadas
 				//Y el string nombre del asesor
 				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 				modelo.setRowCount(0);
+				pasos.clear();
+				System.out.println(pasos.size());
 				nombreAsesor = "";
 				Main.planesEconomicosUI.setVisible(true);
 				dispose();
@@ -110,34 +108,59 @@ public class AgregarPlanEconomicoUI extends JFrame{
         agregarPaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				bgEstado.clearSelection();
 				Main.agregarPasoUI.setVisible(true);
 				//Aqui tengo que pintar la tabla de APasoUI
 				dispose();
 			}
         });
         
-        cancelar.addActionListener(new ActionListener() {
+        marcarPaso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-				modelo.setRowCount(0);
-				Main.planesEconomicosUI.setVisible(true);
-				dispose();
+				if(bgEstado.getSelection() != null) {
+					controller.CambiarEstado(table, bgEstado.getSelection().getActionCommand());
+				}else {
+					JOptionPane.showMessageDialog(null, "Por favor seleccione un estado");
+				}
+			}
+        });
+        
+        DeseleccionarPaso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bgEstado.clearSelection();
+				table.clearSelection();
 			}
         });
         
         agregarPaso.setBounds(10, 520, 200, 50);
-        aceptar.setBounds(10, 590, 200, 100);
-        cancelar.setBounds(555, 640, 200, 50);
+        marcarPaso.setBounds(10, 580, 200, 50);
+        DeseleccionarPaso.setBounds(10, 640, 200, 50);
+        aceptar.setBounds(535, 590, 220, 100);
 
         JScrollPane panelDesplazamiento = new JScrollPane(table);
         panelDesplazamiento.setBounds(10, 10, 745, 500);
 	    
         getContentPane().add(agregarPaso);
+        getContentPane().add(marcarPaso);
+        getContentPane().add(DeseleccionarPaso);
         getContentPane().add(aceptar);
-	    getContentPane().add(cancelar);
 	    getContentPane().add(panelDesplazamiento);
+        
+        getContentPane().add(rbPlaneado);
+        getContentPane().add(rbPendiente);
+        getContentPane().add(rbEjecución);
+        getContentPane().add(rbCancelado);
+        getContentPane().add(rbCompletado);
+        getContentPane().add(rbIncompleto);
+        
+        bgEstado.add(rbPlaneado);
+        bgEstado.add(rbPendiente);
+        bgEstado.add(rbEjecución);
+        bgEstado.add(rbCancelado);
+        bgEstado.add(rbCompletado);
+        bgEstado.add(rbIncompleto);
 
         setLocationRelativeTo(null);
 	}
@@ -148,6 +171,10 @@ public class AgregarPlanEconomicoUI extends JFrame{
 	
 	public void setNombreAsesor(String nombre) {
 		nombreAsesor = nombre;
+	}
+
+	public void actualizarListaPasos(Paso paso) {
+		pasos.add(paso);
 	}
 
 	public void setIDCaso(int iDCaso) {

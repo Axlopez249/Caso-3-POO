@@ -17,10 +17,14 @@ public class ActualizadorPlanDisponible {
 	}
 	
 	public void actualizarTable(int IDCaso, JTable tablaPlanesDisponibles) {
+
+	    DefaultTableModel modelTable = (DefaultTableModel) tablaPlanesDisponibles.getModel();
+	    
+	    modelTable.setRowCount(0);
+	    
 		for (PlanEconomico plan : Main.planesRegistrados) {
 			if(IDCaso == plan.getIDCaso()) {
 				// Obtener el modelo de la tabla
-	    	    DefaultTableModel modelTable = (DefaultTableModel) tablaPlanesDisponibles.getModel();
 	    	    // Agregar una nueva fila con la información proporcionada
 	    	    modelTable.addRow(new Object[]{plan.getNombreAsesor(), plan.getPasos().size()});
 				
@@ -36,6 +40,8 @@ public class ActualizadorPlanDisponible {
 		
 		String nombre = tablaPlanesDisponibles.getValueAt(filaSeleccionada, 0).toString();
         int cantidadCasos = Integer.parseInt(tablaPlanesDisponibles.getValueAt(filaSeleccionada, 1).toString());
+		//traigo el objeto infoTemporal que guardamos al entrar en Plan disponible
+        InfoTemporal infoTemporal = Main.planesEconomicosUI.getInfo();
         //Ahora tengo que actualizar todo
         //Actualizar en el array de planes disponibles y quitar el que se utilizó
         //Actualizar en el array de infoTemporales que simula los casos
@@ -44,42 +50,41 @@ public class ActualizadorPlanDisponible {
         //Busco entre los planes que tengo
         for (PlanEconomico plan : Main.planesRegistrados) {
 			if (plan.getNombreAsesor() == nombre && plan.getPasos().size() == cantidadCasos) {
-				//Ya tengo el plan economico, ahora traigo el objeto infoTemporal 
-				InfoTemporal infoTemporal = Main.planesEconomicosUI.getInfo();
 				
 				//le asigno su plan
 				infoTemporal.setPlan(plan);
+			}
+		}
+        Main.planesRegistrados.clear();
+		
+		//Ahora lo busco en la lista para quitarlos de sin asignados
+		for (InfoTemporal info : Main.infoTemporalessinasignar) {
+			if (info.getAgricultor() == infoTemporal.getAgricultor() && info.getDeuda() == infoTemporal.getDeuda() && info.getDineroDisponible() == infoTemporal.getDineroDisponible()) {
+				int indice = Main.infoTemporalessinasignar.indexOf(info);
+				Main.infoTemporalessinasignar.remove(indice);
 				
-				//Lo elimino porque ese plan ya no va a estar disponible más tiempo
-				int indicePlan = Main.planesRegistrados.indexOf(plan);
-				Main.planesRegistrados.remove(indicePlan);
+				//Ahora aquí mismo me toca buscar aquel caso que coincida con el objeto que tengo para asignarle el asesor
 				
-				//Ahora lo busco en la lista para quitarlos de sin asignados
-				for (InfoTemporal info : Main.infoTemporalessinasignar) {
-					if (info.getAgricultor() == infoTemporal.getAgricultor() && info.getDeuda() == infoTemporal.getDeuda() && info.getDineroDisponible() == infoTemporal.getDineroDisponible()) {
-						int indice = Main.infoTemporalessinasignar.indexOf(info);
-						Main.infoTemporalessinasignar.remove(indice);
-						
-						//Ahora aquí mismo me toca buscar aquel caso que coincida con el objeto que tengo para asignarle el asesor
-						
-						//Busco el asesor con el nombre en la lista de asesores registrados
-						for (Asesor asesorx : Main.getAsesores()) {
-							if (asesorx.getNombre() == nombre) {
-								Asesor asesor = asesorx;
-								//Ahora busco en los casos
-								for (Caso caso : Main.casos) {
-									if (caso.getAgricultor().getNombre() == infoTemporal.getAgricultor() && caso.getTelefonoAgricultor() == infoTemporal.getTelefonoAgricultor()) {
-										caso.setAsesor(asesor);
-										break;
-									}
-								}
+				//Busco el asesor con el nombre en la lista de asesores registrados
+				for (Asesor asesorAlmacenado : Main.getAsesores()) {
+					if (asesorAlmacenado.getNombre() == nombre) {
+						Asesor asesor = asesorAlmacenado;
+						//Ahora busco en los casos
+						for (Caso caso : Main.getCasos()) {
+							if (caso.getAgricultor().getNombre() == infoTemporal.getAgricultor() && caso.getTelefonoAgricultor() == infoTemporal.getTelefonoAgricultor()) {
+								caso.setAsesor(asesor);
+								caso.setEstado("Plan Asignado");
 								break;
 							}
 						}
+						break;
 					}
 				}
+				break;
 			}
 		}
+        
+        
      //Explicacion
         /*
          * Yo tengo que en la ventana de CasoUI sale informacion cuando yo creo un caso
