@@ -81,9 +81,10 @@ public class PlanEconomicoUI extends JFrame{
 				//Obtener los datos de ese caso para ponerlo como asignado luego
 				int filaSeleccionada = table.getSelectedRow();
 				if (filaSeleccionada != -1) {
+					int entero = (Integer) table.getValueAt(filaSeleccionada, 1);
 					infoTemporal = actualizador.extraerDatos(filaSeleccionada, table);
 					Main.planDisponible.setVisible(true);
-					Main.planDisponible.pintarTable();
+					Main.planDisponible.pintarTable(entero);
 					dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "Selecciona una fila primero.");

@@ -33,6 +33,7 @@ public class AgregarPlanEconomicoUI extends JFrame{
 	private ControllerPlanEconomico controller = new ControllerPlanEconomico();
 	private ControllerAgregarPlan controllerAgregarPlan;
 	private String nombreAsesor;
+	private int IDCaso;
 	private ArrayList<Paso> pasos = new ArrayList<Paso>();
 	
 	public AgregarPlanEconomicoUI() {
@@ -42,6 +43,7 @@ public class AgregarPlanEconomicoUI extends JFrame{
         setResizable(false); // Disable frame resizing
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        pasos.clear();
         setLocation(50, 60);
         getContentPane().setLayout(null);
         
@@ -89,14 +91,13 @@ public class AgregarPlanEconomicoUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Aqui es donde yo ya tengo el objeto PlanEconomico por medio del controller
-				controllerAgregarPlan = new ControllerAgregarPlan(nombreAsesor, pasos);
+				controllerAgregarPlan = new ControllerAgregarPlan(nombreAsesor, IDCaso, pasos);   // ----------------------------------------------------------
 				//Tengo que liberar las listas usadas
 				//Y el string nombre del asesor
+				DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+				modelo.setRowCount(0);
 				pasos.clear();
 				nombreAsesor = "";
-				for(int i = 0; i < model.getRowCount(); i++) {
-					model.removeRow(i);
-				}
 				Main.planesEconomicos.setVisible(true);
 				dispose();
 			}
@@ -174,7 +175,9 @@ public class AgregarPlanEconomicoUI extends JFrame{
 	public void actualizarListaPasos(Paso paso) {
 		pasos.add(paso);
 	}
-	
-	
+
+	public void setIDCaso(int iDCaso) {
+		IDCaso = iDCaso;
+	}
 	
 }

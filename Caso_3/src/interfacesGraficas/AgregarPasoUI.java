@@ -23,6 +23,7 @@ import strapi.Main;
 public class AgregarPasoUI extends JFrame{
 	
 	private ControllerPaso controller;
+	private ArrayList<Paso> pasos = new ArrayList<Paso>();
 	
 	public AgregarPasoUI(AgregarPlanEconomicoUI tablaPlanes) {
 		
@@ -133,8 +134,7 @@ public class AgregarPasoUI extends JFrame{
 						
 						controller = new ControllerPaso(bgTipoAccion.getSelection().getActionCommand(), txtDescripcion.getText(),
 													   Integer.parseInt(txtMesEjecucion.getText()), Integer.parseInt(txtIngreso.getText()),
-													   bgTipoIngreso.getSelection().getActionCommand(),estado, tablaPlanes);
-						
+													   bgTipoIngreso.getSelection().getActionCommand(), estado, tablaPlanes);
 						controller.actualizarTablaPasos();
 						Paso paso = controller.getPaso();
 						Main.plan.actualizarListaPasos(paso);
@@ -151,8 +151,9 @@ public class AgregarPasoUI extends JFrame{
 					Main.plan.setVisible(true);
 					dispose();
 				} catch (Exception e1) {
+					e1.printStackTrace();
 				    // Captura la excepción si hay un error al convertir a int o double
-				    JOptionPane.showMessageDialog(null, "Uno de los contenidos no corresponde: \n" + e1);
+				    JOptionPane.showMessageDialog(null, "Uno de los contenidos no corresponde");
 				}
 				
 			}

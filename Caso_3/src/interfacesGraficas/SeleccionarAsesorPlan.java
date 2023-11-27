@@ -35,9 +35,11 @@ public class SeleccionarAsesorPlan extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String nombreAsesor = comboBox_asesores.getSelectedItem().toString();
+				int IDCaso = Integer.parseInt(comboBox_casos.getSelectedItem().toString());
 				if (comboBox_asesores.getSelectedItem().toString()!= ".") {
 					Main.plan.setVisible(true);
 					Main.plan.setNombreAsesor(nombreAsesor);
+					Main.plan.setIDCaso(IDCaso);
 					dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "No hay asesores o debe seleccionar uno válido");

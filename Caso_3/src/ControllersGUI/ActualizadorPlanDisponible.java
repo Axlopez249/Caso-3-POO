@@ -16,12 +16,18 @@ public class ActualizadorPlanDisponible {
 		
 	}
 	
-	public void actualizarTable(JTable tablaPlanesDisponibles) {
+	public void actualizarTable(int IDCaso, JTable tablaPlanesDisponibles) {
 		for (PlanEconomico plan : Main.planesRegistrados) {
-			// Obtener el modelo de la tabla
-    	    DefaultTableModel modelTable = (DefaultTableModel) tablaPlanesDisponibles.getModel();
-    	    // Agregar una nueva fila con la información proporcionada
-    	    modelTable.addRow(new Object[]{plan.getNombreAsesor(), plan.getPasos().size()});
+			if(IDCaso == plan.getIDCaso()) {
+				// Obtener el modelo de la tabla
+	    	    DefaultTableModel modelTable = (DefaultTableModel) tablaPlanesDisponibles.getModel();
+	    	    // Agregar una nueva fila con la información proporcionada
+	    	    modelTable.addRow(new Object[]{plan.getNombreAsesor(), plan.getPasos().size()});
+				
+			} else {
+				System.out.println("Este no debería");
+			}
+			
 		}
 		tablaPlanesDisponibles.repaint();
 	}

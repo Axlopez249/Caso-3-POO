@@ -23,7 +23,7 @@ public class Main {
 	o	Ventana que lista los casos, que sea ordenado por fecha y estado
 	
 	o	En la ventana de los pasos , aprovechar lo de marcar pero que se pueda escoger el estado y marcarlo, por ejemplo: planeado, 
-		pendiente, ejecución, terminado, cancelado, incompleto, no completado. 
+		pendiente, ejecución, terminado, cancelado, incompleto, no completado.
 		
 	-	Acceso a datos usando base de datos o headless cms con las operaciones del sistema, -10
 	

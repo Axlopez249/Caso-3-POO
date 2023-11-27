@@ -56,12 +56,25 @@ public class PlanEconomicoDisponible extends JFrame{
 			}
 	    });
 	    
+        JButton salir = new JButton("Salir");
+        salir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Main.planesEconomicos.setVisible(true);
+				dispose();
+			}
+        });
+        
+        salir.setBounds(633, 600, 100, 50);
+        
+        getContentPane().add(salir);
+        
 	    getContentPane().add(panelDesplazamiento);
 	    
 	    setLocationRelativeTo(null);
 	}
-	public void pintarTable() {
-		 actualizador.actualizarTable(table);
+	public void pintarTable(int IDCaso) {
+		 actualizador.actualizarTable(IDCaso, table);
 	}
 	
 	public static void main(String []args) {

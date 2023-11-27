@@ -13,7 +13,7 @@ public class ControllerPaso {
 	private AgregarPlanEconomicoUI tablePasos;
 	
 	public ControllerPaso(String accion, String descripcion, int mes, int ingreso, String tipoIngreso, String estado, AgregarPlanEconomicoUI tablePasos) {
-		this.paso = new Paso(accion, descripcion, mes, ingreso, tipoIngreso, estado);
+		paso = new Paso(accion, descripcion, mes, ingreso, tipoIngreso, estado);
 		this.tablePasos = tablePasos;
 	}
 	
